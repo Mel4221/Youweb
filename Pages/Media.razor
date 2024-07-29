@@ -1,0 +1,105 @@
+﻿@page "/media"
+@inject IJSRuntime Js;
+
+<PageTitle>Youweb</PageTitle>
+
+<div class="pull-left">
+ <!--audio controls--> <!--audio controls-->
+<audio id="audioPlayer" controls>
+  <source src="@CurrentSong" id="CurrentSong" type="audio/mpeg">
+        Your browser does not support the audio element.
+</audio> 
+<button id="playButton" @onclick="MyFunction">play</button>
+<input class="form-control" id="SearchItem" type="text" @bind="SearchItem" placeholder="type something"/><br/>
+</div>
+
+<div class="pull-right">
+<ul class="list-group">
+        <!--li class="list-group-item disabled" aria-disabled="true">A disabled item</li-->
+        @for(int item = 0; item < Songs.Count; item++)
+        {
+                //<button @onclick="@(e => test(buttonNumber, 5 * buttonNumber))">Check</button>
+                //<li class="list-group-item" @onclick="()=>PlaySong(SongItems[item])">@(SongItems[item])</li>
+                var name = Songs[item].Title;
+                var path = Songs[item].YTLink;
+                <li class="list-group-item" >@name</li>
+                 
+        }
+</ul>
+</div>
+
+
+@code
+{
+/*
+@onclick="()=>PlaySong(path)"
+    public async Task PlaySound()
+    {
+        await _jsRuntime.InvokeAsync<string>("PlayAudio", "audioPlayer");
+    }
+    */
+        private string message = "Initial message";
+
+        public void UpdateMessage(string newMessage) 
+        {
+                message = newMessage;
+                InvokeAsync(StateHasChanged); // Ensures the component re-renders
+        }
+
+        protected async Task MyFunction()
+        {
+                await Js.InvokeVoidAsync("console.log('test')");
+        }
+
+        string CurrentSong{get;set;} = string.Empty; 
+        string SearchItem{get;set;} = string.Empty;
+        string StrTemp{get;set;} = string.Empty;
+        int Indexer{get;set;} = 0;
+        List<Song> Songs{get;set;} = new List<Song>();
+        void PlaySong(string song)
+        {
+                this.CurrentSong = song;
+                Get.Pink($"Song Selected: {song}");
+                InvokeAsync(() =>
+                {
+                        StateHasChanged();
+                });
+        }
+        protected override void OnInitialized()
+        {
+        //this.SongDownloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
+
+                FilesMaper maper = new FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
+                this.Songs = new List<Song>(); 
+                maper.AllowDebugger = true; 
+                maper.Map();
+                
+                maper.Files.ForEach((s)=>
+                {
+                        if(Song.IsAudio(s))
+                        {
+                                string song = s; 
+                                try{
+                                song = song.Substring(song.LastIndexOf(Get.Slash()[0]) + 1);
+                                song = song.Substring(0, song.LastIndexOf('.')); 
+                                }catch{}
+                                this.Songs.Add(new Song()
+                                {
+                                        Title = song,
+                                        YTLink= s
+
+                                });
+                                InvokeAsync(() =>
+                                {
+                                        StateHasChanged();
+                                });
+                        }
+       
+                });
+                
+                //  <li class="list-group-item">A second item</li>
+        }
+  
+
+        
+}

@@ -1,0 +1,78 @@
+﻿@page "/settings"
+
+<PageTitle>Youweb</PageTitle>
+<span>Download song Folder</span>
+<input class="form-control" type="text" @bind="DownloadSongLocation"/><br/>
+<span>Download video Folder</span>
+<input class="form-control" type="text" @bind="DownloadVideoLocation"/><br/>
+<span>You main.py location</span>
+<input class="form-control" type="text" @bind="YouMain"/><br/>
+<span>Python FileName or location</span>
+<input class="form-control" type="text" @bind="Python"/><br/>
+<span>Default Icon Link</span>
+<input class="form-control" type="text" @bind="IconLink"/><br/>
+
+
+<div class="btn btn-primary" @onclick="Save">
+Save
+</div>
+<div class="btn btn-secondary" @onclick="Reset">
+Reset to Default
+</div>
+@code {
+        string IconLink {get;set;} = $"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
+        string DownloadPath {get;set;} = string.Empty;
+        string Python {get;set;} = string.Empty; 
+        string YouMain {get;set;} = string.Empty; 
+        string DownloadSongLocation {get;set;} = string.Empty;
+        string DownloadVideoLocation {get;set;} = string.Empty;
+        QuickTools.QData.ClownSettings Setting {get;set;} 
+        
+        void Save()
+        {
+                Setting = new QuickTools.QData.ClownSettings("You.config");
+                Setting.AllowDebugger = true; 
+                Setting.UpdateSetting("Python",this.Python);
+                Setting.UpdateSetting("IconLink",this.IconLink); 
+
+        }
+        void Reset()
+        {
+                Setting = new QuickTools.QData.ClownSettings("You.config");
+                Setting.AllowDebugger = true; 
+                //Setting.Create();
+                Setting.AddSetting("Python","python3");
+                Setting.AddSetting("IconLink", $"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png");
+                Setting.AddSetting("YouMain","bin/Debug/net7.0/you/main.py");
+                Setting.AddSetting("DownloadSongLocation",Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
+                Setting.AddSetting("DownloadVideoLocation",Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "/");
+
+        }
+        void Load()
+        {
+
+                Setting = new QuickTools.QData.ClownSettings("You.config");
+                Setting.AllowDebugger = true; 
+                //Setting.Load(); 
+                this.Python = Setting.GetSetting("Python");
+        }
+
+        Task OnLoad()
+        {
+                // Do some task based work
+                /*
+                this.Load(); 
+                InvokeAsync(() =>
+                {
+                        StateHasChanged();
+                });
+                */
+                return Task.CompletedTask;
+        }
+
+        protected override async Task OnInitializedAsync()=>await OnLoad();
+        
+
+        
+
+}

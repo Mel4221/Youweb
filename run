@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -r -v bin/Debug/net7.0/you
+cp -r -v you bin/Debug/net7.0/you
+dotnet run && echo "Task Completed!!!"

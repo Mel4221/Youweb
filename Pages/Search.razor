@@ -1,0 +1,298 @@
+﻿@using Youweb.Data
+@page "/search"
+
+<PageTitle>Youweb</PageTitle>
+
+<div class="pull-left">
+ <!--audio controls--> <!--audio controls-->
+
+<input class="form-control"  @onkeydown="@Enter" id="SearchItem" type="text" @bind="SearchItem" placeholder="type something"/><br/>
+<div class="@ProgressBarCss">
+  <div class="progress-bar" role="progressbar" style="width: @ProgressBarValue%"aria-valuenow="@ProgressBarValue" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class="@SearchBtnClass" @onclick="SearchSong">
+@SearchBtnText
+</div>
+</div>
+<span>@SearchTextStatus</span><br/>
+
+<br/>
+<div class="pull-right">
+
+        @for(int item = 0; item < Songs.Count; item++)
+        {
+                //<iframe width="560" height="315" src="@Songs[item].YTLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                //<iframe width="560" height="315" src="@Songs[item].YTLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                //<button @onclick="@(e => test(buttonNumber, 5 * buttonNumber))">Check</button>
+                //<li class="list-group-item" @onclick="()=>PlaySong(SongItems[item])">@(SongItems[item])</li>
+                var local = item;
+                var yt = @Songs[local].YTLink;
+                <span><strong>Title:</strong> @Songs[local].Title</span>
+                <div class="form-group col-md-6">
+                <img src="@Songs[local].IconLink" class="img-fluid" alt="Video Thumbnail"width="560"height="315"><br/><br/>
+                <input class="form-control" type="text" readonly value="@Songs[local].YTLink"/>
+                </div>
+                <div class ="fs-5">
+                <a href="/?ytlink=@yt" class="oi oi-musical-note"  @onclick="()=>P(yt)" aria-hidden="true">Download Song</a>
+                <span style="display:inline-block; width:10px;"></span>
+                <a href="video/?ytlink=@yt" class="oi oi-video"  @onclick="()=>P(yt)" aria-hidden="true">Download Video</a><br/>
+                </div>
+                //@page "/home/{username}"
+                //<a href="@Songs[item].YTLink">@Songs[item].YTLink</a> 
+        }
+
+</div>
+
+
+@code
+{ 
+ 
+        string SongDownloadPath {get;set;} = string.Empty;
+        string CurrentSong{get;set;} = string.Empty; 
+        string SearchItem{get;set;} = string.Empty;
+        string SongRName{get;set;} = string.Empty;
+        string BaseFile{get;set;} = string.Empty;
+        string SearchTextStatus{get;set;} = string.Empty; 
+        string SearchNumberStatus{get;set;} = string.Empty; 
+        string SearchBtnText {get;set;} = "Search";
+        string SearchBtnClass {get;set;}  = "btn btn-primary";
+        string ProgressBarCss{get;set;} = "invisible";//progress
+        string OptionSelected{get;set;} = string.Empty; 
+        bool AttemptFailed{get;set;} = false; 
+        bool AttemptSucess{get;set;} = false;
+        int ProgressBarValue {get;set;} = 0; 
+        string[] icons = new string[]{}; 
+        string[] links = new string[]{};
+        string[] durations = new string[]{};
+        string[] titles = new string[]{}; 
+
+
+
+        List<Song> Songs{get;set;} = new List<Song>();
+        /*
+        {
+                new Song(){
+                        YTLink="https://www.youtube.com/watch?v=e5s28AiGkD8",
+                        IconLink="https://i.ytimg.com/vi/LeaAUGXj7K4/sddefault.jpg",
+                        Title="some bullshit",
+                        Duration="935"
+                },
+        };
+        */
+        Thread SearchThread{get;set;}
+        Thread AnimationThread{get;set;}
+        
+        void Enter(KeyboardEventArgs e)
+        {
+                if (e.Code == "Enter" || e.Code == "NumpadEnter")
+                {
+                        this.SearchSong();
+                }
+        }
+        void P(object input)
+        {
+                Get.Pink($"Link Clicked: {input}");
+        }
+
+        void SearchSong()
+        {
+                if(this.SearchItem == string.Empty)return; 
+                if(YouwebStatic.HasDownloadInProgress)return;
+                YouwebStatic.Start("search");
+
+                this.SongDownloadPath =  Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "/";
+                this.SongRName = IRandom.RandomText(16); 
+                this.BaseFile = $"{this.SongDownloadPath}{this.SongRName}";
+                Get.Pink($"Base File Set: {this.BaseFile}");
+                this.SearchBtnText = "Searching...";
+                this.SearchBtnClass = $"btn btn-secondary";
+                this.ProgressBarCss = "progress";
+
+                this.SearchThread = new Thread(this.WaitForSearch);
+                this.AnimationThread = new Thread(this.PlayAnimation);
+                this.Songs = new List<Song>();
+                this.SearchThread.Start(); 
+                this.AnimationThread.Start();
+                /*
+                FilesMaper maper = new FilesMaper("/home/mel/Pictures/mydesktop/");
+                maper.AllowDebugger = true; 
+                maper.Map(); 
+                maper.Files.ForEach((song)=>{
+
+                        SongsTags.Add("https://i.ytimg.com/vi/K9mTSekTktw/hq720.jpg?sqp=-oaymwEXCNUGEOADIAQqCwjVARCqCBh4INgESFo&rs=AOn4CLDyf_XfE8oXhalgNd68p6BjG5EJUw");
+                        InvokeAsync(() =>
+                        {
+                                StateHasChanged();
+                        });
+                });
+                */
+
+        }
+     
+        void PlayAnimation()
+        {
+                string status,number;
+                status = SongDownloadPath+"status.text";
+                number = SongDownloadPath+"status.number";
+   
+                while(true)
+                {
+                        if(this.AttemptFailed || this.AttemptSucess)
+                        {
+                                this.SearchBtnText = "Search";
+                                this.SearchBtnClass = "btn btn-primary";
+                                this.ProgressBarCss = "invisible";
+                                this.SearchTextStatus = string.Empty;
+                                this.SearchNumberStatus = string.Empty;
+                                this.SearchItem = string.Empty; 
+                                this.AttemptFailed = false;
+                                this.AttemptSucess = false; 
+                                YouwebStatic.Stop();
+                                InvokeAsync(() =>
+                                {
+                                        StateHasChanged();
+                                });
+                                break;
+                        }
+                        if(File.Exists(status)&&File.Exists(number))
+                        {
+                                this.SearchTextStatus = File.ReadAllText(status);
+                                this.SearchNumberStatus = File.ReadAllText(number);
+                                this.ProgressBarValue = Get.IsNumber(this.SearchNumberStatus)?int.Parse(this.SearchNumberStatus):0;
+                        }
+                        switch(this.SearchBtnText)
+                        {
+                                case "Searching...":
+                                        this.SearchBtnText = "Searching..";
+                                break;
+                                case "Searching..":
+                                        this.SearchBtnText = "Searching.";
+                                break;
+                                case "Searching.":
+                                        this.SearchBtnText = "Searching...";
+                                break;
+                        }
+                        Get.WaitTime(400);
+                        InvokeAsync(() =>
+                        {
+                                StateHasChanged();
+                        });
+
+                }
+        }
+        void RemoveTemps()
+        {   
+                if(File.Exists(this.BaseFile+".icons"))File.Delete(this.BaseFile+".icons");
+                if(File.Exists(this.BaseFile+".links"))File.Delete(this.BaseFile+".links");
+                if(File.Exists(this.BaseFile+".durations"))File.Delete(this.BaseFile+".durations");
+                if(File.Exists(this.BaseFile+".titles"))File.Delete(this.BaseFile+".titles");
+                if(File.Exists(this.BaseFile+".sucess"))File.Delete(this.BaseFile+".sucess");
+                if(File.Exists(this.BaseFile+".fail"))File.Delete(this.BaseFile+".fail");
+                if(File.Exists(this.SongDownloadPath+"status.text"))File.Delete(this.SongDownloadPath+"status.text");
+                if(File.Exists(this.SongDownloadPath+"status.number"))File.Delete(this.SongDownloadPath+"status.number");
+        }
+
+        void WaitForSearch()
+        {
+                try{
+                       
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = "python3";
+                 
+                info.Arguments = $"you/main.py SEARCH_MANY {this.SearchItem.Replace("\n"," ").Replace(" ","_")} {this.SongDownloadPath} {this.SongRName}";
+
+                Process process = Process.Start(info);
+                //wait that the whole process is completed
+                process.WaitForExit();  
+                /*THIS TIME WE NEED THE VIDEO LOL
+                File.Delete(this.SongTempMp4);
+                */
+                if(File.Exists(this.BaseFile+".icons"))
+                {
+                        icons = File.ReadAllLines(this.BaseFile+".icons"); 
+                        links = File.ReadAllLines(this.BaseFile+".links");
+                        durations = File.ReadAllLines(this.BaseFile+".durations"); 
+                        titles = File.ReadAllLines(this.BaseFile+".titles");
+
+                        for(int item = 0; item < links.Length; item++)
+                        {
+                                this.Songs.Add(new Song()
+                                {
+                                        YTLink=links[item],
+                                        IconLink=icons[item],
+                                        Duration=Song.ParseTime(durations[item]),
+                                        Title=titles[item]
+                                });
+                        }
+                        this.AttemptSucess = true; 
+                        InvokeAsync(() =>
+                        {
+                                StateHasChanged();
+                        });
+                        this.RemoveTemps();
+                        return;
+
+                }else{
+                        this.AttemptFailed = true; 
+                }
+                }catch(Exception ex)
+                {
+                        this.AttemptFailed = true; 
+                        //this.Danger = $"{ex}";
+                        InvokeAsync(() =>
+                        {
+                                StateHasChanged();
+                        });
+                } 
+        }
+       /*
+        Task OnLoad()
+        {
+        //this.SongDownloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
+
+                FilesMaper maper = new FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
+                maper.AllowDebugger = true; 
+                maper.Map();
+                maper.Files.ForEach((song)=>
+                {
+                        this.SongItems.Add(song);
+                });
+                
+
+                InvokeAsync(() =>
+                {
+                        StateHasChanged();
+                });
+                //  <li class="list-group-item">A second item</li>
+                return Task.CompletedTask;
+        }
+       */
+  
+        /*
+         @for(int item = 0; item < SongItems.Count; item++)
+        {
+                //<button @onclick="@(e => test(buttonNumber, 5 * buttonNumber))">Check</button>
+                //<li class="list-group-item" @onclick="()=>PlaySong(SongItems[item])">@(SongItems[item])</li>
+                
+                <li class="list-group-item" id="@item">@(SongItems[item])</li>
+                 
+        }
+        
+        */
+        
+}
+<script>
+ 
+
+
+/*
+document.querySelectorAll(".list-group-item").forEach((item)=>{
+//console.log(item);
+item.addEventListener("click",(e)=>{
+document.getElementById("SearchItem").text = "Working...";
+console.log(e);
+console.log(e.textContent);
+});
+});
+*/
+</script>

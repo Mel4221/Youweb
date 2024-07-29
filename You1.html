@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Media Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .player-container {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .song-list {
+            flex: 1;
+            padding: 0 20px;
+        }
+        .song-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .song-list ul li {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .song-list ul li:hover {
+            color: blue;
+        }
+        .song-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="song-list">
+            <h2>Available Songs</h2>
+            <ul id="songList">
+                <li onclick="changeSong('song1.mp3')">Song 1</li>
+                <li onclick="changeSong('song2.mp3')">Song 2</li>
+                <li onclick="changeSong('song3.mp3')">Song 3</li>
+                <!-- Add more songs as needed -->
+            </ul>
+        </div>
+        <div class="song-player">
+            <h2 class="song-title">Currently Playing: <span id="currentSongTitle">No song selected</span></h2>
+            <audio id="audioPlayer" controls>
+                <source id="audioSource" src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        // Function to change the source of the audio player and play the song
+        function changeSong(songSrc) {
+            var audioPlayer = document.getElementById('audioPlayer');
+            var audioSource = document.getElementById('audioSource');
+            var currentSongTitle = document.getElementById('currentSongTitle');
+
+            // Update the audio source and title
+            audioSource.src = songSrc;
+            currentSongTitle.textContent = getSongTitle(songSrc);
+
+            // Load and play the new song
+            audioPlayer.load();
+            audioPlayer.play();
+        }
+
+        // Helper function to extract the title from the song path
+        function getSongTitle(songSrc) {
+            var startIndex = songSrc.lastIndexOf('/') + 1;
+            var endIndex = songSrc.lastIndexOf('.');
+            return songSrc.substring(startIndex, endIndex);
+        }
+    </script>
+</body>
+</html>
+

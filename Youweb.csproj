@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+  </PropertyGroup>
+    <ItemGroup>
+     <Reference Include="DllrefrenceFile">
+       <HintPath>../QuickTools/bin/Release/QuickTools.dll</HintPath>
+       <!--HintPath>../QuickTools6/bin/Debug/net7.0/QuickTools6.dll</HintPath-->
+     </Reference>
+    </ItemGroup>
+</Project>

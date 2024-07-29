@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Youweb Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .player-container {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .song-list {
+            flex: 1;
+            padding: 0 20px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 400px; /* Limit the height of the song list */
+            border-left: 1px solid #ccc; /* Add border between song list and player */
+        }
+        .song-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .song-list ul li {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .song-list ul li:hover {
+            color: blue;
+        }
+        .song-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .search-bar {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="song-list">
+            <input type="text" id="searchInput" class="search-bar" placeholder="Search songs...">
+            <ul id="songList">
+                @SongsList
+                <!-- Add more songs as needed -->
+            </ul>
+        </div>
+        <div class="song-player">
+            <h2 class="song-title">Currently Playing: <span id="currentSongTitle">No song selected</span></h2>
+            <audio id="audioPlayer" controls>
+                <source id="audioSource" src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+           x </audio>
+        </div>
+    </div>
+
+    <script>
+         const songsArray = ["/home/mel/Music/The Weeknd _ Ariana Grande - Save Your Tears (Remix) (Official Video)(MP3_320K).mp3"];
+         var player = document.getElementById("audioSource").src = songsArray[0]; 
+            
+         /*
+         // Function to change the source of the audio player and play the song
+        function changeSong(songSrc) {
+            var audioPlayer = document.getElementById('audioPlayer');
+            var audioSource = document.getElementById('audioSource');
+            var currentSongTitle = document.getElementById('currentSongTitle');
+
+            // Update the audio source and title
+            audioSource.src = songSrc;
+            currentSongTitle.textContent = getSongTitle(songSrc);
+
+            // Load and play the new song
+            audioPlayer.load();
+            audioPlayer.play();
+        }
+        */
+/*
+        // Helper function to extract the title from the song path
+        function getSongTitle(songSrc) {
+            var startIndex = songSrc.lastIndexOf('/') + 1;
+            var endIndex = songSrc.lastIndexOf('.');
+            return songSrc.substring(startIndex, endIndex);
+        }
+        */
+    </script>
+</body>
+</html>
+
