@@ -56,11 +56,13 @@
         string SearchNumberStatus{get;set;} = string.Empty; 
         string SearchBtnText {get;set;} = "Search";
         string SearchBtnClass {get;set;}  = "btn btn-primary";
-        string ProgressBarCss{get;set;} = "invisible";//progress
         string OptionSelected{get;set;} = string.Empty; 
+
+        string ProgressBarCss{get;set;} = "invisible";//progress
+        int ProgressBarValue {get;set;} = 0; 
+
         bool AttemptFailed{get;set;} = false; 
         bool AttemptSucess{get;set;} = false;
-        int ProgressBarValue {get;set;} = 0; 
         string[] icons = new string[]{}; 
         string[] links = new string[]{};
         string[] durations = new string[]{};

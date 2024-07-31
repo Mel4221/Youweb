@@ -7,6 +7,11 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+import eyed3,io
+import os
+from eyed3.id3.frames import ImageFrame
+from pathlib import Path
+
 
 def PrintStatus(download_location,status,message):
         print(message)
@@ -16,6 +21,36 @@ def PrintStatus(download_location,status,message):
         number_status.write(status)
         text_status.close()
         number_status.close()
+
+
+def HasIcon(song):
+        try:
+                m = eyed3.load(os.path.normpath(song))
+                l = len(m.tag.images)
+                if l == 0:
+                        return False
+                else:
+                        return True
+        except:
+                return False
+
+
+
+def GetSongIcon(song,download_location,tempId):
+        song = Path(song).read_text()
+        icon = download_location+tempId+".png"
+        if HasIcon(song) == False:
+                print("Failed no icon..: "+song)
+                return
+        m = eyed3.load(os.path.normpath((song)))
+        img = io.BytesIO(m.tag.images[0].image_data)   
+        #print(img)
+        #print(m.tag.images[0].mime_type)
+        with open(icon, 'wb') as file:
+                file.write(img.getvalue())
+        print("Icon Saved..: "+icon)
+        return   
+  
 
 
 

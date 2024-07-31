@@ -72,10 +72,10 @@ def DownloadVideo(videoLink,videoQuality,download_location,tempId):
                 #filter = yt.streams.filter(resolution=videoQuality)#.first().download(output_path="downloads/videos/", filename=yt.title+".mp4", filename_prefix="",skip_existing=True, timeout=10000, max_retries=10)
                 filter = yt.streams.filter(resolution=videoQuality,adaptive=True).first().download(output_path=download_location, filename=video, filename_prefix="",skip_existing=False, timeout=35, max_retries=10)
                 
-                PrintStatus(download_location,"75","The Video has been downloaded Sucessfully "+yt.title+" Downloading Audio...")  
+                PrintStatus(download_location,"75","Downloading Audio... "+yt.title)  
                 yt.streams.filter(only_audio=True).first().download(output_path=download_location, filename=audio, filename_prefix="",skip_existing=False, timeout=35, max_retries=10)
                 
-                PrintStatus(download_location,"95","Binding Video and Audio...")
+                PrintStatus(download_location,"100","Mixing Video and Audio...")
                 #yt.streams.get_by_itag(22).download(output_path="/home/mel/Music/", filename="test.mp4", filename_prefix="",skip_existing=True, timeout=15, max_retries=5)
                 video_stream = ffmpeg.input(video)
                 audio_stream = ffmpeg.input(audio)
@@ -116,7 +116,7 @@ def DownloadVideo(videoLink,videoQuality,download_location,tempId):
                         DownloadVideo(videoLink,"144",download_location,tempId)
                         return
                 fail = open(fileInfo+".fail","a",encoding="utf-8")
-                fail.write(e.message)
+                fail.write(e)
                 fail.close()
         return
                 

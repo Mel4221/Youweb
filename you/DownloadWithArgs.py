@@ -15,6 +15,7 @@ import os
 from SongDownloader import DownloadSong
 from VideoDownloader import DownloadVideo
 from Searcher import *
+from Tools import * 
  
 '''
 MP3
@@ -50,6 +51,9 @@ def CheckArgs(list):
     if type=="MP4_1080P":
         print("Downloading Video at 720P")
         DownloadVideo(link,"1080",download_location,tempId)
+        return
+    if type == "GET_ICON":
+        GetSongIcon(link,download_location,tempId)
         return
     else:
         DownloadVideo(link,type,download_location,tempId)

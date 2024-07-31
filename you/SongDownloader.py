@@ -50,7 +50,7 @@ def DownloadSong(link,download_location,tempId):
               
               
               filter = yt.streams.filter(file_extension='mp4').get_lowest_resolution().download(output_path=download_location, filename=fileName, filename_prefix="",
-                     skip_existing=True, timeout=300000, max_retries=50)
+                     skip_existing=False, timeout=300000, max_retries=50)
 
               print("Comverting to mp3")
               print("File located: "+str(Path(fileName).is_file))
