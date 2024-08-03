@@ -1,5 +1,18 @@
 #!/bin/bash
+#defining variables start
+$WWW_YOU=wwwroot/you
+$DEBUG_YOU=bin/Debug/net7.0/you
+#defining variables ends
 
-rm -r -v bin/Debug/net7.0/you
+
+print red "Deleting..: ${WWW_YOU}"
+rm -r -v $WWW_YOU
+print red "Deleting..: ${DEBUG_YOU}"
+rm -r -v $DEBUG_YOU
+
+print cyan "Coping..: ${WWW_YOU}"
+cp -r -v you wwwroot/you
+print cyan "Coping..: ${DEBUG_YOU}"
 cp -r -v you bin/Debug/net7.0/you
-dotnet run && echo "Task Completed!!!"
+
+dotnet run && print green "Task Completed!!!"

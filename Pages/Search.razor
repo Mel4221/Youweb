@@ -13,6 +13,9 @@
 <div class="@SearchBtnClass" @onclick="SearchSong">
 @SearchBtnText
 </div>
+<div class="btn btn-danger" @onclick="StopAction">
+Stop
+</div>
 </div>
 <span>@SearchTextStatus</span><br/>
 
@@ -83,6 +86,34 @@
         */
         Thread SearchThread{get;set;}
         Thread AnimationThread{get;set;}
+
+        void StopAction()
+        {
+                try{      
+                        try
+                        {
+                                AnimationThread.Suspend(); 
+                        }catch(Exception ex)
+                        {
+                                Get.Pink(ex);
+                        }
+                }catch(Exception ex)
+                {
+                        Get.Red(ex);
+                }
+                try{      
+                        try
+                        {
+                                SearchThread.Suspend(); 
+                        }catch(Exception ex)
+                        {
+                                Get.Pink(ex);
+                        }
+                }catch(Exception ex)
+                {
+                        Get.Red(ex);
+                }
+        }
         
         void Enter(KeyboardEventArgs e)
         {

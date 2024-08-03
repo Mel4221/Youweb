@@ -286,7 +286,7 @@
                        
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "python3";
-                info.Arguments = $"bin/Debug/net7.0/you/main.py {this.ResolutionSelected.Replace("p","")} {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}";
+                info.Arguments = $"bin/Debug/net7.0/you/main.py {this.ResolutionSelected} {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}";
 
                 Process process = Process.Start(info);
                 //wait that the whole process is completed
