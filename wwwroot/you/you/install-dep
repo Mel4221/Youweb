@@ -1,0 +1,2 @@
+#!/bin/bash
+pip install -r deps.txt -t .

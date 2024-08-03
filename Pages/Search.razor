@@ -13,6 +13,9 @@
 <div class="@SearchBtnClass" @onclick="SearchSong">
 @SearchBtnText
 </div>
+<div class="btn btn-danger" @onclick="StopAction">
+Stop
+</div>
 </div>
 <span>@SearchTextStatus</span><br/>
 
@@ -56,11 +59,13 @@
         string SearchNumberStatus{get;set;} = string.Empty; 
         string SearchBtnText {get;set;} = "Search";
         string SearchBtnClass {get;set;}  = "btn btn-primary";
-        string ProgressBarCss{get;set;} = "invisible";//progress
         string OptionSelected{get;set;} = string.Empty; 
+
+        string ProgressBarCss{get;set;} = "invisible";//progress
+        int ProgressBarValue {get;set;} = 0; 
+
         bool AttemptFailed{get;set;} = false; 
         bool AttemptSucess{get;set;} = false;
-        int ProgressBarValue {get;set;} = 0; 
         string[] icons = new string[]{}; 
         string[] links = new string[]{};
         string[] durations = new string[]{};
@@ -81,6 +86,34 @@
         */
         Thread SearchThread{get;set;}
         Thread AnimationThread{get;set;}
+
+        void StopAction()
+        {
+                try{      
+                        try
+                        {
+                                AnimationThread.Suspend(); 
+                        }catch(Exception ex)
+                        {
+                                Get.Pink(ex);
+                        }
+                }catch(Exception ex)
+                {
+                        Get.Red(ex);
+                }
+                try{      
+                        try
+                        {
+                                SearchThread.Suspend(); 
+                        }catch(Exception ex)
+                        {
+                                Get.Pink(ex);
+                        }
+                }catch(Exception ex)
+                {
+                        Get.Red(ex);
+                }
+        }
         
         void Enter(KeyboardEventArgs e)
         {

@@ -7,45 +7,23 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-from shelve import Shelf
-from traceback import print_tb
-from unittest import result
-import shutil
+import sys
+from pathlib import Path
 import os 
-from SongDownloader import DownloadSong
 from VideoDownloader import DownloadVideo
-from Searcher import *
-from Tools import * 
+from DownloadWithArgs import CheckArgs
  
-'''
-MP3
-MP4_720P
-MP4_1080P
-'''
-def CheckArgs(list):
-    type = list[0]
-    if type=="help" or type=="--help" or type=="-h":
-    	print("[MP3] or [720p,480p...] [LINK] [DOWNLOAD_LOCATION] [TEMP_ID]")
-    	return
-    print(list) 
-    print("Action: "+list[0])
-    """TYPE LINK LOCATION ID"""
-    link = list[1]
-    download_location = list[2]
-    tempId=list[3]
-    if type=="SEARCH_MANY":
-        SearchMany(link,download_location,tempId)
-        return
-    if type=="MP3":
-        print("Downloading song: ")
-        DownloadSong(link,download_location,tempId)
-        return
-    if type == "GET_ICON":
-        GetSongIcon(link,download_location,tempId)
-        return
-    else:
-        DownloadVideo(link,type,download_location,tempId)
-        return
+def main():
+            args = sys.argv[1:]
+            if len(args) > 0:
+                print("passing arguments")
+                CheckArgs(args)
+                return 0
+            else:
+                print("no arguments were provided")
+                return 1
 
-            
-
+if __name__ == '__main__':
+    main()
+ 
+ 
