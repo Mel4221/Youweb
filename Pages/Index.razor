@@ -27,14 +27,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 8 8"><path fill="currentColor" d="M3 0v3H1l3 3l3-3H5V0zM0 7v1h8V7z"/></svg>
 </div>
 
-<div class="@MessageBoxCss">
+<div class="@MessageBoxCss" @onclick="PlayDownloaded">
 @MessageBoxText
 </div>
  
 @code
 { 
 
-        string SongIconLink{get;set;} = "favicon.png";//$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
+        string SongIconLink{get;set;} = "img/favicon.png";//$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
         string SongDownloadPath{get;set;} = string.Empty;
         string SongRName{get;set;} = string.Empty;
         string SongDownloadLink{get;set;} = string.Empty;//"https://youtu.be/s8hA0QRIwfo?feature=shared"; //string.Empty;
@@ -48,7 +48,7 @@
         string ProgressText {get;set;} =string.Empty;
         string ProgressBarCss{get;set;} = "invisible";
         string SongInfoCss{get;set;} = "invisible";
-        string MessageBoxText{get;set;} = string.Empty; 
+        string MessageBoxText{get;set;} = string.Empty;//string.Empty; 
         string MessageBoxCss{get;set;} = string.Empty; 
 
 
@@ -66,7 +66,7 @@
         Thread DownloadThread{get;set;}
         Thread HandlerThread {get;set;}
         Thread AnimationThread{get;set;}
-
+        
         protected override void OnInitialized()
         {
                 // Create a Uri object from the current URL
@@ -99,6 +99,7 @@
                         this.Download();
                 }
         }
+
         void Show(string message , int type)
         {
                 switch(type)
@@ -121,6 +122,23 @@
                 {
                         StateHasChanged();
                 });
+        }
+        void PlayDownloaded()
+        {
+              if(this.AttemptCompleted && File.Exists(this.SongDownloadFile))
+                {
+                        new Thread(()=>{
+                                string file = this.SongDownloadFile;
+
+                                try{
+                                        Process.Start(new ProcessStartInfo(){FileName="vlc",Arguments=$"'{file}'"});//this.SongDownloadFile});
+                                }catch(Exception ex){
+                                        this.Show("Could not play the song..: "+file+"\n"+$"{ex}",3);
+                                        Get.Red(ex);
+                                }
+
+                        }).Start();
+                }
         }
         void Download()
         {
@@ -169,7 +187,7 @@
         }
         void ResetState()
         {
-                this.SongIconLink ="favicon.png"; //$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
+                this.SongIconLink ="img/favicon.png"; //$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
                 this.SongName = "";
                 this.SongDescription = "";
                 this.songDuration = ""; 
@@ -232,7 +250,7 @@
                         {
                                 if(File.Exists(sucessFile))     
                                 {
-                                        this.Show("Download Completed Successfully!!!",0);
+                                        this.Show("Download Completed Successfully!!!   Click to play with vlc media player if you have it installed",0);
                                         this.AttemptCompleted = true; 
                                         Get.Pink("Breaking: because the download was completed sucessfully");
                                         break;

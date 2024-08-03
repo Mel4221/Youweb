@@ -5,7 +5,7 @@ namespace Youweb.Data
         {
                 public static bool HasDownloadInProgress {get;set;} = false; 
                 public static string CurrentAction{get;set;} = string.Empty; 
-                private static Check Check {get;set;} = new Check(); 
+                public static Check Check {get;set;}
                 //private static Thread NotificationThread;
 
                 public static bool HasActions()
@@ -38,10 +38,16 @@ namespace Youweb.Data
                 }
                 public static void Stop()
                 {
-                        Get.Yellow($"Time Elapsed: {Check.Stop()}");
-                        YouwebStatic.CurrentAction = string.Empty; 
-                        YouwebStatic.HasDownloadInProgress = false;
-                        Get.Red($"Action Stoped: {YouwebStatic.CurrentAction} Action in Progress: {YouwebStatic.HasDownloadInProgress}"); 
+                        if(YouwebStatic.HasActions())
+                        {
+                                Get.Yellow($"Time Elapsed: {Check.Stop()}");
+                                YouwebStatic.CurrentAction = string.Empty; 
+                                YouwebStatic.HasDownloadInProgress = false;
+                                Get.Red($"Action Stoped: {YouwebStatic.CurrentAction} Action in Progress: {YouwebStatic.HasDownloadInProgress}"); 
+                                return;
+                        }else{
+                                Get.Yellow("No Action in progress...");
+                        }
                 }
         }
 }

@@ -48,8 +48,8 @@ def GetSongIcon(song,download_location,tempId):
         #print(m.tag.images[0].mime_type)
         with open(icon, 'wb') as file:
                 file.write(img.getvalue())
-                print("Icon Saved..: "+icon)
-                return   
+        print("Icon Saved..: "+icon)
+        return   
   
 
 
