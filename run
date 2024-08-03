@@ -15,4 +15,5 @@ cp -r -v you wwwroot/you
 print cyan "Coping..: ${DEBUG_YOU}"
 cp -r -v you bin/Debug/net7.0/you
 
+open http://localhost:4251
 dotnet run && print green "Task Completed!!!"

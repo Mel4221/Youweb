@@ -1,0 +1,7 @@
+eyed3
+pathlib
+pytube
+moviepy
+regex
+emoji
+ffmpeg
