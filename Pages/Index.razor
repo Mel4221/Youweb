@@ -295,12 +295,12 @@
         void WaitForDownload()
         { 
                 try{
-                       
+                /*     
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "python3";
                 info.Arguments = $"you/main.py MP3 {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}";
-
-                Process process = Process.Start(info);
+                */
+                Process process = Process.Start(YouwebStatic.StartInfo($"MP3 {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}"));
                 //wait that the whole process is completed
                 process.WaitForExit();  
 

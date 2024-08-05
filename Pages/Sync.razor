@@ -12,7 +12,7 @@
 <span class="h6">@TextStatus</span>
 
 <div class="container">
-<div class="row row-cols-4">
+<!--div class="row row-cols-4"-->
         <!--li class="list-group-item disabled" aria-disabled="true">A disabled item</li-->
          @foreach (var song in Songs)        
          {
@@ -24,8 +24,13 @@
                 
                 @if(!File.Exists(temp)){
                         icon = "img/favicon.png";
-                }          
-        
+                }  
+                <div class="box">
+                        <img src="@icon" class="card-img-top" width="560"height="315" alt="@name">
+                        <h5 class="card-title">@name</h5>
+                        <p class="card-text">Duration: @duration</p>
+                </div>        
+        /*
                 <div class="col">
                         <div class="card">
                         <img src="@icon" class="card-img-top" alt="@name">
@@ -35,13 +40,14 @@
                         </div>
                         </div>
                 </div>
+                */
               
                  
         }
 
 
 
-</div>
+
 </div>
 
 @code
@@ -162,7 +168,7 @@
                 //this.SongDownloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
 
                 FilesMaper maper = new FilesMaper("/home/mel/Downloads/Music/");//FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
-                ProcessStartInfo info = new ProcessStartInfo(); 
+                //ProcessStartInfo info = new ProcessStartInfo(); 
                 int current,goal;
                 this.Songs = new List<Song>(); 
                 maper.AllowDebugger = true; 
@@ -192,10 +198,11 @@
                                 Get.Reset();
                                 File.WriteAllText(inputFile, file);
                                 File.Move(s,file);
+                                /*
                                 info.FileName = "python3";
                                 info.Arguments = $"you/main.py GET_ICON {inputFile} {download_location} {tempId}";
-                           
-                                Process process = Process.Start(info);
+                                */
+                                Process process = Process.Start(YouwebStatic.StartInfo($"GET_ICON {inputFile} {download_location} {tempId}"));
 
                                 process.WaitForExit(); 
 

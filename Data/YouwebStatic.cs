@@ -1,8 +1,18 @@
 using QuickTools.QCore;
+using System.Diagnostics;
 namespace Youweb.Data
 {
         public static class YouwebStatic
         {
+                public static ProcessStartInfo StartInfo(string arguments)
+                {
+                        return new ProcessStartInfo()
+                        {
+                                FileName="python3",
+                                Arguments=$"{System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")}{Get.Slash()}you{Get.Slash()}main.py {arguments}"
+                        };
+                }
+
                 public static bool HasDownloadInProgress {get;set;} = false; 
                 public static string CurrentAction{get;set;} = string.Empty; 
                 public static Check Check {get;set;}

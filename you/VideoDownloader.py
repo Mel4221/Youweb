@@ -91,35 +91,36 @@ def DownloadVideo(videoLink,videoQuality,download_location,tempId):
                 sucess.close()
         except Exception as e:
                 print(e)
+                msg = "Attempting again due to an error...: "+str(e)
+                PrintStatus(download_location,"100",msg)
                 gc.collect()
                 #global Attemps
                 Attemps = Attemps + 1
                 if Attemps == 1:
-                        print("Attempting again due to an error...")
                         DownloadVideo(videoLink,videoQuality,download_location,tempId)
                         return
                 if Attemps == 2:
-                        print("Download Quality Set to Default '720p' Due to TOO MANY ATTEMPS")
-                        print("Please try a lower Video Quality if the video keeps Attempting...")
+                        msg = "Download Quality Set to Default '720p' Due to TOO MANY ATTEMPS\n"+"Please try a lower Video Quality if the video keeps Attempting..."
+                        PrintStatus(download_location,"100",msg)
                         DownloadVideo(videoLink,"720p",download_location,tempId)
                         return
                 if Attemps == 3:
-                        print("Download Quality Set to Default '480p' Due to TOO MANY ATTEMPS")
-                        print("Please try a lower Video Quality if the video keeps Attempting...")
+                        msg = "Download Quality Set to Default '480p' Due to TOO MANY ATTEMPS\n"+"Please try a lower Video Quality if the video keeps Attempting..."
+                        PrintStatus(download_location,"100",msg)
                         DownloadVideo(videoLink,"480p",download_location,tempId)
                         return
                 if Attemps == 4:
-                        print("Download Quality Set to Default '360p' Due to TOO MANY ATTEMPS")
-                        print("Please try a lower Video Quality if the video keeps Attempting...")
+                        msg = "Download Quality Set to Default '360p' Due to TOO MANY ATTEMPS\n"+"Please try a lower Video Quality if the video keeps Attempting..."
+                        PrintStatus(download_location,"100",msg)
                         DownloadVideo(videoLink,"360p",download_location,tempId)
                         return
                 if Attemps == 5:
-                        print("Download Quality Set to Default '144p' Due to TOO MANY ATTEMPS")
-                        print("Please try a lower Video Quality if the video keeps Attempting...")
+                        msg = "Download Quality Set to Default '144p' Due to TOO MANY ATTEMPS\n"+"Please try a lower Video Quality if the video keeps Attempting..."
+                        PrintStatus(download_location,"100",msg)
                         DownloadVideo(videoLink,"144p",download_location,tempId)
                         return
                 fail = open(fileInfo+".fail","a",encoding="utf-8")
-                fail.write(e)
+                fail.write(str(e))
                 fail.close()
         return
                 

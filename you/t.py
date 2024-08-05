@@ -15,6 +15,8 @@ from Sync import SyncIcon
 
 
 def T():
+        
+        return
         print(str(HasIcon("test.mp3")))
         return
         SyncIcon("adele.mp3","Adele - Skyfall (Lyrics)","skyfall")

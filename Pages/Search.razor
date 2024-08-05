@@ -55,6 +55,7 @@ Stop
         string SearchItem{get;set;} = string.Empty;
         string SongRName{get;set;} = string.Empty;
         string BaseFile{get;set;} = string.Empty;
+        
         string SearchTextStatus{get;set;} = string.Empty; 
         string SearchNumberStatus{get;set;} = string.Empty; 
         string SearchBtnText {get;set;} = "Search";
@@ -134,6 +135,7 @@ Stop
                 YouwebStatic.Start("search");
 
                 this.SongDownloadPath =  Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "/";
+
                 this.SongRName = IRandom.RandomText(16); 
                 this.BaseFile = $"{this.SongDownloadPath}{this.SongRName}";
                 Get.Pink($"Base File Set: {this.BaseFile}");
@@ -228,13 +230,14 @@ Stop
         void WaitForSearch()
         {
                 try{
-                       
+                /*   
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "python3";
                  
-                info.Arguments = $"you/main.py SEARCH_MANY {this.SearchItem.Replace("\n"," ").Replace(" ","_")} {this.SongDownloadPath} {this.SongRName}";
-
-                Process process = Process.Start(info);
+                info.Arguments = $"{this.SongDownloadPath}you/main.py SEARCH_MANY {this.SearchItem.Replace("\n"," ").Replace(" ","_")} {this.SongDownloadPath} {this.SongRName}";
+                */
+                Process process = Process.Start(
+                        YouwebStatic.StartInfo($"SEARCH_MANY {this.SearchItem.Replace("\n"," ").Replace(" ","_")} {this.SongDownloadPath} {this.SongRName}"));
                 //wait that the whole process is completed
                 process.WaitForExit();  
                 /*THIS TIME WE NEED THE VIDEO LOL
