@@ -8,10 +8,10 @@
   </PropertyGroup>
     <ItemGroup>
      <Reference Include="DllrefrenceFile">
-       <HintPath>../QuickTools/bin/Release/QuickTools.dll</HintPath>
+       <HintPath>QuickTools/QuickTools.dll</HintPath>
      </Reference>
      <Reference Include="DllrefrenceFile">
-       <HintPath>../Newtonsoft.Json-13.0.3/bin/Bin/net6.0/Newtonsoft.Json.dll</HintPath>
+       <HintPath>Newtonsoft.Json-13.0.3_net6.0/Newtonsoft.Json.dll</HintPath>
      </Reference>
     </ItemGroup>
 </Project>

@@ -3,7 +3,11 @@
 WWW_YOU=wwwroot/you
 DEBUG_YOU=bin/Debug/net7.0/you
 #defining variables ends
+#cleaning project
 dotnet clean
+#getting new dependencys
+./get_deps
+#building project
 dotnet build
 
 
