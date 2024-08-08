@@ -48,6 +48,13 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
+            <NavLink  class="nav-link"  @onclick="()=>GoTo(Share)" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 8 8"><path fill="currentColor" d="M.75 0C.34 0 0 .34 0 .75v5.5c0 .41.34.75.75.75h4.5c.41 0 .75-.34.75-.75V5H5v1H1V1h2V0zM6 0v1C3.95 1 2.3 2.54 2.06 4.53C2.27 3.65 3.05 3 4 3h2v1l2-2z"/></svg>
+                <span style="display:inline-block; width:10px;"></span>
+                Share
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
             <NavLink  class="nav-link"  @onclick="()=>GoTo(Config)">
 <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
   <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
@@ -75,6 +82,8 @@
     private string Search {get;set;}="search";
     private string Config{get;set;} = "settings";
     private string Sync {get;set;} = "sync";
+    private string Share {get;set;} = "share";
+
     
     void ExitSys()
     {
