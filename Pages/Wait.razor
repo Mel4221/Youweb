@@ -1,0 +1,19 @@
+﻿@page "/wait"
+@code {
+
+    protected override void OnInitialized()
+    {
+        if(YouwebStatic.CurrentAction != "")
+        {
+                 while (!YouwebStatic.ActionCompleted)
+            {
+                Get.WaitTime(1000);
+                Get.Yellow("Waitting for completition...");
+            }
+        }
+       
+        
+    }
+     
+
+}

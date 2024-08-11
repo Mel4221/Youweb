@@ -1,14 +1,37 @@
 using QuickTools.QCore;
 using System.Diagnostics;
+using System.IO; 
 namespace Youweb.Data
 {
         public static class YouwebStatic
         {
+        public static bool ActionCompleted { get; set; } = false;
+                private static string PythonFileName()
+                {
+                        string python, file;
+                        python = null;
+                        file = null;
+                        if(File.Exists("python.config"))
+                        {
+                            python = File.ReadAllText(file);
+                            if(!string.IsNullOrEmpty(python))
+                            {
+                                return python;
+                            }
+                        }if(Get.IsWindow()){
+                                python = "python";
+                                return python;
+                        }else{
+                                python = "python3";
+                        }
+
+                    return python; 
+                }
                 public static ProcessStartInfo StartInfo(string arguments)
                 {
                         return new ProcessStartInfo()
                         {
-                                FileName="python3",
+                                FileName=PythonFileName(),
                                 Arguments=$"{System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")}{Get.Slash()}you{Get.Slash()}main.py {arguments}"
                         };
                 }

@@ -167,7 +167,7 @@
                 Get.Pink(download_location);
                 //this.SongDownloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
 
-                FilesMaper maper = new FilesMaper("/home/mel/Downloads/Music/");//FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
+                FilesMaper maper = new FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));//FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
                 //ProcessStartInfo info = new ProcessStartInfo(); 
                 int current,goal;
                 this.Songs = new List<Song>(); 

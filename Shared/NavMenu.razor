@@ -1,7 +1,8 @@
 ﻿@using Youweb.Data
 @inject NavigationManager MyNavigationManager
 
-<div class="top-row ps-3 navbar navbar-dark">
+ 
+<div class="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Youweb</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -9,6 +10,7 @@
         </button>
     </div>
 </div>
+ 
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
@@ -81,8 +83,8 @@
     private string Media{get;set;} ="media";
     private string Search {get;set;}="search";
     private string Config{get;set;} = "settings";
-    private string Sync {get;set;} = "sync";
-    private string Share {get;set;} = "share";
+    private string Sync {get;set;} = "sync";//sync
+    private string Share { get; set; } = "share";
 
     
     void ExitSys()

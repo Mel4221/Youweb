@@ -7,8 +7,30 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20); // Set session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+/*
+// Configure Kestrel to increase the maximum request body size
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 104857600; // 100 MB
+});
+
+// Configure IIS server options if using IIS
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.MaxRequestBodySize = 104857600; // 100 MB
+});
+*/
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -16,15 +38,18 @@ builder.Services.AddServerSideBlazor();
 //builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
+
 /*
     Added feature but needs to be disabled 
     if needed
 */
+/*
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "/home")),
     RequestPath = "/home"
 });
+*/
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -39,6 +64,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession(); // Add session middleware here
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

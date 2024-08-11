@@ -10,7 +10,7 @@
 </div>
 
 <span class="h6">@TextStatus</span>
-
+<button @onclick="Test">Test</button>
 <div class="container">
 <!--div class="row row-cols-4"-->
         <!--li class="list-group-item disabled" aria-disabled="true">A disabled item</li-->
@@ -52,12 +52,11 @@
 
 @code
 {
-
-        private string F(Song song)
-        {
-                Get.Green(song.ToString());
-                return "Working...";
-        }
+    void Test()
+    {
+        
+    }
+    
 
         string SyncBtnText{get;set;} = "Sync";
         string SyncBtnCss {get;set;} = "btn btn-primary";
@@ -156,7 +155,7 @@
         {
                 YouwebStatic.Check = new Check();
                 YouwebStatic.Check.Start();
-                YouwebStatic.CurrentAction = "sync";
+                YouwebStatic.CurrentAction = "share";
                 //YouwebStatic.Start("sync");
                 List<Song> sl = new List<Song>(); 
                 string download_location,song,tempId,inputFile;
@@ -167,7 +166,7 @@
                 Get.Pink(download_location);
                 //this.SongDownloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
 
-                FilesMaper maper = new FilesMaper("/home/mel/Downloads/Music/");//FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
+                FilesMaper maper = new FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));//FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
                 //ProcessStartInfo info = new ProcessStartInfo(); 
                 int current,goal;
                 this.Songs = new List<Song>(); 

@@ -1,10 +1,13 @@
 ﻿@using Youweb.Data
 @page "/"
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Youweb</PageTitle>
+
 <h3>MP3</h3>
-<img src="@SongIconLink" class="img-fluid" alt="Video Thumbnail"width="720"height="720"><br/>
+<img src="@SongIconLink" class="img-fluid" alt="Video Thumbnail" width="360" height="360">
+<br />
 <span><i>@ProgressText</i></span>
 
 <div class="@ProgressBarCss">
@@ -30,10 +33,16 @@
 <div class="@MessageBoxCss" @onclick="PlayDownloaded">
 @MessageBoxText
 </div>
- 
-@code
-{ 
+<br />
+<br />
+<a href="not_given" target="_blank" download="not_given" id="link"class="button Secondary"></a>
 
+@code
+{
+  
+   
+
+       
         string SongIconLink{get;set;} = "img/favicon.png";//$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
         string SongDownloadPath{get;set;} = string.Empty;
         string SongRName{get;set;} = string.Empty;
@@ -98,6 +107,11 @@
                 {
                         this.Download();
                 }
+        }
+        private async Task DownloadFile(string url, string fileName)
+        {
+            await JSRuntime.InvokeVoidAsync("DownloadFile", url, fileName);
+            
         }
 
         void Show(string message , int type)
