@@ -1,0 +1,3 @@
+C:\WWW\python\python.exe
+
+$(pwd)you/main.py 720p https://www.youtube.com/watch?v=jiwsGxxjP9c $(pwd)download\ test3

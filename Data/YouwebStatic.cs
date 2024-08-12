@@ -5,13 +5,38 @@ namespace Youweb.Data
 {
         public static class YouwebStatic
         {
-        public static bool ActionCompleted { get; set; } = false;
-                private static string PythonFileName()
+                public static bool ActionCompleted { get; set; } = false;
+                
+                public static string GetRoot(string path)
                 {
-                        string python, file;
-                        python = null;
-                        file = null;
-                        if(File.Exists("python.config"))
+                    string dir = Path.Combine(GetRoot(), path)+Get.Slash(); 
+                    if (!Directory.Exists(dir)){
+                        Directory.CreateDirectory(dir);
+                        return dir; 
+                    }else{
+                        return dir; 
+                    }
+                }
+                public static string GetRoot()
+                {
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")+Get.Slash(); 
+                    if(path == Get.Slash())
+                    {
+                        path = "wwwroot";
+                        return path;
+                    }else
+                    {
+                        return path;
+                    }
+                }
+        private static string PythonFileName()
+                {
+                    string python, file;
+         
+                        file = Path.Combine(GetRoot("python"), "python.config");
+
+
+                        if(File.Exists(file))
                         {
                             python = File.ReadAllText(file);
                             if(!string.IsNullOrEmpty(python))
@@ -23,16 +48,20 @@ namespace Youweb.Data
                                 return python;
                         }else{
                                 python = "python3";
+                                return python;
                         }
 
-                    return python; 
+                   
                 }
                 public static ProcessStartInfo StartInfo(string arguments)
                 {
                         return new ProcessStartInfo()
                         {
                                 FileName=PythonFileName(),
-                                Arguments=$"{System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")}{Get.Slash()}you{Get.Slash()}main.py {arguments}"
+                                Arguments=$"{System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")}{Get.Slash()}you{Get.Slash()}main.py {arguments}",
+                                RedirectStandardOutput = true,
+                                UseShellExecute = false, // Required for redirection
+                                CreateNoWindow = true // Optional: do not create a window
                         };
                 }
 

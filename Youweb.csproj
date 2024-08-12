@@ -36,4 +36,8 @@
        <HintPath>Newtonsoft.Json-13.0.3_net6.0/Newtonsoft.Json.dll</HintPath>
      </Reference>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="wwwroot\download\" />
+      <Folder Include="wwwroot\out\" />
+    </ItemGroup>
 </Project>

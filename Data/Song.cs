@@ -24,6 +24,21 @@ namespace Youweb.Data
                 public string IconLinkTemp{get;set;} = string.Empty; 
                 public string Duration{get;set;} = string.Empty;
                 
+                public static string SubRoot()
+                {
+                    string root, slashes;
+                    slashes = "";
+                    root = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")+Get.Slash();
+                    foreach(char ch in root)
+                    {
+                        if(ch == Get.Slash()[0])
+                        {
+                            slashes += $"..{Get.Slash()}";
+                        }
+                    }
+
+                    return slashes;
+                }
                 public static string CleanName(string path)
                 {
                         string valid_file_name, 

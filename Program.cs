@@ -9,7 +9,9 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http.Features;
 
+
 var builder = WebApplication.CreateBuilder(args);
+/*
 builder.Services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
 builder.Services.AddSession(options =>
 {
@@ -17,6 +19,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+*/
 
 /*
 // Configure Kestrel to increase the maximum request body size
@@ -36,7 +39,19 @@ builder.Services.Configure<IISServerOptions>(options =>
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 //builder.Services.AddSingleton<WeatherForecastService>();
+// Add distributed memory cache
+builder.Services.AddDistributedMemoryCache();
 
+// Configure session state with a very short timeout
+/*
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(60); // Set the timeout to 1 second
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    
+});
+*/
 var app = builder.Build();
 
 /*
@@ -59,13 +74,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+
+
+
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
 
 app.UseRouting();
-
-app.UseSession(); // Add session middleware here
+app.UseStaticFiles();
+app.UseAuthorization();
+//app.UseSession(); // Enable session middleware
+ 
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

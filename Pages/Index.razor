@@ -6,7 +6,8 @@
 <PageTitle>Youweb</PageTitle>
 
 <h3>MP3</h3>
-<img src="@SongIconLink" class="img-fluid" alt="Video Thumbnail" width="360" height="360">
+<p>Test: @_R</p>
+<img @onclick="R"src="@SongIconLink" class="img-fluid" alt="Video Thumbnail" width="360" height="360">
 <br />
 <span><i>@ProgressText</i></span>
 
@@ -39,268 +40,287 @@
 
 @code
 {
-  
-   
+    string _R { get; set; } = "A";
+    void R()
+    {
 
-       
-        string SongIconLink{get;set;} = "img/favicon.png";//$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
-        string SongDownloadPath{get;set;} = string.Empty;
-        string SongRName{get;set;} = string.Empty;
-        string SongDownloadLink{get;set;} = string.Empty;//"https://youtu.be/s8hA0QRIwfo?feature=shared"; //string.Empty;
-        string SongName{get;set;} = string.Empty; 
-        string songDuration {get;set;} = string.Empty;
-        string SongDescription{get;set;} = string.Empty;
-        string SongTempInfo{get;set;} = string.Empty;
-        string SongTempMp4{get;set;} = string.Empty;
-        string DownloadBtnText{get;set;} = $"Download";
-        string SongDownloadFile{get;set;} = string.Empty;
-        string ProgressText {get;set;} =string.Empty;
-        string ProgressBarCss{get;set;} = "invisible";
-        string SongInfoCss{get;set;} = "invisible";
-        string MessageBoxText{get;set;} = string.Empty;//string.Empty; 
-        string MessageBoxCss{get;set;} = string.Empty; 
+        Console.WriteLine("Working...");
+        _R = $"B: {DateTime.Now.ToString()}";
+    }
 
 
+    string SongIconLink{get;set;} = "img/favicon.png";//$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
+    string SongDownloadPath{get;set;} = string.Empty;
+    string SongRName{get;set;} = string.Empty;
+    string SongDownloadLink{get;set;} = string.Empty;//"https://youtu.be/s8hA0QRIwfo?feature=shared"; //string.Empty;
+    string SongName{get;set;} = string.Empty; 
+    string songDuration {get;set;} = string.Empty;
+    string SongDescription{get;set;} = string.Empty;
+    string SongTempInfo{get;set;} = string.Empty;
+    string SongTempMp4{get;set;} = string.Empty;
+    string DownloadBtnText{get;set;} = $"Download";
+    string SongDownloadFile{get;set;} = string.Empty;
+    string ProgressText {get;set;} =string.Empty;
+    string ProgressBarCss{get;set;} = "invisible";
+    string SongInfoCss{get;set;} = "invisible";
+    string MessageBoxText{get;set;} = string.Empty;//string.Empty; 
+    string MessageBoxCss{get;set;} = string.Empty; 
 
 
-        int ProgressBarValue{get;set;} = 0;
-        int InternalWaitTime{get;set;} = 3000;
 
-        bool AttemptFailed{get;set;} = false;
-        bool AttemptCompleted{get;set;} = false;  
 
-        string[] SongInfo;
+    int ProgressBarValue{get;set;} = 0;
+    int InternalWaitTime{get;set;} = 3000;
 
-        Thread IconThread{get;set;} 
-        Thread DownloadThread{get;set;}
-        Thread HandlerThread {get;set;}
-        Thread AnimationThread{get;set;}
-        
-        protected override void OnInitialized()
+    bool AttemptFailed{get;set;} = false;
+    bool AttemptCompleted{get;set;} = false;  
+    bool DownloadInProgress{ get; set;} = false; 
+
+    string[] SongInfo;
+
+    Thread IconThread{get;set;} 
+    Thread DownloadThread{get;set;}
+    Thread HandlerThread {get;set;}
+    Thread AnimationThread{get;set;}
+
+    protected override void OnInitialized()
+    {
+        // Create a Uri object from the current URL
+        var uri = new Uri(NavigationManager.Uri);
+
+        // Parse the query string
+        var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+
+        // Directly access query parameters
+        if (queryParams.ContainsKey("ytlink"))
         {
-                // Create a Uri object from the current URL
-                var uri = new Uri(NavigationManager.Uri);
+            this.SongDownloadLink = queryParams["ytlink"];
+            InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+            Get.Green($"Starting with YTLINK: {this.SongDownloadLink}");
+            this.Download();
 
-                // Parse the query string
-                var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
-
-                // Directly access query parameters
-                if (queryParams.ContainsKey("ytlink"))
-                {
-                        this.SongDownloadLink = queryParams["ytlink"];
-                        InvokeAsync(() =>
-                        {
-                                StateHasChanged();
-                        });
-                        Get.Green($"Starting with YTLINK: {this.SongDownloadLink}");
-                        this.Download();
-
-                }
-
-        
-        }
-        
-        public void Enter(KeyboardEventArgs e)
-        {
-                        //@onkeydown="@Enter"
-                if (e.Code == "Enter" || e.Code == "NumpadEnter")
-                {
-                        this.Download();
-                }
-        }
-        private async Task DownloadFile(string url, string fileName)
-        {
-            await JSRuntime.InvokeVoidAsync("DownloadFile", url, fileName);
-            
         }
 
-        void Show(string message , int type)
-        {
-                switch(type)
-                {
-                        case 0://btn btn-success
-                                this.MessageBoxCss = "btn btn-success";
-                        break;
-                        case 1:
-                                this.MessageBoxCss = "btn btn-warning";
-                        break; 
-                        case 3:
-                                this.MessageBoxCss = "btn btn-danger"; 
-                        break;
-                }
-                if(message == "")this.MessageBoxCss = "invisible";
 
-                
-                this.MessageBoxText = message; 
-                InvokeAsync(() =>
-                {
-                        StateHasChanged();
-                });
+    }
+
+    public void Enter(KeyboardEventArgs e)
+    {
+        //@onkeydown="@Enter"
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            this.Download();
         }
-        void PlayDownloaded()
+    }
+    private async Task DownloadFile(string url, string fileName)
+    {
+        await JSRuntime.InvokeVoidAsync("DownloadFile", url, fileName);
+
+    }
+
+    void Show(string message , int type)
+    {
+        switch(type)
         {
-              if(this.AttemptCompleted && File.Exists(this.SongDownloadFile))
-                {
-                        new Thread(()=>{
-                                string file = this.SongDownloadFile;
-
-                                try{
-                                        Process.Start(new ProcessStartInfo(){FileName="vlc",Arguments=$"'{file}'"});//this.SongDownloadFile});
-                                }catch(Exception ex){
-                                        this.Show("Could not play the song..: "+file+"\n"+$"{ex}",3);
-                                        Get.Red(ex);
-                                }
-
-                        }).Start();
-                }
+            case 0://btn btn-success
+                this.MessageBoxCss = "btn btn-success";
+                break;
+            case 1:
+                this.MessageBoxCss = "btn btn-warning";
+                break; 
+            case 3:
+                this.MessageBoxCss = "btn btn-danger"; 
+                break;
         }
-        void Download()
+        if(message == "")this.MessageBoxCss = "invisible";
+
+
+        this.MessageBoxText = message; 
+        InvokeAsync(() =>
         {
-                if(YouwebStatic.HasDownloadInProgress)return;
-
-                if(!Song.IsValidLink(SongDownloadLink))
-                {
-                        this.Show("Please Provide a valid link",1);
-                        return;
-                }else{
-                        this.Show("",0); 
-                        this.AttemptFailed = false;
-                        this.AttemptCompleted = false;                
-                        this.DownloadBtnText = "Downloading...";
-                        this.SongDownloadFile = string.Empty; 
-                        this.ProgressBarValue = 5; 
-                        this.ProgressText = string.Empty;
-                        this.ProgressBarCss = "progress"; 
-                        this.SongInfoCss = "text-start";
-
-                }
-                YouwebStatic.Start("song");
-
-                this.SongRName = IRandom.RandomText(16); 
-                this.SongDownloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
-                
-                Get.Green($"Random Name: {this.SongRName}\n"+
-                          $"Download Path: {this.SongDownloadPath}\n"+
-                          $"Youtube Link: {this.SongDownloadLink}\n");        
-                //this.IconLink = "https://i.ytimg.com/vi/0XElmYomloA/sddefault.jpg?sqp=-oaymwEWCKoDEPABIAQqCghqEJQEGHgg6AJIWg&rs=AOn4CLAs7EJjKvdD4DVyzxrHLka-rrXJvA";
-
-                this.IconThread = new Thread(this.WaitForIcon);
-                this.DownloadThread = new Thread(this.WaitForDownload); 
-                this.HandlerThread = new Thread(this.WaitToFinish);
-                this.AnimationThread = new Thread(this.PlayAnimation);
-
-                //Wait for the icon to be downloaded and updated in the client
-                this.IconThread.Start();
-                //Wait for the download process to be completed
-                this.DownloadThread.Start();
-                //Wait to check if it failed or was sucess during the download
-                this.HandlerThread.Start();
-                //play a simple animation 
-                this.AnimationThread.Start(); 
-                
-        }
-        void ResetState()
+            StateHasChanged();
+        });
+    }
+    void PlayDownloaded()
+    {
+        if(this.AttemptCompleted && File.Exists(this.SongDownloadFile))
         {
-                this.SongIconLink ="img/favicon.png"; //$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
-                this.SongName = "";
-                this.SongDescription = "";
-                this.songDuration = ""; 
-                this.SongDownloadLink = ""; 
-                this.ProgressText = ""; 
-                this.DownloadBtnText = "Download"; 
-                this.ProgressBarCss = "invisible";
-                this.SongInfoCss = "invisible";
-                this.ProgressBarValue = 0; 
-                YouwebStatic.Stop();
+            new Thread(()=>{
+                string file = this.SongDownloadFile;
 
-        }
-        void PlayAnimation()
-        {
-                while(true)
-                {
-                        if(File.Exists(this.SongDownloadPath+"status.number") && File.Exists(this.SongDownloadPath+"status.text"))
-                        {
-                                if(!Get.IsFileBusy(this.SongDownloadPath+"status.number") && 
-                                   !Get.IsFileBusy(this.SongDownloadPath+"status.text"))
-                                {
-                                        int n = int.Parse(File.ReadAllText(this.SongDownloadPath+"status.number")); 
-                                        this.ProgressText = File.ReadAllText(this.SongDownloadPath+"status.text");
-                                        this.ProgressBarValue =IRandom.RandomInt(n/2, n); 
-                                        //Get.Pink(File.ReadAllText(this.SongDownloadPath+"status.info")); 
-                                }
-
-                        }
-                        switch(this.DownloadBtnText)
-                        {
-                                case "Downloading...":
-                                        this.DownloadBtnText = "Downloading..";
-                                break;
-                                case "Downloading..":
-                                        this.DownloadBtnText = "Downloading.";
-                                break;
-                                case "Downloading.":
-                                        this.DownloadBtnText = "Downloading...";
-                                break;
-                        }
-
-                        Get.WaitTime(500);
-                        InvokeAsync(() =>
-                        {
-                                StateHasChanged();
-                        });
-                        if(this.AttemptFailed || this.AttemptCompleted)break;
-
-                }
-        }
-        void WaitToFinish()
-        {
                 try{
-                        string sucessFile,failFile;
+                    Process.Start(new ProcessStartInfo(){FileName="vlc",Arguments=$"'{file}'"});//this.SongDownloadFile});
+                }catch(Exception ex){
+                    this.Show("Could not play the song..: "+file+"\n"+$"{ex}",3);
+                    Get.Red(ex);
+                }
 
-                        sucessFile = $"{this.SongDownloadPath}{this.SongRName}.mp4.info.sucess";
-                        failFile = $"{this.SongDownloadPath}{this.SongRName}.mp4.info.fail";
-                        Get.Pink($"Waitting to finish Download...");
-                        while(true)
-                        {
-                                if(File.Exists(sucessFile))     
-                                {
-                                        this.Show("Download Completed Successfully!!!   Click to play with vlc media player if you have it installed",0);
-                                        this.AttemptCompleted = true; 
-                                        Get.Pink("Breaking: because the download was completed sucessfully");
-                                        break;
-                                }
-                                if(File.Exists(failFile))
-                                {
-                                        this.Show($"Failed to download!!! Please try again",3); 
-                                        this.AttemptFailed = true; 
-                                        Get.Red("Breaking: because the download failed!!!");
-                                        break;
-                                }
-                                Get.WaitTime(this.InternalWaitTime);
-                        } 
+            }).Start();
+        }
+    }
 
-                        this.ResetState();
-                         InvokeAsync(() =>
-                        {
-                                StateHasChanged();
-                        });
-                        //Deleting TEMPS
-                        if(File.Exists(this.SongTempInfo))File.Delete(this.SongTempInfo);
-                        if(File.Exists(this.SongTempMp4))File.Delete(this.SongTempMp4);
-                        if(File.Exists(sucessFile))File.Delete(sucessFile);
-                        if(File.Exists(failFile))File.Delete(failFile); 
-                        if(File.Exists(this.SongTempInfo+".description"))File.Delete(this.SongTempInfo+".description");
-                        if(File.Exists(this.SongDownloadPath+"status.number"))File.Delete(this.SongDownloadPath+"status.number");
-                        if(File.Exists(this.SongDownloadPath+"status.text"))File.Delete(this.SongDownloadPath+"status.text");
-                        if(File.Exists(this.SongTempMp4+".audio"))File.Delete(this.SongTempMp4+".audio");
-                        if(File.Exists(this.SongTempMp4+".video"))File.Delete(this.SongTempMp4+".video");
+    void Download()
+    {
+        if (this.DownloadInProgress) return;
 
-                }catch(Exception ex)
+        //if(YouwebStatic.HasDownloadInProgress)return;
+
+        if(!Song.IsValidLink(SongDownloadLink))
+        {
+            this.Show("Please Provide a valid link",1);
+            return;
+        }else{
+            this.Show("",0); 
+            this.AttemptFailed = false;
+            this.AttemptCompleted = false;                
+            this.DownloadBtnText = "Downloading...";
+            this.SongDownloadFile = string.Empty; 
+            this.ProgressBarValue = 5; 
+            this.ProgressText = string.Empty;
+            this.ProgressBarCss = "progress"; 
+            this.SongInfoCss = "text-start";
+
+        }
+        //YouwebStatic.Start("song");
+
+        this.SongRName = IRandom.RandomText(16);
+        this.SongDownloadPath = YouwebStatic.GetRoot("download");//Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
+
+        Get.Green($"Random Name: {this.SongRName}\n"+
+                  $"Download Path: {this.SongDownloadPath}\n"+
+                  $"Youtube Link: {this.SongDownloadLink}\n");        
+        //this.IconLink = "https://i.ytimg.com/vi/0XElmYomloA/sddefault.jpg?sqp=-oaymwEWCKoDEPABIAQqCghqEJQEGHgg6AJIWg&rs=AOn4CLAs7EJjKvdD4DVyzxrHLka-rrXJvA";
+
+        this.IconThread = new Thread(this.WaitForIcon);
+        this.DownloadThread = new Thread(this.WaitForDownload); 
+        this.HandlerThread = new Thread(this.WaitToFinish);
+        this.AnimationThread = new Thread(this.PlayAnimation);
+
+        //Wait for the icon to be downloaded and updated in the client
+        this.IconThread.Start();
+        //Wait for the download process to be completed
+        this.DownloadThread.Start();
+        //Wait to check if it failed or was sucess during the download
+        this.HandlerThread.Start();
+        //play a simple animation 
+        this.AnimationThread.Start(); 
+
+    }
+    void ResetState()
+    {
+        this.SongIconLink ="img/favicon.png"; //$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
+        this.SongName = "";
+        this.SongDescription = "";
+        this.songDuration = ""; 
+        this.SongDownloadLink = ""; 
+        this.ProgressText = ""; 
+        this.DownloadBtnText = "Download"; 
+        this.ProgressBarCss = "invisible";
+        this.SongInfoCss = "invisible";
+        this.ProgressBarValue = 0;
+        this.DownloadInProgress = false;
+
+        YouwebStatic.Stop();
+
+    }
+    void PlayAnimation()
+    {
+        while(true)
+        {
+            if(File.Exists(this.SongDownloadPath+"status.number") && File.Exists(this.SongDownloadPath+"status.text"))
+            {
+                if(!Get.IsFileBusy(this.SongDownloadPath+"status.number") && 
+                   !Get.IsFileBusy(this.SongDownloadPath+"status.text"))
                 {
-                        this.Show($"{ex}",3);
-                        Get.Red(this.MessageBoxText);
+                    int n = int.Parse(File.ReadAllText(this.SongDownloadPath+"status.number")); 
+                    this.ProgressText = File.ReadAllText(this.SongDownloadPath+"status.text");
+                    this.ProgressBarValue =IRandom.RandomInt(n/2, n); 
+                    //Get.Pink(File.ReadAllText(this.SongDownloadPath+"status.info")); 
+                }
 
-                        InvokeAsync(() =>
+            }
+            switch(this.DownloadBtnText)
+            {
+                case "Downloading...":
+                    this.DownloadBtnText = "Downloading..";
+                    break;
+                case "Downloading..":
+                    this.DownloadBtnText = "Downloading.";
+                    break;
+                case "Downloading.":
+                    this.DownloadBtnText = "Downloading...";
+                    break;
+            }
+
+            Get.WaitTime(500);
+            InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+            if(this.AttemptFailed || this.AttemptCompleted)break;
+
+        }
+    }
+    void WaitToFinish()
+    {
+        try{
+            string sucessFile,failFile;
+
+            sucessFile = $"{this.SongDownloadPath}{this.SongRName}.mp4.info.sucess";
+            failFile = $"{this.SongDownloadPath}{this.SongRName}.mp4.info.fail";
+            Get.Pink($"Waitting to finish Download...");
+            while(true)
+            {
+                if(File.Exists(sucessFile))     
+                {
+                    this.Show("Download Completed Successfully!!!   Click to play with vlc media player if you have it installed",0);
+                    this.AttemptCompleted = true; 
+                    Get.Pink("Breaking: because the download was completed sucessfully");
+                    Get.Yellow("Link opened to client js");
+                    // DownloadBtnText = $"{NavigationManager.Uri}download/song.mp3";
+                    // this.SongDownloadLink = DownloadBtnText;
+
+                    string url = new Uri($"{NavigationManager.Uri}").GetLeftPart(UriPartial.Authority);
+                    //Console.WriteLine(baseUri.ToString()); // Output: http://localhost:4251
+                    this.DownloadFile($"{url}/download/{this.SongName}.mp3", this.SongName + ".mp3");
+                    break;
+                }
+                if(File.Exists(failFile))
+                {
+                    this.Show($"Failed to download!!! Please try again",3); 
+                    this.AttemptFailed = true; 
+                    Get.Red("Breaking: because the download failed!!!");
+                    break;
+                }
+                Get.WaitTime(this.InternalWaitTime);
+            } 
+
+            this.ResetState();
+            InvokeAsync(() =>
+           {
+               StateHasChanged();
+           });
+            //Deleting TEMPS
+            if(File.Exists(this.SongTempInfo))File.Delete(this.SongTempInfo);
+            if(File.Exists(this.SongTempMp4))File.Delete(this.SongTempMp4);
+            if(File.Exists(sucessFile))File.Delete(sucessFile);
+            if(File.Exists(failFile))File.Delete(failFile); 
+            if(File.Exists(this.SongTempInfo+".description"))File.Delete(this.SongTempInfo+".description");
+            if(File.Exists(this.SongDownloadPath+"status.number"))File.Delete(this.SongDownloadPath+"status.number");
+            if(File.Exists(this.SongDownloadPath+"status.text"))File.Delete(this.SongDownloadPath+"status.text");
+            if(File.Exists(this.SongTempMp4+".audio"))File.Delete(this.SongTempMp4+".audio");
+            if(File.Exists(this.SongTempMp4+".video"))File.Delete(this.SongTempMp4+".video");
+            this.DownloadInProgress = false;
+
+        }catch(Exception ex)
+        {
+            this.Show($"{ex}",3);
+            Get.Red(this.MessageBoxText);
+                 DownloadInProgress = false;
+            InvokeAsync(() =>
                         {
                                 StateHasChanged();
                         });
@@ -316,7 +336,16 @@
                 */
                 Process process = Process.Start(YouwebStatic.StartInfo($"MP3 {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}"));
                 //wait that the whole process is completed
-                process.WaitForExit();  
+                string output = process.StandardOutput.ReadToEnd();
+
+                string logs = Path.Combine(YouwebStatic.GetRoot("out"), "Youweb.out");
+
+                process.WaitForExit();
+                //if (!File.Exists(logs)) File.Create(logs);
+                output += $"\nExit Code: {process.ExitCode}\n";
+                output += $"\nLog Time: {DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")}\n";
+
+                File.AppendAllText(logs, output);
 
                 }catch(Exception ex)
                 {

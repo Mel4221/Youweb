@@ -10,6 +10,8 @@
 <div class="@ProgressBarCss">
   <div class="progress-bar" role="progressbar" style="width: @ProgressBarValue%"aria-valuenow="@ProgressBarValue" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
+
+<br />
 <div class="@SearchBtnClass" @onclick="SearchSong">
 @SearchBtnText
 </div>
@@ -48,198 +50,224 @@ Stop
 
 
 @code
-{ 
- 
-        string SongDownloadPath {get;set;} = string.Empty;
-        string CurrentSong{get;set;} = string.Empty; 
-        string SearchItem{get;set;} = string.Empty;
-        string SongRName{get;set;} = string.Empty;
-        string BaseFile{get;set;} = string.Empty;
-        
-        string SearchTextStatus{get;set;} = string.Empty; 
-        string SearchNumberStatus{get;set;} = string.Empty; 
-        string SearchBtnText {get;set;} = "Search";
-        string SearchBtnClass {get;set;}  = "btn btn-primary";
-        string OptionSelected{get;set;} = string.Empty; 
+{
 
-        string ProgressBarCss{get;set;} = "invisible";//progress
-        int ProgressBarValue {get;set;} = 0; 
+    string SongDownloadPath {get;set;} = string.Empty;
+    string CurrentSong{get;set;} = string.Empty; 
+    string SearchItem{get;set;} = string.Empty;
+    string SongRName{get;set;} = string.Empty;
+    string BaseFile{get;set;} = string.Empty;
 
-        bool AttemptFailed{get;set;} = false; 
-        bool AttemptSucess{get;set;} = false;
-        string[] icons = new string[]{}; 
-        string[] links = new string[]{};
-        string[] durations = new string[]{};
-        string[] titles = new string[]{}; 
+    string SearchTextStatus{get;set;} = string.Empty; 
+    string SearchNumberStatus{get;set;} = string.Empty; 
+    string SearchBtnText {get;set;} = "Search";
+    string SearchBtnClass {get;set;}  = "btn btn-primary";
+    string OptionSelected{get;set;} = string.Empty; 
+
+    string ProgressBarCss{get;set;} = "invisible";//progress
+    int ProgressBarValue {get;set;} = 0; 
+
+    bool AttemptFailed{get;set;} = false; 
+    bool AttemptSucess{get;set;} = false;
+    string[] icons = new string[]{}; 
+    string[] links = new string[]{};
+    string[] durations = new string[]{};
+    string[] titles = new string[]{}; 
 
 
 
-        List<Song> Songs{get;set;} = new List<Song>();
+    List<Song> Songs{get;set;} = new List<Song>();
+    /*
+    {
+    new Song(){
+    YTLink="https://www.youtube.com/watch?v=e5s28AiGkD8",
+    IconLink="https://i.ytimg.com/vi/LeaAUGXj7K4/sddefault.jpg",
+    Title="some bullshit",
+    Duration="935"
+    },
+    };
+    */
+    Thread SearchThread{get;set;}
+    Thread AnimationThread{get;set;}
+
+    void StopAction()
+    {
+        try{      
+            try
+            {
+                AnimationThread.Suspend(); 
+            }catch(Exception ex)
+            {
+                Get.Pink(ex);
+            }
+        }catch(Exception ex)
+        {
+            Get.Red(ex);
+        }
+        try{      
+            try
+            {
+                SearchThread.Suspend(); 
+            }catch(Exception ex)
+            {
+                Get.Pink(ex);
+            }
+        }catch(Exception ex)
+        {
+            Get.Red(ex);
+        }
+    }
+
+    void Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            this.SearchSong();
+        }
+    }
+    void P(object input)
+    {
+        Get.Pink($"Link Clicked: {input}");
+    }
+
+    void SearchSong()
+    {
+        if(this.SearchItem == string.Empty)return; 
+        if(YouwebStatic.HasDownloadInProgress)return;
+        YouwebStatic.Start("search");
+
+        this.SongDownloadPath =  YouwebStatic.GetRoot("download");//Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "/";
+
+        this.SongRName = IRandom.RandomText(16); 
+        this.BaseFile = $"{this.SongDownloadPath}{this.SongRName}";
+        Get.Pink($"Base File Set: {this.BaseFile}");
+        this.SearchBtnText = "Searching...";
+        this.SearchBtnClass = $"btn btn-secondary";
+        this.ProgressBarCss = "progress";
+
+        this.SearchThread = new Thread(this.WaitForSearch);
+        this.AnimationThread = new Thread(this.PlayAnimation);
+        this.Songs = new List<Song>();
+        this.SearchThread.Start(); 
+        this.AnimationThread.Start();
         /*
-        {
-                new Song(){
-                        YTLink="https://www.youtube.com/watch?v=e5s28AiGkD8",
-                        IconLink="https://i.ytimg.com/vi/LeaAUGXj7K4/sddefault.jpg",
-                        Title="some bullshit",
-                        Duration="935"
-                },
-        };
-        */
-        Thread SearchThread{get;set;}
-        Thread AnimationThread{get;set;}
+        FilesMaper maper = new FilesMaper("/home/mel/Pictures/mydesktop/");
+        maper.AllowDebugger = true; 
+        maper.Map(); 
+        maper.Files.ForEach((song)=>{
 
-        void StopAction()
+        SongsTags.Add("https://i.ytimg.com/vi/K9mTSekTktw/hq720.jpg?sqp=-oaymwEXCNUGEOADIAQqCwjVARCqCBh4INgESFo&rs=AOn4CLDyf_XfE8oXhalgNd68p6BjG5EJUw");
+        InvokeAsync(() =>
         {
-                try{      
-                        try
-                        {
-                                AnimationThread.Suspend(); 
-                        }catch(Exception ex)
-                        {
-                                Get.Pink(ex);
-                        }
-                }catch(Exception ex)
+        StateHasChanged();
+    });
+    });
+    */
+
+    }
+
+    void PlayAnimation()
+    {
+        string status,number;
+        status = SongDownloadPath+"status.text";
+        number = SongDownloadPath+"status.number";
+
+        while (true)
+        {
+            try
+            {
+                if (this.AttemptFailed || this.AttemptSucess)
                 {
-                        Get.Red(ex);
+                    this.SearchBtnText = "Search";
+                    this.SearchBtnClass = "btn btn-primary";
+                    this.ProgressBarCss = "invisible";
+                    this.SearchTextStatus = string.Empty;
+                    this.SearchNumberStatus = string.Empty;
+                    this.SearchItem = string.Empty;
+                    this.AttemptFailed = false;
+                    this.AttemptSucess = false;
+                    YouwebStatic.Stop();
+                    InvokeAsync(() =>
+                    {
+                        StateHasChanged();
+                    });
+                    break;
                 }
-                try{      
-                        try
-                        {
-                                SearchThread.Suspend(); 
-                        }catch(Exception ex)
-                        {
-                                Get.Pink(ex);
-                        }
-                }catch(Exception ex)
+                if (File.Exists(status) &&
+                    File.Exists(number) &&
+                    !Get.IsFileBusy(status) &&
+                    !Get.IsFileBusy(number))
                 {
-                        Get.Red(ex);
+                    this.SearchTextStatus = File.ReadAllText(status);
+                    this.SearchNumberStatus = File.ReadAllText(number);
+                    this.ProgressBarValue = Get.IsNumber(this.SearchNumberStatus) ? int.Parse(this.SearchNumberStatus) : 0;
                 }
-        }
-        
-        void Enter(KeyboardEventArgs e)
-        {
-                if (e.Code == "Enter" || e.Code == "NumpadEnter")
+                switch (this.SearchBtnText)
                 {
-                        this.SearchSong();
+                    case "Searching...":
+                        this.SearchBtnText = "Searching..";
+                        break;
+                    case "Searching..":
+                        this.SearchBtnText = "Searching.";
+                        break;
+                    case "Searching.":
+                        this.SearchBtnText = "Searching...";
+                        break;
                 }
-        }
-        void P(object input)
-        {
-                Get.Pink($"Link Clicked: {input}");
-        }
-
-        void SearchSong()
-        {
-                if(this.SearchItem == string.Empty)return; 
-                if(YouwebStatic.HasDownloadInProgress)return;
-                YouwebStatic.Start("search");
-
-                this.SongDownloadPath =  Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "/";
-
-                this.SongRName = IRandom.RandomText(16); 
-                this.BaseFile = $"{this.SongDownloadPath}{this.SongRName}";
-                Get.Pink($"Base File Set: {this.BaseFile}");
-                this.SearchBtnText = "Searching...";
-                this.SearchBtnClass = $"btn btn-secondary";
-                this.ProgressBarCss = "progress";
-
-                this.SearchThread = new Thread(this.WaitForSearch);
-                this.AnimationThread = new Thread(this.PlayAnimation);
-                this.Songs = new List<Song>();
-                this.SearchThread.Start(); 
-                this.AnimationThread.Start();
-                /*
-                FilesMaper maper = new FilesMaper("/home/mel/Pictures/mydesktop/");
-                maper.AllowDebugger = true; 
-                maper.Map(); 
-                maper.Files.ForEach((song)=>{
-
-                        SongsTags.Add("https://i.ytimg.com/vi/K9mTSekTktw/hq720.jpg?sqp=-oaymwEXCNUGEOADIAQqCwjVARCqCBh4INgESFo&rs=AOn4CLDyf_XfE8oXhalgNd68p6BjG5EJUw");
-                        InvokeAsync(() =>
-                        {
-                                StateHasChanged();
-                        });
+                Get.WaitTime(400);
+                InvokeAsync(() =>
+                {
+                    StateHasChanged();
                 });
-                */
 
-        }
-     
-        void PlayAnimation()
-        {
-                string status,number;
-                status = SongDownloadPath+"status.text";
-                number = SongDownloadPath+"status.number";
-   
-                while(true)
-                {
-                        if(this.AttemptFailed || this.AttemptSucess)
-                        {
-                                this.SearchBtnText = "Search";
-                                this.SearchBtnClass = "btn btn-primary";
-                                this.ProgressBarCss = "invisible";
-                                this.SearchTextStatus = string.Empty;
-                                this.SearchNumberStatus = string.Empty;
-                                this.SearchItem = string.Empty; 
-                                this.AttemptFailed = false;
-                                this.AttemptSucess = false; 
-                                YouwebStatic.Stop();
-                                InvokeAsync(() =>
-                                {
-                                        StateHasChanged();
-                                });
-                                break;
-                        }
-                        if(File.Exists(status)&&File.Exists(number))
-                        {
-                                this.SearchTextStatus = File.ReadAllText(status);
-                                this.SearchNumberStatus = File.ReadAllText(number);
-                                this.ProgressBarValue = Get.IsNumber(this.SearchNumberStatus)?int.Parse(this.SearchNumberStatus):0;
-                        }
-                        switch(this.SearchBtnText)
-                        {
-                                case "Searching...":
-                                        this.SearchBtnText = "Searching..";
-                                break;
-                                case "Searching..":
-                                        this.SearchBtnText = "Searching.";
-                                break;
-                                case "Searching.":
-                                        this.SearchBtnText = "Searching...";
-                                break;
-                        }
-                        Get.WaitTime(400);
-                        InvokeAsync(() =>
-                        {
-                                StateHasChanged();
-                        });
+            }
+            catch
+            {
+                Console.WriteLine("There was an error while playing animation..:");
+            }
+            }
 
-                }
         }
         void RemoveTemps()
         {   
-                if(File.Exists(this.BaseFile+".icons"))File.Delete(this.BaseFile+".icons");
-                if(File.Exists(this.BaseFile+".links"))File.Delete(this.BaseFile+".links");
-                if(File.Exists(this.BaseFile+".durations"))File.Delete(this.BaseFile+".durations");
-                if(File.Exists(this.BaseFile+".titles"))File.Delete(this.BaseFile+".titles");
-                if(File.Exists(this.BaseFile+".sucess"))File.Delete(this.BaseFile+".sucess");
-                if(File.Exists(this.BaseFile+".fail"))File.Delete(this.BaseFile+".fail");
-                if(File.Exists(this.SongDownloadPath+"status.text"))File.Delete(this.SongDownloadPath+"status.text");
-                if(File.Exists(this.SongDownloadPath+"status.number"))File.Delete(this.SongDownloadPath+"status.number");
+            if(File.Exists(this.BaseFile+".icons"))File.Delete(this.BaseFile+".icons");
+            if(File.Exists(this.BaseFile+".links"))File.Delete(this.BaseFile+".links");
+            if(File.Exists(this.BaseFile+".durations"))File.Delete(this.BaseFile+".durations");
+            if(File.Exists(this.BaseFile+".titles"))File.Delete(this.BaseFile+".titles");
+            if(File.Exists(this.BaseFile+".sucess"))File.Delete(this.BaseFile+".sucess");
+            if(File.Exists(this.BaseFile+".fail"))File.Delete(this.BaseFile+".fail");
+            if(File.Exists(this.SongDownloadPath+"status.text"))File.Delete(this.SongDownloadPath+"status.text");
+            if(File.Exists(this.SongDownloadPath+"status.number"))File.Delete(this.SongDownloadPath+"status.number");
         }
 
         void WaitForSearch()
         {
-                try{
+            try{
                 /*   
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "python3";
-                 
+
                 info.Arguments = $"{this.SongDownloadPath}you/main.py SEARCH_MANY {this.SearchItem.Replace("\n"," ").Replace(" ","_")} {this.SongDownloadPath} {this.SongRName}";
                 */
-                Process process = Process.Start(
-                        YouwebStatic.StartInfo($"SEARCH_MANY {this.SearchItem.Replace("\n"," ").Replace(" ","_")} {this.SongDownloadPath} {this.SongRName}"));
+
+                Process process = Process.Start(YouwebStatic.StartInfo($"SEARCH_MANY {this.SearchItem.Replace("\n", " ").Replace(" ", "_")} {this.SongDownloadPath} {this.SongRName}"));
+               
+                string output = process.StandardOutput.ReadToEnd();
+                
+                string logs = Path.Combine(YouwebStatic.GetRoot("out"), "Youweb.out");
+                
+                process.WaitForExit();
+                //if (!File.Exists(logs)) File.Create(logs);
+                output += $"\nExit Code: {process.ExitCode}\n";
+                output += $"\nLog Time: {DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")}\n";
+                 
+                File.AppendAllText(logs, output);
+
+
+
+               
+                
                 //wait that the whole process is completed
-                process.WaitForExit();  
                 /*THIS TIME WE NEED THE VIDEO LOL
                 File.Delete(this.SongTempMp4);
                 */
