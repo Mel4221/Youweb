@@ -1,5 +1,7 @@
-﻿@using Youweb.Data
+﻿@using System.Globalization;
+@using Youweb.Data
 @page "/"
+@page "/song"
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 
@@ -36,7 +38,6 @@
 </div>
 <br />
 <br />
-<a href="not_given" target="_blank" download="not_given" id="link"class="button Secondary"></a>
 
 @code
 {
@@ -92,9 +93,28 @@
         var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
 
         // Directly access query parameters
-        if (queryParams.ContainsKey("ytlink"))
+        if (queryParams.ContainsKey("ytlink")&&
+            queryParams.ContainsKey("time")&&
+            queryParams.ContainsKey("rname"))
         {
-            this.SongDownloadLink = queryParams["ytlink"];
+
+
+            DateTime startDate = DateTime.Parse(queryParams["time"].ToString(), CultureInfo.InvariantCulture,System.Globalization.DateTimeStyles.None); // Example: August 10, 2024, 08:30 AM
+            DateTime endDate = DateTime.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss"),CultureInfo.InvariantCulture,System.Globalization.DateTimeStyles.None);// Example: August 10, 2024, 10:15 AM
+
+            // Calculate the difference
+            TimeSpan difference = endDate - startDate;
+
+            // Get the difference in minutes
+            double minutesDifference = difference.TotalMinutes;
+            if(minutesDifference > 2){
+                this.Show("old link", 2);
+                return;
+            }
+            //?ytlink=@yt&time=@DateTime.Now.ToString("mm")&rname=@IRandom.RandomText(16)
+            this.SongDownloadLink = queryParams["ytlink"].ToString();//rname
+            this.SongRName = queryParams["rname"].ToString();//rname
+
             InvokeAsync(() =>
             {
                 StateHasChanged();
@@ -162,7 +182,7 @@
         }
     }
 
-    void Download()
+    async Task Download()
     {
         if (this.DownloadInProgress) return;
 
@@ -185,8 +205,8 @@
 
         }
         //YouwebStatic.Start("song");
-
-        this.SongRName = IRandom.RandomText(16);
+        if (this.SongRName == "") {this.SongRName = IRandom.RandomText(16);
+        }
         this.SongDownloadPath = YouwebStatic.GetRoot("download");//Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
 
         Get.Green($"Random Name: {this.SongRName}\n"+
@@ -196,7 +216,7 @@
 
         this.IconThread = new Thread(this.WaitForIcon);
         this.DownloadThread = new Thread(this.WaitForDownload); 
-        this.HandlerThread = new Thread(this.WaitToFinish);
+        //this.HandlerThread = new Thread(this.WaitToFinish);
         this.AnimationThread = new Thread(this.PlayAnimation);
 
         //Wait for the icon to be downloaded and updated in the client
@@ -204,15 +224,18 @@
         //Wait for the download process to be completed
         this.DownloadThread.Start();
         //Wait to check if it failed or was sucess during the download
-        this.HandlerThread.Start();
+        //this.HandlerThread.Start();
         //play a simple animation 
-        this.AnimationThread.Start(); 
+        this.AnimationThread.Start();
+
+        await Task.Run(WaitToFinish);
 
     }
     void ResetState()
     {
         this.SongIconLink ="img/favicon.png"; //$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
         this.SongName = "";
+        this.SongRName = "";
         this.SongDescription = "";
         this.songDuration = ""; 
         this.SongDownloadLink = ""; 
@@ -264,7 +287,7 @@
 
         }
     }
-    void WaitToFinish()
+    async Task WaitToFinish()
     {
         try{
             string sucessFile,failFile;
@@ -285,7 +308,7 @@
 
                     string url = new Uri($"{NavigationManager.Uri}").GetLeftPart(UriPartial.Authority);
                     //Console.WriteLine(baseUri.ToString()); // Output: http://localhost:4251
-                    this.DownloadFile($"{url}/download/{this.SongName}.mp3", this.SongName + ".mp3");
+                    await DownloadFile($"{url}/download/{this.SongName}.mp3", this.SongName + ".mp3");
                     break;
                 }
                 if(File.Exists(failFile))

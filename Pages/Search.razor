@@ -38,9 +38,9 @@ Stop
                 <input class="form-control" type="text" readonly value="@Songs[local].YTLink"/>
                 </div>
                 <div class ="fs-5">
-                <a href="/?ytlink=@yt" class="oi oi-musical-note"  @onclick="()=>P(yt)" aria-hidden="true">Download Song</a>
+            <a href="song/?ytlink=@yt&time=@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")&rname=@IRandom.RandomText(16)=@yt" class="oi oi-musical-note" @onclick="()=>P(yt)" aria-hidden="true">Download Song</a>
                 <span style="display:inline-block; width:10px;"></span>
-                <a href="video/?ytlink=@yt" class="oi oi-video"  @onclick="()=>P(yt)" aria-hidden="true">Download Video</a><br/>
+            <a href="video/?ytlink=@yt&time=@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")&rname=@IRandom.RandomText(16)" class="oi oi-video" @onclick="()=>P(yt)" aria-hidden="true">Download Video</a><br />
                 </div>
                 //@page "/home/{username}"
                 //<a href="@Songs[item].YTLink">@Songs[item].YTLink</a> 

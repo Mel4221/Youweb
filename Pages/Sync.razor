@@ -49,112 +49,121 @@
 
 
 </div>
+<a href="download/?path=media_html/you.html&file=you.html" @onclick="DownloadPlayer">Download you media player</a>
 
 @code
 {
+    private async Task DownloadPlayer()
+    {
+       // await control.DownloadFile(,);
+    }
 
-        private string F(Song song)
+    private string F(Song song)
+    {
+
+        Get.Green(song.ToString());
+        return "Working...";
+    }
+
+    string SyncBtnText{get;set;} = "Sync";
+    string SyncBtnCss {get;set;} = "btn btn-primary";
+    string CurrentSong{get;set;} = string.Empty; 
+    string TextStatus {get;set;} = string.Empty; 
+    string StrTemp{get;set;} = string.Empty;
+    string ProgressBarCss{get;set;} = "";//"invisible";//progress
+    double ProgressBarValue {get;set;} = 5; 
+    bool AttemptFailed {get;set;} = false; 
+    bool AttemptSucess {get;set;} = false;
+
+
+    List<Song> Songs{get;set;} = new List<Song>();
+    Thread LoadSongsThread {get;set;}
+    Thread AnimationThread{get;set;}
+    /*
+    void PlaySong(string song)
+    {
+    this.CurrentSong = song;
+    Get.Pink($"Song Selected: {song}");
+    InvokeAsync(() =>
+    {
+    StateHasChanged();
+    });
+            }
+            */
+
+    protected override void OnInitialized()
+    {
+
+        if(YouwebStatic.HasActions())return;
+
+        this.LoadSongsThread = new Thread(LoadSongs);
+        this.AnimationThread = new Thread(PlayAnimation);
+        this.LoadSongsThread.Start();
+        this.AnimationThread.Start(); 
+        this.ProgressBarCss = "progress"; 
+        this.SyncBtnCss = "btn btn-secondary";
+        this.SyncBtnText = "Searching...";
+        //this.Refresh(); 
+
+        //  <li class="list-group-item">A second item</li>
+    }
+
+    void SyncSongs()
+    {
+        this.Refresh();
+    }
+    void Refresh()
+    {    InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+
+    }
+    void PlayAnimation()
+    {
+        while(true)
         {
-                Get.Green(song.ToString());
-                return "Working...";
-        }
-
-        string SyncBtnText{get;set;} = "Sync";
-        string SyncBtnCss {get;set;} = "btn btn-primary";
-        string CurrentSong{get;set;} = string.Empty; 
-        string TextStatus {get;set;} = string.Empty; 
-        string StrTemp{get;set;} = string.Empty;
-        string ProgressBarCss{get;set;} = "";//"invisible";//progress
-        double ProgressBarValue {get;set;} = 5; 
-        bool AttemptFailed {get;set;} = false; 
-        bool AttemptSucess {get;set;} = false;
-        
-
-        List<Song> Songs{get;set;} = new List<Song>();
-        Thread LoadSongsThread {get;set;}
-        Thread AnimationThread{get;set;}
-/*
-        void PlaySong(string song)
-        {
-                this.CurrentSong = song;
-                Get.Pink($"Song Selected: {song}");
-                InvokeAsync(() =>
-                {
-                        StateHasChanged();
-                });
-        }
-        */
-
-        protected override void OnInitialized()
-        {
-                if(YouwebStatic.HasActions())return;
-               
-                this.LoadSongsThread = new Thread(LoadSongs);
-                this.AnimationThread = new Thread(PlayAnimation);
-                this.LoadSongsThread.Start();
-                this.AnimationThread.Start(); 
-                this.ProgressBarCss = "progress"; 
-                this.SyncBtnCss = "btn btn-secondary";
-                this.SyncBtnText = "Searching...";
-                //this.Refresh(); 
-                  
-                //  <li class="list-group-item">A second item</li>
-        }
-
-        void SyncSongs()
-        {
+            // Get.Box($"Sucess: {this.AttemptSucess} Failed: {this.AttemptFailed}");
+            if(this.AttemptFailed || this.AttemptSucess)
+            {
+                this.SyncBtnText = "Sync";
+                this.SyncBtnCss = "btn btn-primary";
+                this.ProgressBarCss = "invisible";
+                this.TextStatus = "";
+                /*
+                this.SearchTextStatus = string.Empty;
+                this.SearchNumberStatus = string.Empty;
+                this.SearchItem = string.Empty; 
+                */
+                this.AttemptFailed = false;
+                this.AttemptSucess = false; 
+                YouwebStatic.Stop();
                 this.Refresh();
-        }
-        void Refresh()
-        {    InvokeAsync(() =>
-                {
-                        StateHasChanged();
-                });
+                break;
+            }
+
+            switch(this.SyncBtnText)
+            {
+                case "Searching...":
+                    this.SyncBtnText = "Searching..";
+                    break;
+                case "Searching..":
+                    this.SyncBtnText = "Searching.";
+                    break;
+                case "Searching.":
+                    this.SyncBtnText = "Searching...";
+                    break;
+            }
+            Get.WaitTime(1000);
+            this.Refresh();
 
         }
-        void PlayAnimation()
-        {
-                     while(true)
-                {
-                       // Get.Box($"Sucess: {this.AttemptSucess} Failed: {this.AttemptFailed}");
-                        if(this.AttemptFailed || this.AttemptSucess)
-                        {
-                                this.SyncBtnText = "Sync";
-                                this.SyncBtnCss = "btn btn-primary";
-                                this.ProgressBarCss = "invisible";
-                                this.TextStatus = "";
-                                /*
-                                this.SearchTextStatus = string.Empty;
-                                this.SearchNumberStatus = string.Empty;
-                                this.SearchItem = string.Empty; 
-                                */
-                                this.AttemptFailed = false;
-                                this.AttemptSucess = false; 
-                                YouwebStatic.Stop();
-                                this.Refresh();
-                                break;
-                        }
-            
-                        switch(this.SyncBtnText)
-                        {
-                                case "Searching...":
-                                        this.SyncBtnText = "Searching..";
-                                break;
-                                case "Searching..":
-                                        this.SyncBtnText = "Searching.";
-                                break;
-                                case "Searching.":
-                                        this.SyncBtnText = "Searching...";
-                                break;
-                        }
-                       Get.WaitTime(1000);
-                       this.Refresh();
+    }
+    void LoadSongs()
+    {
 
-                }
-        }
-        void LoadSongs()
-        {
-                YouwebStatic.Check = new Check();
+        return;
+        YouwebStatic.Check = new Check();
                 YouwebStatic.Check.Start();
                 YouwebStatic.CurrentAction = "sync";
                 //YouwebStatic.Start("sync");

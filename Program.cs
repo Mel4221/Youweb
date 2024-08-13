@@ -38,7 +38,7 @@ builder.Services.Configure<IISServerOptions>(options =>
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-//builder.Services.AddSingleton<WeatherForecastService>();
+//builder.Services.AddTransient<>();
 // Add distributed memory cache
 builder.Services.AddDistributedMemoryCache();
 
@@ -78,7 +78,7 @@ if (!app.Environment.IsDevelopment())
 
 
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 
 app.UseRouting();

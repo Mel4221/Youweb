@@ -29,11 +29,14 @@
     <Content Include="Pages\UploadFile.txt" />
   </ItemGroup>
     <ItemGroup>
-     <Reference Include="DllrefrenceFile">
-       <HintPath>QuickTools/QuickTools.dll</HintPath>
+     <Reference Include="ClownShell">
+       <HintPath>..\QuickTools\bin\Integrated\ClownShell.exe</HintPath>
      </Reference>
      <Reference Include="DllrefrenceFile">
        <HintPath>Newtonsoft.Json-13.0.3_net6.0/Newtonsoft.Json.dll</HintPath>
+     </Reference>
+     <Reference Include="QuickTools">
+       <HintPath>..\QuickTools\bin\Release\QuickTools.dll</HintPath>
      </Reference>
     </ItemGroup>
     <ItemGroup>
