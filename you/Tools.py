@@ -14,7 +14,11 @@ from pathlib import Path
 
 
 def PrintStatus(download_location,status,message):
-        print(message)
+        with open(download_location+"status.text", 'w', encoding="utf-8") as file:
+                pass
+        with open(download_location+"status.number", 'w', encoding="utf-8") as file:
+                pass
+        print(message.encode("utf-8"))
         text_status = open(download_location+"status.text","w",encoding="utf-8")
         number_status = open(download_location+"status.number","w",encoding="utf-8")
         text_status.write(message)

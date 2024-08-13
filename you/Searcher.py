@@ -16,33 +16,46 @@ from Tools import PrintStatus,Status
 searchData = ""
 
 def SaveSearch(links,download_location,tempId):
-    linksList = open(download_location+tempId+".links","a",encoding="utf-8")
-    icons = open(download_location+tempId+".icons","a",encoding="utf-8")
-    duration = open(download_location+tempId+".durations","a",encoding="utf-8")
-    title = open(download_location+tempId+".titles","a",encoding="utf-8")
-    
-    #print(links)
-    #print(download_location+" >> "+tempId)
-    
-    current = 0
-    goal = len(links)
-    
-    for link in links:
-        current = current+1
-        print("Link Saved: "+link)
+    try:
+        default = download_location+tempId
+        with open(default+".links", 'w', encoding="utf-8") as file:
+                pass
+        with open(default+".icons", 'w', encoding="utf-8") as file:
+                pass
+        with open(default+".durations", 'w', encoding="utf-8") as file:
+                pass
+        with open(default+".titles", 'w', encoding="utf-8") as file:
+                pass
         
-        yt = YouTube(link)
+        linksList = open(default+".links","a",encoding="utf-8")
+        icons = open(default+".icons","a",encoding="utf-8")
+        duration = open(default+".durations","a",encoding="utf-8")
+        title = open(default+".titles","a",encoding="utf-8")
+        
+        #print(links)
+        #print(download_location+" >> "+tempId)
+        
+        current = 0
+        goal = len(links)
+        
+        for link in links:
+            current = current+1
+            print("Link Saved: "+link)
+            
+            yt = YouTube(link)
 
-        linksList.write(link+"\n")
-        icons.write(str(yt.thumbnail_url)+"\n")
-        duration.write(str(yt.length)+"\n")
-        title.write(yt.title+"\n")
-        PrintStatus(download_location,Status(current,goal),"Getting icons and metadata..."+yt.title)
-    linksList.close()
-    icons.close()
-    duration.close()
-    title.close()
-    print("Saved Search Location: "+download_location+tempId+".links")
+            linksList.write(link+"\n")
+            icons.write(str(yt.thumbnail_url)+"\n")
+            duration.write(str(yt.length)+"\n")
+            title.write(yt.title+"\n")
+            PrintStatus(download_location,Status(current,goal),"Getting icons and metadata..."+yt.title)
+        linksList.close()
+        icons.close()
+        duration.close()
+        title.close()
+        print("Saved Search Location: "+download_location+tempId+".links")
+    except Exception as e:
+         print("There was an error while sayving the links..: "+str(e))
 
 
 def SearchMany(song,download_location,tempId):

@@ -1,0 +1,221 @@
+﻿@page "/cmd"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+
+<PageTitle>Youweb</PageTitle>
+
+<div id="command_box" class="runCommand_command_box">
+    @for(var item = 0; item < Returns.Count; item++)
+    {
+        var local = item;
+
+        <p class="command">@Returns[local]</p>
+    }
+</div>
+<br />  
+<input class="form-control" type="text" placeholder="type a program" @bind="Program" />
+<br />
+
+
+<input class="form-control" type="text" placeholder="type your arguments" @bind="Arguments" />
+<br />
+ 
+<div class="btn btn-primary" @onclick="RunCmd">
+    @RunBtnText
+</div>
+@code {
+    string RunBtnText { get; set; } = "run";
+    string Arguments{ get; set; } = null;
+    string ReturnCommand { get; set; } = null;
+    string Program { get; set; } = null;
+    string swap_value { get; set; } = "";
+    List<string> Returns = new List<string>(); 
+    Task Command;
+    Task PlayAnimation;
+    Process CommandProcess;
+    string ParseCommands(string command)
+    {
+        string parsed = command;
+        parsed = parsed.Replace("$(pwd)", YouwebStatic.GetRoot());
+        return parsed;
+    }
+    string Swap()
+    {
+        switch (this.swap_value)
+        {
+            case "running...":
+                this.swap_value = "running..";
+                break;
+            case "running..":
+                this.swap_value = "running.";
+                break;
+            case "running.":
+                this.swap_value = "running...";
+                break;
+        }   
+        return this.swap_value;
+    }
+    private async Task DownloadFile(string fileName)
+    {
+        string uri = new Uri($"{NavigationManager.Uri}").GetLeftPart(UriPartial.Authority);
+        string file = Path.GetFileName(fileName);
+        await JSRuntime.InvokeVoidAsync("DownloadFile", $"{uri}{fileName}", file);
+
+    }
+    private async Task ScrollToBottom()
+    {
+        await JSRuntime.InvokeVoidAsync("ScrollToBottom","none");
+    }
+    async Task Animation()
+    {
+        this.swap_value = "running...";
+        string temp, statusFile, t;
+        temp = "";
+        t = "";
+        statusFile = Path.Combine(YouwebStatic.GetRoot("download"), "status.text");
+        while(!this.Command.IsCompleted)
+        {
+            await Task.Delay(200);
+            this.RunBtnText = this.Swap();
+            if (!Get.IsFileBusy(statusFile) && File.Exists(statusFile))
+            {
+                t =  File.ReadAllTextAsync(statusFile).Result;
+            }
+            if (temp != t)
+            {
+                //this.ReturnCommand += $"<p>{t}</p>";
+                Returns.Add($"{t}");
+                await ScrollToBottom();
+                temp = t; 
+            }
+
+            InvokeAsync(() =>
+              {
+                  StateHasChanged();
+              });
+
+        }
+        // await Task.Run(async () => { this.ReturnCommand = CommandProcess.StandardOutput.ReadToEnd(); });
+        this.RunBtnText = "run";
+        InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+
+    }
+    private void RunInternalFunction()
+    {
+        if (this.Arguments == "clear")
+        {
+            this.Returns.Clear(); this.Arguments = "";
+            return;
+        }
+
+
+    }
+    private Task<bool> IsInternalCommand()
+    {
+        string cmd = this.Program;
+        string args = this.ParseCommands(this.Arguments);
+        switch(cmd)
+        {
+            case "get":
+                return Task<bool>.Run(async () =>
+                {
+                    await this.DownloadFile(args);
+                    return true;
+                });
+            case "shell":
+            case "qt":
+            case "clownshell":
+            case "clown":
+                return Task<bool>.Run(async () =>
+                {
+                    await ClownShell.Init.Program.Main(args.Split(' '));
+                    return true;
+                });
+            default:
+                return Task<bool>.Run(async () =>
+             {
+                 return false;
+             });
+
+        }
+    }
+    bool IsActive { get; set; } = false;
+    async Task RunCmd()
+    {
+        this.RunInternalFunction();
+
+        if (IsActive == true) return;
+        // Running an anonymous function asynchronously
+        this.Command = Task.Run(async () =>
+        {
+
+            try
+            {
+                if (await this.IsInternalCommand()) return;
+                if (File.Exists(Path.Combine(YouwebStatic.GetRoot("download"), "status.text")))
+                {
+                    await File.WriteAllTextAsync(Path.Combine(YouwebStatic.GetRoot("download"), "status.text"), "");
+                }
+                if (string.IsNullOrEmpty(this.Program) ||
+                string.IsNullOrEmpty(this.Arguments)) return;
+                string path;
+                path = YouwebStatic.GetRoot();
+
+                CommandProcess = Process.Start(new ProcessStartInfo()
+                {
+                    FileName =  this.ParseCommands(this.Program),
+                    Arguments = this.ParseCommands(this.Arguments),
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false, // Required for redirection
+                    CreateNoWindow = true // Optional: do not create a window
+
+                });
+                string output = await CommandProcess.StandardOutput.ReadToEndAsync();
+              
+
+                string logs = Path.Combine(YouwebStatic.GetRoot("out"), "Youweb.out");
+
+                CommandProcess.WaitForExit();
+                //if (!File.Exists(logs)) File.Create(logs);
+                output += $"\nExit Code: {CommandProcess.ExitCode}\n";
+                output += $"\nLog Time: {DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")}\n";
+                await File.AppendAllTextAsync(logs, output);
+                this.Returns.Add("**START**");
+                this.Returns.Add(output);
+                this.Returns.Add("**END**");
+
+                this.IsActive = false;
+                InvokeAsync(() =>
+                {
+                    StateHasChanged();
+                });
+            }
+            catch(Exception ex)
+            {
+                this.Returns.Add($"{ex}");
+                this.IsActive = false;
+
+                InvokeAsync(() =>
+               {
+                   StateHasChanged();
+               });
+            }
+
+        });
+
+        this.PlayAnimation = Task.Run(async () => { Animation(); });
+        // Optionally, wait for the task to complete
+        await this.Command;
+        await this.PlayAnimation;
+
+
+
+
+    }
+        
+
+}

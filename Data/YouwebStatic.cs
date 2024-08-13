@@ -1,15 +1,67 @@
 using QuickTools.QCore;
 using System.Diagnostics;
+using System.IO; 
 namespace Youweb.Data
 {
         public static class YouwebStatic
         {
+                public static bool ActionCompleted { get; set; } = false;
+                
+                public static string GetRoot(string path)
+                {
+                    string dir = Path.Combine(GetRoot(), path)+Get.Slash(); 
+                    if (!Directory.Exists(dir)){
+                        Directory.CreateDirectory(dir);
+                        return dir; 
+                    }else{
+                        return dir; 
+                    }
+                }
+                public static string GetRoot()
+                {
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")+Get.Slash(); 
+                    if(path == Get.Slash())
+                    {
+                        path = "wwwroot";
+                        return path;
+                    }else
+                    {
+                        return path;
+                    }
+                }
+        private static string PythonFileName()
+                {
+                    string python, file;
+         
+                        file = Path.Combine(GetRoot("python"), "python.config");
+
+
+                        if(File.Exists(file))
+                        {
+                            python = File.ReadAllText(file);
+                            if(!string.IsNullOrEmpty(python))
+                            {
+                                return python;
+                            }
+                        }if(Get.IsWindow()){
+                                python = "python";
+                                return python;
+                        }else{
+                                python = "python3";
+                                return python;
+                        }
+
+                   
+                }
                 public static ProcessStartInfo StartInfo(string arguments)
                 {
                         return new ProcessStartInfo()
                         {
-                                FileName="python3",
-                                Arguments=$"{System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")}{Get.Slash()}you{Get.Slash()}main.py {arguments}"
+                                FileName=PythonFileName(),
+                                Arguments=$"{System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")}{Get.Slash()}you{Get.Slash()}main.py {arguments}",
+                                RedirectStandardOutput = true,
+                                UseShellExecute = false, // Required for redirection
+                                CreateNoWindow = true // Optional: do not create a window
                         };
                 }
 

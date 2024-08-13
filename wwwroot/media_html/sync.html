@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youweb sync</title>
+     
+    <style>
+           .container {
+            display: flex;
+            justify-content: center; /* Aligns items horizontally in the center */
+            align-items: center; /* Aligns items vertically in the center */
+            height: 100vh; /* Full viewport height */
+            border: 1px solid #ccc;
+        }
+        .item {
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #000;
+        }
+        #sync_svg {
+            transition: transform 0.5s ease; /* Smooth rotation effect */
+        }
+        /* Reset default margin and padding, and center content */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f4f8;
+}
+
+.container {
+    text-align: center;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+}
+
+#sync_svg {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#sync_svg:hover {
+    transform: scale(1.1);
+}
+
+.status {
+    margin: 15px 0;
+    display: none;
+}
+
+#sync_status {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+}
+
+.progress-bar {
+        display: none;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    height: 20px;
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress {
+    background-color: #0075ff;
+    height: 100%;
+    width: 0; /* Start width at 0% */
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+.links{
+        display: none;
+}
+
+    </style>
+</head>
+<body>
+        <div class="container">
+                <p id="warning"></p>
+
+                <svg onclick="Sync()" id="sync_svg" xmlns="http://www.w3.org/2000/svg" width="200px" height="200px" viewBox="0 0 36 36">
+                    <path fill="#0075ff" d="M32.84 15.72a1 1 0 1 0-2 .29a13 13 0 0 1 .16 1.93A13 13 0 0 1 8.7 27h5.36a1 1 0 0 0 0-2h-9v9a1 1 0 1 0 2 0v-5.8a15 15 0 0 0 25.78-12.48" class="clr-i-outline clr-i-outline-path-1"/>
+                    <path fill="#0075ff" d="M30.06 1A1.05 1.05 0 0 0 29 2v5.83A14.94 14.94 0 0 0 3 17.94a15 15 0 0 0 .2 2.48a1 1 0 0 0 1 .84h.16a1 1 0 0 0 .82-1.15A13 13 0 0 1 5 17.94a13 13 0 0 1 13-13A12.87 12.87 0 0 1 27.44 9h-5.38a1 1 0 0 0 0 2H31V2a1 1 0 0 0-.94-1" class="clr-i-outline clr-i-outline-path-2"/>
+                    <path fill="none" d="M0 0h36v36H0z"/>
+                </svg>
+               
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <div class="status">
+                        <span id="sync_status">0%</span>
+                </div>
+            </div>
+
+        <div id="links_list">
+                <!--a target="@link" href="@link" class="links" download="@download_name">@download_name</a-->
+        </div>
+       <script>
+                var  interval = null;  
+                var timeOut = null;
+                var angle = 0;
+                var link = "";
+                var progress = 0; 
+                const songs = document.querySelectorAll('#links_list .links');
+                const progressElement = document.querySelector('.progress');
+                const statusElement = document.getElementById('sync_status');
+
+                const t = document.getElementById("link");
+                //const sync_status = document.getElementById("sync_status");
+
+
+
+                const songsList = 
+                        [
+                                "/home/mel/Downloads/Music/Someone Like You - Adele Lyrics.mp3","/home/mel/Downloads/Music/Samuel Burger - Cinema Lyrics i could watch you for a lifetime tiktok MP3_320K.mp3","/home/mel/Downloads/Music/Walder - I Guess You_re Back MP3_320K.mp3","/home/mel/Downloads/Music/Soda Stereo - De M sica Ligera Letras MP3_320K.mp3","/home/mel/Downloads/Music/Russian song.mp3","/home/mel/Downloads/Music/Vuelve Don Omar Letra MP3_320K.mp3","/home/mel/Downloads/Music/ROSAL A_ J Balvin - Con Altura Official Video ft. El Guincho MP3_160K.mp3","/home/mel/Downloads/Music/Sean Paul_ Dua Lipa - No Lie Lyrics MP3_320K.mp3","/home/mel/Downloads/Music/Lady Gaga - Poker Face Lyrics.mp3","/home/mel/Downloads/Music/Clara de Huevo Parte 2.mp3","/home/mel/Downloads/Music/SALES - chinese new year MP3_160K _1.mp3","/home/mel/Downloads/Music/OMEGA El Fuerte - Chambonea Official Video HD Omega El Fuerte.mp3","/home/mel/Downloads/Music/Carlos Vives, Shakira - La Bicicleta.mp3","/home/mel/Downloads/Music/Adele - Skyfall Lyrics.mp3","/home/mel/Downloads/Music/David Guetta Mix ✖️ Best of Remix_ Mashup and Songs..... ✖️ _ _VM _8 MP3_320K.mp3","/home/mel/Downloads/Music/Zion & Lennox - La Player Bandolera Video Oficial.mp3","/home/mel/Downloads/Music/Sech_ Daddy Yankee_ J Balvin_ Rosal a_ Farruko - Relaci n Remix Video Oficial MP3_160K.mp3","/home/mel/Downloads/Music/shelow shaq y monkey black - clara de huevo.mp3","/home/mel/Downloads/Music/02. N.W.A - F _ _ _ tha Police.mp3","/home/mel/Downloads/Music/XS Project - Bochka_ Bass_ Kolbaser Bass Boosted Russian Special MP3_320K.mp3","/home/mel/Downloads/Music/Smoke Mood _ Relax And Take It Easy Mixed by Take It Easy MP3_160K.mp3",
+                        ];  
+                       
+ 
+                        
+            const Download = ()=>
+                {
+                        document.getElementById("warning").innerHTML = "Please wait this could take a long time...<br/><br/>Close this IF no song are being downloaded";
+                        console.log("Download Started...");
+                        console.log("Songs..: "+songs.length);
+                        for(let item = 0; item < songs.length; item++)
+                        {
+                                        //progress = Math.round((item/songs.length)*100);
+                                        console.log("Current Status..: "+(Math.round(item/ songs.length) *100).toString()+"%"); 
+                                        //console.log(sync_status.textContent);
+                                        console.log("Item..: "+item);
+                                        link = songs[item];//songs[song].substring(songs[song].lastIndexOf('/')+1) ;
+                                        
+                                        setTimeout(()=>{
+                                        console.log("Link: "+link);
+                                        //downloadFile(link.href);
+                                        link.click();    
+                                        //l.href=link;
+                                        //l.download=songs[item].substring(songs[item].lastIndexOf('/')+1) ;
+                                        //document.body.appendChild(l);
+
+                                        //window.open(link, Math.floor(Math.random(0,100)*100).toString());
+                                        //console.log(l.download);
+                                        //l.click(); 
+                                        //document.body.removeChild(l);
+
+                                        },500);
+
+                                
+                        }
+                         
+                }
+                const Sync = ()=>
+                {       
+                     
+                        angle += 45; // Increase angle by 45 degrees
+                        
+                        //if(angle > Number.MAX_SAFE_INTEGER-45) angle = 0;
+                        console.log("Angle Selected: "+angle);
+                        const svg = document.getElementById('sync_svg');
+                        svg.style.transform = `rotate(${angle}deg)`; 
+                        progress += 1; // Increment progress
+                        if(progress == 100){progress = 0;}
+                        progressElement.style.width = progress + '%'; // Update the progress bar width
+                        statusElement.textContent = progress + '%'; // Update the status text
+                
+                        if(interval == null){
+                                interval = setInterval(()=>{console.log("Sync...");
+                                        Sync();
+                                },200);
+                                Download();
+                        }
+                }
+        </script>
+</body>
+</html>

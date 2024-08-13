@@ -12,7 +12,8 @@ import regex
 from pathlib import Path
 import os
 import gc
-from pytube import YouTube
+#from pytube import YouTube
+from pytubefix import YouTube
 from Searcher import *
 import emoji
 from Metadata import CreateFileInfo
