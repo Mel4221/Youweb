@@ -1,0 +1,285 @@
+﻿@page "/share"
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Youweb</PageTitle>
+<h3>Share songs</h3>
+<div class="@ProgressBarCss">
+  <div class="progress-bar" role="progressbar" style="width: @ProgressBarValue%"aria-valuenow="@ProgressBarValue" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class = "@SyncBtnCss" @onclick="ShareSongs">
+@SyncBtnText
+</div>
+<br />
+<input type="text" class="form-control" @bind="SharePath" placeholder="c:/user/music"/>
+<span class="h6">@TextStatus</span>
+
+<div class="container">
+<!--div class="row row-cols-4"-->
+        <!--li class="list-group-item disabled" aria-disabled="true">A disabled item</li-->
+         @foreach (var song in Songs)        
+         {
+                var name = song.Title;
+                var path = song.YTLink;
+                var duration = song.Duration;
+                var icon = song.IconLink;
+                var temp = song.IconLinkTemp;
+                
+                @if(!File.Exists(temp)){
+                        icon = "img/favicon.png";
+                }  
+                <div class="box">
+                        <img src="@icon" class="card-img-top" width="720"height="480" alt="@name">
+                        <h5 class="card-title">@name</h5>
+                        <p class="card-text">Duration: @duration</p>
+                </div>        
+        /*
+                <div class="col">
+                        <div class="card">
+                        <img src="@icon" class="card-img-top" alt="@name">
+                        <div class="card-body">
+                                <h5 class="card-title">@name</h5>
+                                <p class="card-text">Duration: @duration</p>
+                        </div>
+                        </div>
+                </div>
+                */
+              
+                 
+        }
+
+
+
+
+</div>
+
+@code
+{
+    void Test()
+    {
+
+    }
+
+    private async Task DownloadFile(string url, string fileName)
+    {
+
+        await JSRuntime.InvokeVoidAsync("DownloadFile", url, fileName);
+
+    }
+
+    string SharePath { get; set; } = "";
+    string SyncBtnText{get;set;} = "Share";
+    string SyncBtnCss {get;set;} = "btn btn-primary";
+    string CurrentSong{get;set;} = string.Empty; 
+    string TextStatus {get;set;} = string.Empty; 
+    string StrTemp{get;set;} = string.Empty;
+    string ProgressBarCss{get;set;} = "";//"invisible";//progress
+    double ProgressBarValue {get;set;} = 5; 
+    bool AttemptFailed {get;set;} = false; 
+    bool AttemptSucess {get;set;} = false;
+
+
+    List<Song> Songs{get;set;} = new List<Song>();
+    Thread LoadSongsThread {get;set;}
+    Thread AnimationThread{get;set;}
+    /*
+    void PlaySong(string song)
+    {
+    this.CurrentSong = song;
+    Get.Pink($"Song Selected: {song}");
+    InvokeAsync(() =>
+    {
+    StateHasChanged();
+            });
+            }
+            */
+
+    protected override void OnInitialized()
+    {
+        if(YouwebStatic.HasActions())return;
+
+        this.LoadSongsThread = new Thread(LoadSongs);
+        this.AnimationThread = new Thread(PlayAnimation);
+        this.LoadSongsThread.Start();
+        this.AnimationThread.Start(); 
+        this.ProgressBarCss = "progress"; 
+        this.SyncBtnCss = "btn btn-secondary";
+        this.SyncBtnText = "Searching...";
+        //this.Refresh(); 
+
+        //  <li class="list-group-item">A second item</li>
+    }
+
+
+    async Task ShareSongsAsync()
+    { 
+        foreach(Song song in this.Songs)
+        {
+            await DownloadFile(song.YTLink, song.Title+".mp3");
+        }
+        return;
+    }
+    void ShareSongs()
+    {
+        ShareSongsAsync();
+        //this.Refresh();
+    }
+    void Refresh()
+    {    InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+
+    }
+    void PlayAnimation()
+    {
+        while(true)
+        {
+            // Get.Box($"Sucess: {this.AttemptSucess} Failed: {this.AttemptFailed}");
+            if(this.AttemptFailed || this.AttemptSucess)
+            {
+                this.SyncBtnText = "Share";
+                this.SyncBtnCss = "btn btn-primary";
+                this.ProgressBarCss = "invisible";
+                this.TextStatus = "";
+                /*
+                this.SearchTextStatus = string.Empty;
+                this.SearchNumberStatus = string.Empty;
+                this.SearchItem = string.Empty; 
+                */
+                this.AttemptFailed = false;
+                this.AttemptSucess = false; 
+                YouwebStatic.Stop();
+                this.Refresh();
+                break;
+            }
+
+            switch(this.SyncBtnText)
+            {
+                case "Searching...":
+                    this.SyncBtnText = "Searching..";
+                    break;
+                case "Searching..":
+                    this.SyncBtnText = "Searching.";
+                    break;
+                case "Searching.":
+                    this.SyncBtnText = "Searching...";
+                    break;
+            }
+            Get.WaitTime(1000);
+            this.Refresh();
+
+        }
+    }
+    void LoadSongs()
+    {
+        YouwebStatic.Check = new Check();
+        YouwebStatic.Check.Start();
+        YouwebStatic.CurrentAction = "share";
+        //YouwebStatic.Start("sync");
+        List<Song> sl = new List<Song>(); 
+        string download_location,song,tempId,inputFile;
+
+
+        download_location = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")+Get.Slash();
+        inputFile = download_location+"input.txt";
+        Get.Pink(download_location);
+        //this.SongDownloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
+        this.SharePath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        FilesMaper maper = new FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));//FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
+        if (string.IsNullOrEmpty(maper.Path))
+        {
+            maper.Path = @"C:\Users\Melquiceded\Music\";
+            
+        }
+        //ProcessStartInfo info = new ProcessStartInfo();
+    int current,goal;
+        this.Songs = new List<Song>(); 
+        maper.AllowDebugger = true; 
+        maper.Map();
+
+
+        current = 0; 
+        goal = maper.Files.Count;
+        string root = Song.SubRoot();
+        maper.Files.ForEach((s)=>
+                {
+                    this.ProgressBarValue = Get.StatusNumber(current,goal);
+
+                    if(Song.IsAudio(s))
+                    {
+                        try{
+                            string song,file;
+                            song = s; 
+                            file = Song.CleanName(s); 
+
+                            song = song.Substring(song.LastIndexOf(Get.Slash()[0]) + 1);
+                            song = song.Substring(0, song.LastIndexOf('.')); 
+
+
+                            tempId = IRandom.RandomText(16);
+
+                            Get.Print(s,file);
+                            Get.Reset();
+                            File.WriteAllText(inputFile, file);
+                            File.Move(s,file);
+                            /*
+                            info.FileName = "python3";
+                            info.Arguments = $"you/main.py GET_ICON {inputFile} {download_location} {tempId}";
+                            */
+                            Process process = Process.Start(YouwebStatic.StartInfo($"GET_ICON {inputFile} {download_location} {tempId}"));
+
+                            process.WaitForExit();
+                            Get.Print($"{root}{file}", File.Exists(System.IO.Path.Combine(root,file)));
+                            s = System.IO.Path.Combine(root, file);
+                            Get.Pink(s);
+
+                                Songs.Add(new Song()
+                                {
+                                        Title = song,
+                                        YTLink= s,
+                                        IconLink=tempId+".png",
+                                        RName = tempId,
+                                        IconLinkTemp = download_location+tempId+".png"
+
+                                });
+                            
+                                this.TextStatus = Get.Status(current,goal)+" "+song; 
+
+                                Get.Green(this.TextStatus);
+                                //Get.WaitTime(500);
+                                }catch(Exception ex)
+                                {
+                                        Get.Red(ex);
+                                        //this.AttemptFailed = true; 
+
+                                }
+                            
+                               // Get.Input();
+                        }
+                        current++;
+                        //Get.Input();
+       
+                });
+                //Disable this if is direct set 
+                //this.Songs = sl; 
+                this.Refresh();
+                this.AttemptSucess = true;  
+              //this.Refresh();
+              new Thread(()=>{
+                Get.WaitTime(5000);
+                this.Songs.ForEach((item)=>{
+                        if(File.Exists(item.IconLinkTemp))
+                        {
+                                File.Delete(item.IconLinkTemp);
+                                Get.Red($"Deteing Temps..: "+item.IconLinkTemp);
+                        }
+
+                });
+
+              }).Start();
+              //
+        }
+  
+
+        
+}

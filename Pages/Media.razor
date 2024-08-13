@@ -1,105 +1,336 @@
 ﻿@page "/media"
 @inject IJSRuntime Js;
 
-<PageTitle>Youweb</PageTitle>
-
-<div class="pull-left">
- <!--audio controls--> <!--audio controls-->
-<audio id="audioPlayer" controls>
-  <source src="@CurrentSong" id="CurrentSong" type="audio/mpeg">
-        Your browser does not support the audio element.
-</audio> 
-<button id="playButton" @onclick="MyFunction">play</button>
-<input class="form-control" id="SearchItem" type="text" @bind="SearchItem" placeholder="type something"/><br/>
-</div>
-
-<div class="pull-right">
-<ul class="list-group">
-        <!--li class="list-group-item disabled" aria-disabled="true">A disabled item</li-->
-        @for(int item = 0; item < Songs.Count; item++)
-        {
-                //<button @onclick="@(e => test(buttonNumber, 5 * buttonNumber))">Check</button>
-                //<li class="list-group-item" @onclick="()=>PlaySong(SongItems[item])">@(SongItems[item])</li>
-                var name = Songs[item].Title;
-                var path = Songs[item].YTLink;
-                <li class="list-group-item" >@name</li>
-                 
+<PageTitle>Youweb Player</PageTitle>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-</ul>
-</div>
+        .media-player {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #0075ff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0077ffc4;
+        }
+        .default{
+            width: 75px; /* Consistent button width */
+            height: 75px; /* Consistent button height */
+            font-size: 35px; /* Larger icon size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ddd;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+                /* Style for disabled buttons */
+        .switchable{
+            background-color: #d3d3d3; /* Light gray background */
+            color: #a9a9a9; /* Darker gray text color */
+            /*cursor: not-allowed; Change cursor to indicate disabled state */
+        }
+        .progress-container {
+             
+            display: flex;
+            align-items: center; /* Align items vertically center */
+            width: 100%;
+            
 
+            /*float:unset;*/
 
-@code
-{
-/*
-@onclick="()=>PlaySong(path)"
-    public async Task PlaySound()
-    {
-        await _jsRuntime.InvokeAsync<string>("PlayAudio", "audioPlayer");
-    }
-    */
-        private string message = "Initial message";
-
-        public void UpdateMessage(string newMessage) 
+        }
+        .progress-bar {
+            flex: 1; /* Take up remaining space */
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            margin-left: 10px; /* Space between time and progress bar */
+            position: relative;
+            /*
+            width: 100%;
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            */
+           /* position: relative;*/
+        }
+    /*
+        .progress-bar span {
+            display: block;
+            height: 100%;
+            background: #0075ff;
+            width: 0;
+        }
+        */
+        .volume-container {
+            margin-top: 10px;
+            display:flex;
+            float:left;
+          
+        
+        }
+   
+        .audio_controll
         {
-                message = newMessage;
-                InvokeAsync(StateHasChanged); // Ensures the component re-renders
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            align-items: flex-start; /* Align items to the start (left) */
+            width: 300px; /* Set a width for your container if needed */
+            margin: 0 auto; /* Center the container horizontally */
+        }
+        .v_container{
+            display: flex;
+            align-items: center; /* Align items vertically center */
+            margin-bottom: 10px; /* Space below the audio controls */
+        }
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        #SongsList {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .Song 
+        {
+            padding: 10px;
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .Song:hover {
+            background-color: #f1f1f1;
+        }
+        .Song:last-child {
+            border-bottom: none;
+        }
+        .checkbox-container {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        protected async Task MyFunction()
-        {
-                await Js.InvokeVoidAsync("console.log('test')");
+  
+        #ProgressBarNumber{
+            text-align:left;
         }
-
-        string CurrentSong{get;set;} = string.Empty; 
-        string SearchItem{get;set;} = string.Empty;
-        string StrTemp{get;set;} = string.Empty;
-        int Indexer{get;set;} = 0;
-        List<Song> Songs{get;set;} = new List<Song>();
-        void PlaySong(string song)
-        {
-                this.CurrentSong = song;
-                Get.Pink($"Song Selected: {song}");
-                InvokeAsync(() =>
-                {
-                        StateHasChanged();
-                });
+        #ProgressBar {
+            display: block;
+            height: 100%;
+            background: #0075ff;
+            width: 0; /* Adjust dynamically with JavaScript */
         }
-        protected override void OnInitialized()
-        {
-        //this.SongDownloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/";
-
-                FilesMaper maper = new FilesMaper(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)+"/");
-                this.Songs = new List<Song>(); 
-                maper.AllowDebugger = true; 
-                maper.Map();
-                
-                maper.Files.ForEach((s)=>
-                {
-                        if(Song.IsAudio(s))
-                        {
-                                string song = s; 
-                                try{
-                                song = song.Substring(song.LastIndexOf(Get.Slash()[0]) + 1);
-                                song = song.Substring(0, song.LastIndexOf('.')); 
-                                }catch{}
-                                this.Songs.Add(new Song()
-                                {
-                                        Title = song,
-                                        YTLink= s
-
-                                });
-                                InvokeAsync(() =>
-                                {
-                                        StateHasChanged();
-                                });
-                        }
-       
-                });
-                
-                //  <li class="list-group-item">A second item</li>
+        #PlayingSong{
+            text-align:left;
         }
   
+        .repeat-symbol {
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+  }
+    .action_type{
+        width: 75px; /* Consistent button width */
+        height: 75px; /* Consistent button height */
+        font-size: 35px; /* Larger icon size */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: #0075ff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    #PauseBtn
+    {
+        display: none;
 
-        
+    }
+    .container {
+            display: grid;
+            place-items: center; /* Center both horizontally and vertically */
+            height: 220 px; /* Full viewport height */
+            /*border: 1px solid #000;*/
+        }
+    </style>
+
+    <div class="media-player">
+        <div class ="container">
+                                    <svg id="PauseBtn" version="1.0" xmlns="http://www.w3.org/2000/svg"
+                        width="200px" height="200px" viewBox="0 0 1119.000000 1280.000000"
+                        preserveAspectRatio="xMidYMid meet">
+                        <metadata>
+                        Created by potrace 1.15, written by Peter Selinger 2001-2017
+                        </metadata>
+                        <g transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)"
+                        fill="#2196f3" stroke="none">
+                        <path d="M5232 12787 c-39 -18 -167 -186 -349 -457 -247 -368 -442 -606 -773
+                        -944 -690 -704 -1483 -1253 -2435 -1686 -88 -40 -203 -97 -255 -127 -690 -392
+                        -1142 -1162 -1329 -2266 -132 -773 -116 -1772 40 -2539 33 -165 80 -331 109
+                        -388 25 -50 67 -82 94 -74 77 23 117 126 231 584 223 896 455 1399 805 1751
+                        190 191 365 296 667 400 201 69 352 105 878 209 471 93 734 171 970 285 142
+                        69 285 162 357 232 56 55 86 63 74 19 -6 -19 -93 -721 -281 -2261 -41 -335
+                        -124 -1017 -185 -1515 -61 -498 -128 -1049 -150 -1225 -21 -176 -53 -435 -70
+                        -575 -41 -327 -42 -455 -5 -606 53 -221 174 -423 375 -625 180 -181 357 -314
+                        605 -454 488 -277 1060 -438 1800 -507 180 -16 732 -16 885 0 438 48 763 124
+                        1090 254 527 210 891 495 1061 830 84 167 120 320 120 513 0 329 -128 605
+                        -415 890 -450 447 -1161 768 -1981 894 -576 89 -1174 89 -1675 0 -415 -73
+                        -827 -227 -1128 -421 -34 -22 -64 -39 -67 -37 -2 3 63 551 146 1219 82 668
+                        264 2153 404 3300 140 1147 309 2524 375 3060 190 1548 220 1815 220 1949 0
+                        244 -87 377 -208 318z"/>
+                        <path d="M9949 11573 c-20 -27 -51 -70 -69 -98 -94 -141 -279 -331 -440 -452
+                        -126 -94 -235 -159 -406 -244 -162 -79 -236 -140 -308 -248 -79 -119 -137
+                        -283 -167 -476 -30 -186 -11 -568 36 -722 31 -105 52 -83 105 112 71 255 125
+                        372 218 468 82 85 162 119 376 163 224 45 322 79 403 140 17 13 33 24 35 24 2
+                        0 -20 -192 -49 -427 -167 -1367 -157 -1258 -118 -1341 33 -72 74 -120 153
+                        -179 123 -94 275 -157 453 -190 127 -23 413 -23 516 0 236 54 410 161 473 292
+                        34 72 35 190 1 260 -64 130 -236 255 -437 318 -155 49 -244 61 -444 61 -167
+                        -1 -194 -3 -285 -27 -55 -15 -135 -45 -179 -67 -44 -22 -81 -38 -82 -37 -2 2
+                        53 457 121 1012 210 1717 199 1621 186 1666 -17 56 -46 53 -92 -8z"/>
+                        <path d="M7563 8208 c-11 -13 -40 -52 -63 -88 -63 -94 -238 -265 -350 -339
+                        -52 -35 -143 -88 -204 -118 -179 -90 -257 -182 -311 -368 -53 -184 -52 -462 1
+                        -647 11 -36 33 -18 49 40 80 289 140 390 260 442 23 10 103 32 180 49 137 31
+                        232 66 268 99 18 16 18 15 13 -8 -3 -14 -35 -271 -71 -571 -74 -606 -73 -589
+                        -10 -671 60 -80 171 -142 330 -186 88 -25 368 -24 448 1 136 42 230 105 269
+                        181 29 55 29 137 1 191 -118 225 -608 330 -899 191 l-73 -35 5 27 c4 22 161
+                        1311 205 1680 9 77 9 108 1 127 -14 31 -23 31 -49 3z"/>
+                        </g>
+                        </svg>
+
+                        <svg id="PlayBtn"version="1.0" xmlns="http://www.w3.org/2000/svg"
+                                    class="album-cover" width="200px" height="200px" viewBox="0 0 1280.000000 1280.000000"
+                        preserveAspectRatio="xMidYMid meet">
+                        <metadata>
+                        Created by potrace 1.15, written by Peter Selinger 2001-2017
+                        </metadata>
+                        <g transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)"
+                        fill="#2196f3" stroke="none">
+                        <path d="M6120 12794 c-710 -48 -1205 -142 -1790 -342 -674 -231 -1331 -585
+                        -1885 -1017 -302 -236 -722 -639 -952 -915 -851 -1021 -1339 -2202 -1469
+                        -3555 -22 -224 -25 -826 -6 -1045 50 -570 150 -1054 320 -1560 398 -1179 1112
+                        -2203 2067 -2965 920 -733 2023 -1197 3200 -1344 311 -39 425 -45 800 -45 372
+                        0 552 11 840 50 1210 163 2339 663 3295 1459 195 162 608 574 767 765 851
+                        1022 1339 2202 1469 3555 22 224 25 826 6 1045 -39 446 -108 834 -217 1225
+                        -250 898 -677 1711 -1284 2440 -158 190 -572 604 -761 762 -1019 849 -2214
+                        1343 -3550 1469 -154 14 -724 26 -850 18z m717 -1279 c787 -72 1483 -295 2158
+                        -688 857 -500 1570 -1266 2005 -2152 275 -559 429 -1085 506 -1728 25 -202 30
+                        -755 10 -973 -62 -673 -223 -1253 -511 -1839 -497 -1010 -1329 -1843 -2330
+                        -2335 -559 -275 -1085 -429 -1728 -506 -202 -25 -755 -30 -973 -10 -799 73
+                        -1491 294 -2169 689 -1158 676 -2032 1823 -2366 3102 -117 452 -163 812 -162
+                        1290 0 532 67 993 214 1482 316 1049 947 1969 1803 2632 359 278 757 508 1166
+                        674 457 186 967 312 1440 356 63 6 131 13 150 14 111 11 642 5 787 -8z"/>
+                        <path d="M4980 8648 c-60 -31 -99 -92 -141 -220 l-34 -103 2 -640 c1 -352 7
+                        -1234 13 -1960 11 -1226 13 -1326 30 -1400 67 -289 179 -342 506 -237 12 4
+                        774 441 1694 972 1567 904 1677 969 1740 1032 92 91 134 174 128 255 -6 81
+                        -41 146 -123 228 -67 67 -141 111 -1760 1051 -1186 689 -1709 988 -1755 1002
+                        -151 48 -234 53 -300 20z"/>
+                        </g>
+                        </svg>
+
+        </div>     
+        <audio id="audioPlayer" src="">
+
+        </audio>
+        <div class="checkbox-container">
+        <p id="PlayingSong"></p>
+        </div>
+        <!--div class="controls">
+            <button id="PlayBtn">Play</button>
+            <button id="PauseBtn">Pause</button>
+            <button id="StopBtn">Stop</button>
+            <button id="">Mute</button>
+        </div-->
+        <div class="controls">
+            <button class="action_type" style="float:left;"id="PlayBack">&#8592;</button>
+            <!--button style="height:100px;display: flex;float:left;" id="PlayBack">&#8592;</button>
+            <button class="switchable"id="RepeatAll">&#10230;</button>
+            <button class="switchable"id="Aleatory">&#x1F500;</button>
+            <button style="height:100px;display: flex;float:right;" id="PlayFoward">&#8594;</button-->
+            <button class="action_type"style="float:right;" id="PlayFoward">&#8594;</button>
+        </div>
+        <div class="controls">
+            <!--button id="PlayBack">&#8592;</button>
+            <button style="text-align: center; width:100px;height: 100px; display: flex;float:inline-start;" class="switchable"id="RepeatAll">&#10230;</button>
+            <button style="text-align: center; width:100px;height: 100px; display: flex;float:inline-end;"class="switchable"id="Aleatory">&#x1F500;</button>
+            <button id="PlayFoward">&#8594;</button-->
+
+            <button class="default" style="float:inline-start" id="RepeatAll">&#10230;</button>
+            <button class="default" style="float:inline-end" id="Aleatory">&#x1F500;</button>
+        </div>
+        <!--div class="checkbox-container">
+                <select id="Repeat">
+                    <option value="all"selected>&#8594;</option>
+                    <option value="single">&#x21BA;</option>
+                </select>
+                <input type="checkbox" id="AleatoryControl">
+                <label for="AleatoryControl">&#x1F500;</label>
+        </div-->
+        <div class="audio_controll">
+            <div class="volume-container">
+                <button id="MuteBtn" style="background-color: #f0f0f0;">
+                    &#128266;
+                </button> 
+                <input type="range" id="VolumeControl" min="0" max="1" step="0.1" value="1">
+            </div>
+
+            <div class="progress-container">
+                <p id="ProgressBarNumber">00:00</p>
+                <div class="progress-bar">
+                    <span id="ProgressBar"></span>
+                </div>
+            </div>
+        </div>
+    
+        <br/>
+        <input type="text" id="SearchInput" class="search-bar" placeholder="Search songs...">
+        <ul id="SongsList">
+            @SongsList
+            <!--li class="Song" data-src="@path_file">@file_name</li-->
+        </ul>
+    
+    </div>
+
+ 
+@code
+    {
+        string SongsList{ get; set; }
 }

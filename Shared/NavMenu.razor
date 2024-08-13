@@ -1,7 +1,8 @@
 ﻿@using Youweb.Data
 @inject NavigationManager MyNavigationManager
 
-<div class="top-row ps-3 navbar navbar-dark">
+ 
+<div class="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Youweb</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -9,6 +10,7 @@
         </button>
     </div>
 </div>
+ 
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
@@ -17,27 +19,48 @@
             <!--NavLink class="nav-link" href="#" Match="NavLinkMatch.All"-->
             <NavLink class="nav-link"  Match="NavLinkMatch.All"@onclick="()=>GoTo(Song)">
                 <span class="oi oi-musical-note" aria-hidden="true"></span>
-                MP3
+                mp3
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link"  @onclick="()=>GoTo(Video)">
                 <span class="oi oi-video" aria-hidden="true"></span>
-                MP4
+                mp4
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink  class="nav-link"  @onclick="()=>GoTo(Media)">
                 <span class="oi oi-media-play" aria-hidden="true"></span>
-                Media
+                media
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink  class="nav-link"  @onclick="()=>GoTo(Search)" >
                 <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
-                Search
+                search
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink  class="nav-link"  @onclick="()=>GoTo(Sync)" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 36 36"><path fill="currentColor" d="M32.84 15.72a1 1 0 1 0-2 .29a13 13 0 0 1 .16 1.93A13 13 0 0 1 8.7 27h5.36a1 1 0 0 0 0-2h-9v9a1 1 0 1 0 2 0v-5.8a15 15 0 0 0 25.78-12.48" class="clr-i-outline clr-i-outline-path-1"/><path fill="currentColor" d="M30.06 1A1.05 1.05 0 0 0 29 2v5.83A14.94 14.94 0 0 0 3 17.94a15 15 0 0 0 .2 2.48a1 1 0 0 0 1 .84h.16a1 1 0 0 0 .82-1.15A13 13 0 0 1 5 17.94a13 13 0 0 1 13-13A12.87 12.87 0 0 1 27.44 9h-5.38a1 1 0 0 0 0 2H31V2a1 1 0 0 0-.94-1" class="clr-i-outline clr-i-outline-path-2"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                <span style="display:inline-block; width:10px;"></span>
+                sync
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink  class="nav-link"  @onclick="()=>GoTo(Share)" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 8 8"><path fill="currentColor" d="M.75 0C.34 0 0 .34 0 .75v5.5c0 .41.34.75.75.75h4.5c.41 0 .75-.34.75-.75V5H5v1H1V1h2V0zM6 0v1C3.95 1 2.3 2.54 2.06 4.53C2.27 3.65 3.05 3 4 3h2v1l2-2z"/></svg>
+                <span style="display:inline-block; width:10px;"></span>
+                share
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" @onclick="()=>GoTo(Cmd)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 16 16"><g fill="currentColor"><path d="m10.875 7l2.008 5h-.711l-2.008-5zm-5.125.594q-.414 0-.75.125a1.54 1.54 0 0 0-.578.375q-.243.25-.375.61a2.4 2.4 0 0 0-.133.827q0 .43.117.781t.352.594q.234.243.57.383q.337.14.766.133a2.6 2.6 0 0 0 .992-.195l.125.484a2 2 0 0 1-.492.148a4.4 4.4 0 0 1-.75.07a2.6 2.6 0 0 1-.914-.156a2.2 2.2 0 0 1-.742-.453a1.9 1.9 0 0 1-.485-.742a3.2 3.2 0 0 1-.18-1.023q0-.547.18-1t.5-.782q.32-.328.774-.507a2.7 2.7 0 0 1 1-.18q.445 0 .718.07q.274.07.399.14l-.149.493a2 2 0 0 0-.406-.14a2.4 2.4 0 0 0-.539-.055M8 8h1v1H8zm0 2h1v1H8z" /><path d="M15.5 1H.5l-.5.5v13l.5.5h15l.5-.5v-13zM15 14H1V5h14zm0-10H1V2h14z" /></g></svg>                <span style="display:inline-block; width:10px;"></span>
+                cmd
             </NavLink>
         </div>
         <div class="nav-item px-3">
@@ -47,9 +70,10 @@
   <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
 </svg>     
 <span style="display:inline-block; width:10px;"></span>
-            Settings       
+            settings       
             </NavLink>
         </div>
+
         <div class="nav-item px-3">
             <NavLink  class="nav-link"  @onclick="ExitSys">
                 <span class="oi oi-account-logout" aria-hidden="true"></span>
@@ -66,12 +90,20 @@
     private string Media{get;set;} ="media";
     private string Search {get;set;}="search";
     private string Config{get;set;} = "settings";
+    private string Sync {get;set;} = "sync";//sync
+    private string Share { get; set; } = "share";
+    private string Cmd { get; set; } = "cmd";
+
+
+
     void ExitSys()
     {
         Environment.Exit(0);
     }
     void GoTo(string link)
     {
+        MyNavigationManager.NavigateTo(link);
+        return;
         //Get.Pink($"Has Action: {YouwebStatic.HasActions()} Current Action: {YouwebStatic.CurrentAction}");
         if(YouwebStatic.HasActions() == true)
         {
@@ -79,7 +111,7 @@
             return;
         }if(YouwebStatic.HasActions() == false)
         {
-            MyNavigationManager.NavigateTo(link);
+           
         }
     
 

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Youweb Player</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .player-container {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .song-list {
+            flex: 1;
+            padding: 0 20px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 400px; /* Limit the height of the song list */
+            border-left: 1px solid #ccc; /* Add border between song list and player */
+        }
+        .song-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .song-list ul li {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .song-list ul li:hover {
+            color: blue;
+        }
+        .song-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .search-bar {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .player-image {
+            max-width: 150px;
+            max-height: 150px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="song-list">
+            <input type="text" id="searchInput" class="search-bar" placeholder="Search songs...">
+            <ul id="songList">
+                <li class="song_item" id="adele_hello.mp3">adele hello</li>
+                <li class="song_item" id="wikiwiki.mp3">wikiwiki</li>
+                <!--@SongsList-->
+                <!-- Add more songs as needed -->
+            </ul>
+        </div>
+        <div class="song-player">
+            <!-- Image placeholder -->
+            <img id="playerImage" class="player-image" src="You.svg" alt="Song Art">
+
+            <h2 class="song-title">Currently Playing: <span id="currentSongTitle">No song selected</span></h2>
+            <audio id="audioPlayer" controls>
+                <source id="audioSource" src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        const songItems = document.querySelectorAll('.song_item');
+        const defaultImage = 'default_image.png'; // Placeholder image path
+
+        function PlaySong(event) {
+            console.log('Song item clicked:', event.target);
+            var song = event.target;
+            var audioPlayer = document.getElementById('audioPlayer');
+            var audioSource = document.getElementById('audioSource');
+            var currentSongTitle = document.getElementById('currentSongTitle');
+            var playerImage = document.getElementById('playerImage');
+
+            // Set audio source and title
+            audioSource.src = song.id;
+            currentSongTitle.textContent = song.textContent;
+
+            // Optionally update image source based on song
+            // Example logic for demo purpose
+            // playerImage.src = 'path_to_image_for_' + song.id + '.png'; // Update with actual image path
+
+            // Load and play the new song
+            audioPlayer.load();
+            audioPlayer.play();
+        }
+
+        songItems.forEach(item => {
+            item.addEventListener('click', PlaySong);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+﻿@page "/download"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@code {
+    protected override void OnInitialized()
+    {
+        // Create a Uri object from the current URL
+        var uri = new Uri(NavigationManager.Uri);
+
+        // Parse the query string
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+
+        // Directly access query parameters
+        if (queryParams.ContainsKey("ytlink"))
+        {
+            InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });            
+
+        }
+
+
+    }
+    public async Task Download(string filePath, string fileName)
+    {
+        string uri = new Uri($"{NavigationManager.Uri}").GetLeftPart(UriPartial.Authority);
+
+        await JSRuntime.InvokeVoidAsync("DownloadFile", $"{uri}{filePath}", fileName);
+
+    }
+}
