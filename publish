@@ -1,0 +1,3 @@
+#!/bin/bash
+./get_deps
+dotnet publish -c Debug -r linux-x64 -p:PublishSingleFile=True --self-contained True

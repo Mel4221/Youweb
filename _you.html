@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Youweb Player</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .player-container {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .song-list {
+            flex: 1;
+            padding: 0 20px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 400px; /* Limit the height of the song list */
+            border-left: 1px solid #ccc; /* Add border between song list and player */
+        }
+        .song-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .song-list ul li {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .song-list ul li:hover {
+            color: blue;
+        }
+        .song-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .search-bar {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        #songList {
+            list-style-type: none;
+            padding: 0;
+        }
+        .song_item {
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="song-list">
+ 
+            
+            <input type="text" id="searchInput" class="search-bar" placeholder="Search songs...">
+            <ul id="songList">
+                
+                <li class="song_item" id="hello_adele.mp3">adele hello</li>
+                <li class="song_item" id="wikiwiki.mp3">wikiwiki</li>
+
+                <!--@SongsList-->
+                <!-- Add more songs as needed -->
+
+            </ul>
+        </div>
+        <div class="song-player">
+            <h2 class="song-title"><span id="currentSongTitle"></span></h2>
+            <audio id="audioPlayer" controls>
+                <source id="audioSource" src="song.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <script>
+
+      
+        const songItems = document.querySelectorAll('.song_item');
+        const searchInput = document.getElementById('searchInput');
+        const songList = document.querySelectorAll('#songList .song_item');
+        audioElement.addEventListener('ended', function() {
+    console.log('The audio has stopped playing.');
+});
+
+
+        searchInput.addEventListener('input', SearchSong);
+
+        function SearchSong(event)
+        {
+             // Get the search value and convert to lower case
+            const searchValue = searchInput.value.toLowerCase();
+
+            // Loop through each list item
+            songList.forEach(function(item) {
+                // Get the text content of the item and convert to lower case
+                const text = item.textContent.toLowerCase();
+                
+                // Check if the text includes the search value
+                if (text.includes(searchValue)) {
+                    item.style.display = ''; // Show the item
+                } else {
+                    item.style.display = 'none'; // Hide the item
+                }
+            });
+            
+
+        }
+        /*
+        // Function to handle the click event
+        function PlaySong(event)
+        {
+        // You can perform any action you want here
+            console.log('Song item clicked:', event.target);
+            var song = event.target;
+            var audioPlayer = document.getElementById('audioPlayer');
+            var audioSource = document.getElementById('audioSource');
+            var currentSongTitle = document.getElementById('currentSongTitle');
+            audioSource.src = song.Id;
+            console.log("song_id: "+song.id+" song_text: "+song.textContent);
+            currentSongTitle.textContent = "Playing: "+ song.textContent+"...";
+            //audioPlayer.load();
+            
+
+            var playPromise =audioPlayer.play();
+
+       
+        }
+        */
+function PlaySong(event) {
+    // This will allow us to play video later...
+            console.log('Song item clicked:', event.target);
+            var song = event.target;
+            var audioPlayer = document.getElementById('audioPlayer');
+            var audioSource = document.getElementById('audioSource');
+            var currentSongTitle = document.getElementById('currentSongTitle');
+            audioSource.src = song.Id;
+            console.log("song_id: "+song.id+" song_text: "+song.textContent);
+            currentSongTitle.textContent = "Playing: "+ song.textContent+"...";
+            var audio = new Audio(song.id);
+            audio.play();
+         
+   
+  }
+
+        // Loop through each element and add the click event listener
+        
+        songItems.forEach(item => {
+            item.addEventListener('click', PlaySong);
+        });
+
+        /*
+         const songsArray = ["song.mp3"];
+         var player = document.getElementById("audioSource").src = songsArray[0]; 
+            
+
+         // Function to change the source of the audio player and play the song
+        function changeSong(songSrc) {
+            var audioPlayer = document.getElementById('audioPlayer');
+            var audioSource = document.getElementById('audioSource');
+            var currentSongTitle = document.getElementById('currentSongTitle');
+
+            // Update the audio source and title
+            audioSource.src = songSrc;
+            currentSongTitle.textContent = getSongTitle(songSrc);
+
+            // Load and play the new song
+            audioPlayer.load();
+            audioPlayer.play();
+        }
+        */
+/*
+        // Helper function to extract the title from the song path
+        function getSongTitle(songSrc) {
+            var startIndex = songSrc.lastIndexOf('/') + 1;
+            var endIndex = songSrc.lastIndexOf('.');
+            return songSrc.substring(startIndex, endIndex);
+        }
+        */
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+﻿@page "/upload"
+@model Youweb.Pages.UploadFileModel
+
+<h1>Upload a File</h1>
+<form id="upload-form" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken() <!-- Include the anti-forgery token -->
+    <input type="file" name="files" multiple />
+    <button id="file"  ">Upload File</button>
+</form>
+@{
+
+}

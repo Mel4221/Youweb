@@ -5,7 +5,8 @@
 
 <PageTitle>Youweb</PageTitle>
 <h3>MP4 720P</h3>
-<img src="@SongIconLink" class="img-fluid" alt="Video Thumbnail"width="720"height="720"><br/>
+<img src="@SongIconLink" class="img-fluid" alt="Video Thumbnail" width="360" height="360">
+<br />
 <span><i>@ProgressText</i></span>
 <div class="@ProgressBarCss">
   <div class="progress-bar" role="progressbar" style="width: @ProgressBarValue%"aria-valuenow="@ProgressBarValue" aria-valuemin="0" aria-valuemax="100"></div>
@@ -45,7 +46,7 @@
 </div>
 @code
 {
-        string SongIconLink{get;set;} ="favicon.png"; //$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
+        string SongIconLink{get;set;} ="img/favicon.png"; //$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
         string SongDownloadPath{get;set;} = string.Empty;
         string SongRName{get;set;} = string.Empty;
         string SongDownloadLink{get;set;} = string.Empty;//"https://youtu.be/s8hA0QRIwfo?feature=shared"; //string.Empty;
@@ -162,7 +163,7 @@
         */
         void ResetState()
         {
-                this.SongIconLink = "favicon.png";//$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
+                this.SongIconLink = "img/favicon.png";//$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
                 this.SongName = "";
                 this.SongDescription = "";
                 this.songDuration = ""; 
@@ -283,12 +284,12 @@
         void WaitForDownload()
         { 
                 try{
-                       
+                /*
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "python3";
-                info.Arguments = $"bin/Debug/net7.0/you/main.py {this.ResolutionSelected.Replace("p","")} {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}";
-
-                Process process = Process.Start(info);
+                info.Arguments = $"bin/Debug/net7.0/you/main.py {this.ResolutionSelected} {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}";
+                */
+                Process process = Process.Start(YouwebStatic.StartInfo($"{this.ResolutionSelected} {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}"));
                 //wait that the whole process is completed
                 process.WaitForExit();  
                 /*THIS TIME WE NEED THE VIDEO LOL

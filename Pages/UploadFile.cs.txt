@@ -1,0 +1,65 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using QuickTools.QCore; 
+namespace Youweb.Pages
+{
+    public class UploadFileModel : PageModel
+    {
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var filePaths = Request.Form["filePaths"].ToString();
+                
+            // Validate if filePaths is present
+            if (string.IsNullOrEmpty(filePaths))
+            {
+                return BadRequest("No file paths provided.");
+            }
+
+            // Split the file paths into an array
+            var paths = filePaths.Split(',').Select(path => path.Trim()).ToList();
+
+            // Log or process the file paths as needed
+            foreach (var path in paths)
+            {
+                // Example: Log the file path (you can replace this with your own processing logic)
+                System.Diagnostics.Debug.WriteLine($"Received file path: {path}");
+            }
+
+            return Content("File paths received successfully.");
+
+        }
+
+        /*
+            public async Task<IActionResult> OnPostAsync(List<IFormFile> files)
+            {
+
+              //  if (files.Count ==0) return Content("Missing files my friend...");
+
+
+                for (int item = 0; item < files.Count; item++)
+                {
+                    var file = files[item].FileName;
+                    Get.Pink(file);
+                 
+                    var filePath = Path.Combine("uploads", file.FileName);
+                    
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                  
+                    return Content("File uploaded successfully!");
+
+                }
+                return Content("No file uploaded.");
+
+            }
+            */
+
+        public void OnGet()     
+        {
+           // Get.Green(Request.Body);
+        }
+    }
+}

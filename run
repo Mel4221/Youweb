@@ -1,5 +1,25 @@
 #!/bin/bash
+#defining variables start
+WWW_YOU=wwwroot/you
+DEBUG_YOU=bin/Debug/net7.0/you
+#defining variables ends
+#cleaning project
+dotnet clean
+#getting new dependencys
+./get_deps
+#building project
+dotnet build
 
-rm -r -v bin/Debug/net7.0/you
-cp -r -v you bin/Debug/net7.0/you
-dotnet run && echo "Task Completed!!!"
+
+print red "Deleting..: ${WWW_YOU}"
+rm -r -v $WWW_YOU
+print red "Deleting..: ${DEBUG_YOU}"
+rm -r -v $DEBUG_YOU
+
+print cyan "Coping..: ${WWW_YOU}"
+cp -r -v you $WWW_YOU
+print cyan "Coping..: ${DEBUG_YOU}"
+cp -r -v you $DEBUG_YOU
+
+open http://localhost:4251
+dotnet run && print green "Task Completed!!!"
