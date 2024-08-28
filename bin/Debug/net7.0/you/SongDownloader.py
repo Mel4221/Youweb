@@ -9,7 +9,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 """
 import moviepy.editor as mp
 from pathlib import Path
-from pytube import YouTube
+#from pytube import YouTube
+from pytubefix import YouTube
 from VideoDownloader import remove_emoji
 from pathvalidate import sanitize_filepath
 from Metadata import CreateFileInfo
@@ -65,7 +66,7 @@ def DownloadSong(link,download_location,tempId):
               sucess.close()
        except Exception as e:
               fail = open(fileInfo+".fail","a",encoding="utf-8")
-              fail.write(e)
+              fail.write(str(e))
               fail.close()
 
           

@@ -137,12 +137,20 @@
       "PackagePath": "staticwebassets/img/favicon.png"
     },
     {
-      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/input.txt",
-      "PackagePath": "staticwebassets/input.txt"
-    },
-    {
       "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/js/media.js",
       "PackagePath": "staticwebassets/js/media.js"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/media_html/sync.html",
+      "PackagePath": "staticwebassets/media_html/sync.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/media_html/you.html",
+      "PackagePath": "staticwebassets/media_html/you.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/python/python.config",
+      "PackagePath": "staticwebassets/python/python.config"
     },
     {
       "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/DownloadWithArgs.py",

@@ -24,11 +24,14 @@ MP4_1080P
 '''
 def CheckArgs(list):
     type = list[0]
-    if type=="help" or type=="--help" or type=="-h":
-    	print("[MP3] or [720p,480p...] [LINK] [DOWNLOAD_LOCATION] [TEMP_ID]")
-    	return
+    
     print(list) 
     print("Action: "+list[0])
+
+    if type=="help" or type=="--help" or type=="-h":
+        print("[MP3] or [720p,480p...] [LINK] [DOWNLOAD_LOCATION] [TEMP_ID]")
+        return
+
     """TYPE LINK LOCATION ID"""
     link = list[1]
     download_location = list[2]

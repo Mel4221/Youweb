@@ -8,11 +8,20 @@
     ".NETCoreApp,Version=v7.0": {
       "Youweb/1.0.0": {
         "dependencies": {
+          "ClownShell": "7.1.1.1",
           "Newtonsoft.Json": "13.0.0.0",
           "QuickTools": "5.0.0.0"
         },
         "runtime": {
           "Youweb.dll": {}
+        }
+      },
+      "ClownShell/7.1.1.1": {
+        "runtime": {
+          "ClownShell.exe": {
+            "assemblyVersion": "7.1.1.1",
+            "fileVersion": "7.1.1.1"
+          }
         }
       },
       "Newtonsoft.Json/13.0.0.0": {
@@ -30,6 +39,54 @@
             "fileVersion": "0.0.0.0"
           }
         }
+      },
+      "ClownShell.MainLoop/1.0.0.0": {
+        "runtime": {
+          "ClownShell.MainLoop.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ClownShell.ErrorHandelers/1.0.0.0": {
+        "runtime": {
+          "ClownShell.ErrorHandelers.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ClownShell.Static/1.0.0.0": {
+        "runtime": {
+          "ClownShell.Static.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ClownShell.Parser/1.0.0.0": {
+        "runtime": {
+          "ClownShell.Parser.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ClownShell.Security/1.0.0.0": {
+        "runtime": {
+          "ClownShell.Security.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ClownShell.ScriptRunner/1.0.0.0": {
+        "runtime": {
+          "ClownShell.ScriptRunner.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -39,12 +96,47 @@
       "serviceable": false,
       "sha512": ""
     },
+    "ClownShell/7.1.1.1": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Newtonsoft.Json/13.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "QuickTools/5.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ClownShell.MainLoop/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ClownShell.ErrorHandelers/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ClownShell.Static/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ClownShell.Parser/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ClownShell.Security/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ClownShell.ScriptRunner/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

@@ -22,4 +22,5 @@ print cyan "Coping..: ${DEBUG_YOU}"
 cp -r -v you $DEBUG_YOU
 
 open http://localhost:4251
-dotnet run && print green "Task Completed!!!"
+dotnet run && print green "Task Exited Sucessfully!!!"
+echo 'LGTM'

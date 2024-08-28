@@ -20,12 +20,20 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/mel/Documents/csharp/Youweb/Controller/DownloadFile.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29udHJvbGxlci9Eb3dubG9hZEZpbGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/mel/Documents/csharp/Youweb/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/mel/Documents/csharp/Youweb/Pages/Media.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTWVkaWEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mel/Documents/csharp/Youweb/Pages/RunCommand.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUnVuQ29tbWFuZC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/mel/Documents/csharp/Youweb/Pages/Search.razor]
@@ -46,6 +54,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/mel/Documents/csharp/Youweb/Pages/Video.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVmlkZW8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mel/Documents/csharp/Youweb/Pages/Wait.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvV2FpdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/mel/Documents/csharp/Youweb/Shared/SurveyPrompt.razor]
