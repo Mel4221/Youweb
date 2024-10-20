@@ -1,0 +1,318 @@
+.
+├── App.razor
+├── appsettings.Development.json
+├── appsettings.json
+├── build
+├── ClownShell
+│   ├── clown.ico
+│   ├── ClownShell.application
+│   ├── ClownShell.ErrorHandelers.dll
+│   ├── ClownShell.ErrorHandelers.pdb
+│   ├── ClownShell.exe
+│   ├── ClownShell.exe.manifest
+│   ├── ClownShell.MainLoop.dll
+│   ├── ClownShell.MainLoop.pdb
+│   ├── ClownShell.Parser.dll
+│   ├── ClownShell.Parser.pdb
+│   ├── ClownShell.pdb
+│   ├── ClownShell.ScriptRunner.dll
+│   ├── ClownShell.ScriptRunner.pdb
+│   ├── ClownShell.Security.dll
+│   ├── ClownShell.Security.pdb
+│   ├── ClownShell.Static.dll
+│   ├── ClownShell.xml
+│   ├── editors
+│   │   ├── nano
+│   │   │   ├── libncursesw6.dll
+│   │   │   ├── nano.exe
+│   │   │   └── nano-v6.2-2-g93400ec8a19a.exe
+│   │   └── vim
+│   │       ├── install.exe
+│   │       ├── MiniDB_Error.log
+│   │       ├── README_bindos.txt
+│   │       ├── tee.exe
+│   │       ├── uninstall.exe
+│   │       ├── uninstall.txt
+│   │       ├── vim.exe
+│   │       └── xxd.exe
+│   ├── QuickTools.dll
+│   └── QuickTools.xml
+├── Controller
+│   └── DownloadFile.razor
+├── Data
+│   ├── Comunication.cs
+│   ├── JMetadata.cs
+│   ├── Song.cs
+│   └── YouwebStatic.cs
+├── Dockerfile
+├── favicon.ico
+├── favicon.xcf
+├── get_deps
+├── _Imports.razor
+├── LICENSE
+├── net7.0
+│   ├── appsettings.Development.json
+│   ├── appsettings.json
+│   ├── ClownShell.ErrorHandelers.dll
+│   ├── ClownShell.ErrorHandelers.pdb
+│   ├── ClownShell.exe
+│   ├── ClownShell.MainLoop.dll
+│   ├── ClownShell.MainLoop.pdb
+│   ├── ClownShell.Parser.dll
+│   ├── ClownShell.Parser.pdb
+│   ├── ClownShell.pdb
+│   ├── ClownShell.ScriptRunner.dll
+│   ├── ClownShell.ScriptRunner.pdb
+│   ├── ClownShell.Security.dll
+│   ├── ClownShell.Security.pdb
+│   ├── ClownShell.Static.dll
+│   ├── ClownShell.xml
+│   ├── Newtonsoft.Json.dll
+│   ├── Newtonsoft.Json.pdb
+│   ├── Newtonsoft.Json.xml
+│   ├── QuickTools.dll
+│   ├── QuickTools.xml
+│   ├── you
+│   │   ├── deps.txt
+│   │   ├── DownloadWithArgs.py
+│   │   ├── install-dep
+│   │   ├── JMetadata.py
+│   │   ├── LICENSE
+│   │   ├── main.py
+│   │   ├── Metadata.py
+│   │   ├── __pycache__
+│   │   │   ├── DownloadWithArgs.cpython-39.pyc
+│   │   │   ├── JMetadata.cpython-39.pyc
+│   │   │   ├── Metadata.cpython-39.pyc
+│   │   │   ├── Searcher.cpython-39.pyc
+│   │   │   ├── SongDownloader.cpython-39.pyc
+│   │   │   ├── Sync.cpython-39.pyc
+│   │   │   ├── Tools.cpython-39.pyc
+│   │   │   └── VideoDownloader.cpython-39.pyc
+│   │   ├── RunFromFile.py
+│   │   ├── Searcher.py
+│   │   ├── SongDownloader.py
+│   │   ├── Sync.py
+│   │   ├── test.txt
+│   │   ├── Tools.py
+│   │   ├── t.py
+│   │   ├── VideoDownloader.py
+│   │   └── video.json
+│   ├── Youweb
+│   ├── Youweb.deps.json
+│   ├── Youweb.dll
+│   ├── Youweb.pdb
+│   ├── Youweb.runtimeconfig.json
+│   └── Youweb.staticwebassets.runtime.json
+├── Newtonsoft.Json-13.0.3_net6.0
+│   ├── Newtonsoft.Json.dll
+│   ├── Newtonsoft.Json.pdb
+│   └── Newtonsoft.Json.xml
+├── obj
+│   ├── Debug
+│   │   └── net7.0
+│   │       ├── apphost
+│   │       ├── project.razor.json
+│   │       ├── ref
+│   │       │   └── Youweb.dll
+│   │       ├── refint
+│   │       │   └── Youweb.dll
+│   │       ├── scopedcss
+│   │       │   ├── bundle
+│   │       │   │   └── Youweb.styles.css
+│   │       │   ├── projectbundle
+│   │       │   │   └── Youweb.bundle.scp.css
+│   │       │   └── Shared
+│   │       │       ├── MainLayout.razor.rz.scp.css
+│   │       │       └── NavMenu.razor.rz.scp.css
+│   │       ├── staticwebassets
+│   │       │   ├── msbuild.buildMultiTargeting.Youweb.props
+│   │       │   ├── msbuild.buildTransitive.Youweb.props
+│   │       │   ├── msbuild.build.Youweb.props
+│   │       │   └── msbuild.Youweb.Microsoft.AspNetCore.StaticWebAssets.props
+│   │       ├── staticwebassets.build.json
+│   │       ├── staticwebassets.development.json
+│   │       ├── staticwebassets.pack.json
+│   │       ├── Youweb.AssemblyInfo.cs
+│   │       ├── Youweb.AssemblyInfoInputs.cache
+│   │       ├── Youweb.assets.cache
+│   │       ├── Youweb.csproj.AssemblyReference.cache
+│   │       ├── Youweb.csproj.CopyComplete
+│   │       ├── Youweb.csproj.CoreCompileInputs.cache
+│   │       ├── Youweb.csproj.FileListAbsolute.txt
+│   │       ├── Youweb.dll
+│   │       ├── Youweb.GeneratedMSBuildEditorConfig.editorconfig
+│   │       ├── Youweb.genruntimeconfig.cache
+│   │       ├── Youweb.GlobalUsings.g.cs
+│   │       ├── Youweb.MvcApplicationPartsAssemblyInfo.cache
+│   │       ├── Youweb.pdb
+│   │       ├── Youweb.RazorAssemblyInfo.cache
+│   │       └── Youweb.RazorAssemblyInfo.cs
+│   ├── project.assets.json
+│   ├── project.nuget.cache
+│   ├── Youweb.csproj.nuget.dgspec.json
+│   ├── Youweb.csproj.nuget.g.props
+│   └── Youweb.csproj.nuget.g.targets
+├── Pages
+│   ├── Error.cshtml
+│   ├── Error.cshtml.cs
+│   ├── _Host.cshtml
+│   ├── Index.razor
+│   ├── Media.razor
+│   ├── RunCommand.razor
+│   ├── Search.razor
+│   ├── Settings.razor
+│   ├── Share.razor
+│   ├── Sync.razor
+│   ├── UploadFile.cs.txt
+│   ├── UploadFile.txt
+│   ├── Video.razor
+│   └── Wait.razor
+├── Program.cs
+├── Properties
+│   ├── launchSettings.json
+│   └── PublishProfiles
+│       ├── FolderProfile.pubxml
+│       ├── FolderProfile.pubxml.user
+│       ├── IISProfile.pubxml
+│       └── IISProfile.pubxml.user
+├── publish
+├── QuickTools
+│   ├── QuickTools.dll
+│   ├── QuickTools.xml
+│   └── setting.ico
+├── QuickTools.dll
+├── README.md
+├── run
+├── Shared
+│   ├── MainLayout.razor
+│   ├── MainLayout.razor.css
+│   ├── NavMenu.razor
+│   ├── NavMenu.razor.css
+│   └── SurveyPrompt.razor
+├── t.html
+├── tree.txt
+├── wwwroot
+│   ├── css
+│   │   ├── bootstrap
+│   │   │   ├── bootstrap.min.css
+│   │   │   └── bootstrap.min.css.map
+│   │   ├── open-iconic
+│   │   │   ├── font
+│   │   │   │   ├── css
+│   │   │   │   │   └── open-iconic-bootstrap.min.css
+│   │   │   │   └── fonts
+│   │   │   │       ├── open-iconic.eot
+│   │   │   │       ├── open-iconic.otf
+│   │   │   │       ├── open-iconic.svg
+│   │   │   │       ├── open-iconic.ttf
+│   │   │   │       └── open-iconic.woff
+│   │   │   ├── FONT-LICENSE
+│   │   │   ├── ICON-LICENSE
+│   │   │   └── README.md
+│   │   └── site.css
+│   ├── download
+│   ├── img
+│   │   └── favicon.png
+│   ├── in
+│   ├── js
+│   │   └── media.js
+│   ├── media_html
+│   │   ├── sync.html
+│   │   └── you.html
+│   ├── out
+│   ├── python
+│   │   └── python.config
+│   ├── you
+│   │   ├── deps.txt
+│   │   ├── DownloadWithArgs.py
+│   │   ├── install-dep
+│   │   ├── JMetadata.py
+│   │   ├── LICENSE
+│   │   ├── main.py
+│   │   ├── Metadata.py
+│   │   ├── __pycache__
+│   │   │   ├── DownloadWithArgs.cpython-39.pyc
+│   │   │   ├── JMetadata.cpython-39.pyc
+│   │   │   ├── Metadata.cpython-39.pyc
+│   │   │   ├── Searcher.cpython-39.pyc
+│   │   │   ├── SongDownloader.cpython-39.pyc
+│   │   │   ├── Sync.cpython-39.pyc
+│   │   │   ├── Tools.cpython-39.pyc
+│   │   │   └── VideoDownloader.cpython-39.pyc
+│   │   ├── RunFromFile.py
+│   │   ├── Searcher.py
+│   │   ├── SongDownloader.py
+│   │   ├── Sync.py
+│   │   ├── test.txt
+│   │   ├── Tools.py
+│   │   ├── t.py
+│   │   ├── VideoDownloader.py
+│   │   └── video.json
+│   └── YouwebHTML_Client
+│       ├── 10.svg
+│       ├── 1.svg
+│       ├── 2.svg
+│       ├── 3.svg
+│       ├── 4.svg
+│       ├── 6.svg
+│       ├── 9.svg
+│       ├── Base_you.html
+│       ├── favicon.ico
+│       ├── LICENSE
+│       ├── README.md
+│       ├── sync.html
+│       ├── Tester2.html
+│       ├── Tester3.html
+│       ├── Tester4.html
+│       ├── Tester.html
+│       ├── t.txt
+│       ├── ul.html
+│       ├── _you.html
+│       └── you.html
+├── you
+│   ├── deps.txt
+│   ├── DownloadWithArgs.py
+│   ├── install-dep
+│   ├── install_linux_deps.sh
+│   ├── JMetadata.py
+│   ├── LICENSE
+│   ├── main.py
+│   ├── Metadata.py
+│   ├── __pycache__
+│   │   ├── DownloadWithArgs.cpython-311.pyc
+│   │   ├── DownloadWithArgs.cpython-39.pyc
+│   │   ├── JMetadata.cpython-39.pyc
+│   │   ├── Metadata.cpython-311.pyc
+│   │   ├── Metadata.cpython-39.pyc
+│   │   ├── RunFromFile.cpython-311.pyc
+│   │   ├── Searcher.cpython-311.pyc
+│   │   ├── Searcher.cpython-39.pyc
+│   │   ├── SongDownloader.cpython-311.pyc
+│   │   ├── SongDownloader.cpython-39.pyc
+│   │   ├── Sync.cpython-39.pyc
+│   │   ├── Tools.cpython-311.pyc
+│   │   ├── Tools.cpython-39.pyc
+│   │   ├── VideoDownloader.cpython-311.pyc
+│   │   └── VideoDownloader.cpython-39.pyc
+│   ├── RunFromFile.py
+│   ├── Searcher.py
+│   ├── SongDownloader.py
+│   ├── status.number
+│   ├── status.text
+│   ├── Sync.py
+│   ├── temp_video.mp4.info
+│   ├── temp_video.mp4.info.description
+│   ├── temp_video.mp4.info.fail
+│   ├── test.txt
+│   ├── Tools.py
+│   ├── t.py
+│   ├── VideoDownloader.py
+│   └── video.json
+├── _you.html
+├── you.html
+├── You Media Player.js
+├── Youweb.csproj
+└── Youweb.sln
+
+45 directories, 271 files

@@ -94,32 +94,41 @@
     protected override void OnInitialized()
     {
 
-        if(YouwebStatic.HasActions())return;
-
+        //if(YouwebStatic.HasActions())return;
+        /*
         this.LoadSongsThread = new Thread(LoadSongs);
         this.AnimationThread = new Thread(PlayAnimation);
-        this.LoadSongsThread.Start();
-        this.AnimationThread.Start(); 
+        //this.LoadSongsThread.Start();
+        //this.AnimationThread.Start(); 
         this.ProgressBarCss = "progress"; 
         this.SyncBtnCss = "btn btn-secondary";
         this.SyncBtnText = "Searching...";
+        */
         //this.Refresh(); 
 
         //  <li class="list-group-item">A second item</li>
     }
 
-    void SyncSongs()
+    async Task SyncSongs()
     {
+        this.SyncBtnText = "Searching...";
         this.Refresh();
+        await Task.Run(()=>
+        {
+                Task.Delay(5000);   
+        });
+        this.SyncBtnText = "Sync";
+        this.Refresh();
+
+
     }
-    void Refresh()
+    async Task Refresh()
     {    InvokeAsync(() =>
             {
                 StateHasChanged();
             });
-
     }
-    void PlayAnimation()
+    async Task PlayAnimation()
     {
         while(true)
         {
@@ -159,7 +168,7 @@
 
         }
     }
-    void LoadSongs()
+    async Task LoadSongs()
     {
 
         return;

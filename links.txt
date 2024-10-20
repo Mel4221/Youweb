@@ -1,0 +1,4 @@
+"for linux"
+link https://github.com/yt-dlp/yt-dlp/releases/download/2024.10.07/yt-dlp_linux
+"for windows"
+https://github.com/yt-dlp/yt-dlp/releases/download/2024.10.07/yt-dlp.exe

@@ -55,41 +55,42 @@ def DownloadVideo(videoLink,videoQuality,download_location,tempId):
         print("Downloading Video: "+videoLink)
         fileInfo = download_location+tempId+".mp4.info"
 
-        #videoQuality = "1080p"
-        try:
-                yt = YouTube(videoLink)
-                fileName = download_location+regex.sub(r'[^\w]', ' ',yt.title)+".mp4"
-                audio = fileName+".audio"
-                video = fileName+".video"
-                #create a file that contains the info from the video
-                CreateFileInfo(yt,fileInfo,fileName)
-                #lets be honest is just as easy as adding
-                #an extra p so lets just add it and remove this part
-                """
-                if videoQuality=="":
-                        videoQuality = "720"
-                if videoQuality.find("p") == -1:
-                        videoQuality = videoQuality+"p"
-                """
-                PrintStatus(download_location,"50","Downloading... "+yt.title+" Attemp: "+str(Attemps)+" Video Quality: "+videoQuality)
-                
-                #filter = yt.streams.filter(resolution=videoQuality)#.first().download(output_path="downloads/videos/", filename=yt.title+".mp4", filename_prefix="",skip_existing=True, timeout=10000, max_retries=10)
-                filter = yt.streams.filter(resolution=videoQuality,adaptive=True).first().download(output_path=download_location, filename=video, filename_prefix="",skip_existing=False, timeout=35, max_retries=10)
-                
-                PrintStatus(download_location,"75","Downloading Audio... "+yt.title)  
-                yt.streams.filter(only_audio=True).first().download(output_path=download_location, filename=audio, filename_prefix="",skip_existing=False, timeout=35, max_retries=10)
-                
-                PrintStatus(download_location,"100","Mixing Video and Audio...")
-                #yt.streams.get_by_itag(22).download(output_path="/home/mel/Music/", filename="test.mp4", filename_prefix="",skip_existing=True, timeout=15, max_retries=5)
-                video_stream = ffmpeg.input(video)
-                audio_stream = ffmpeg.input(audio)
-                
-                ffmpeg.output(audio_stream, video_stream,fileName).run(overwrite_output=True)
-                
-                PrintStatus(download_location,"100","File Location: "+fileName)
-                #.get_lowest_resolution().download(output_path="downloads/videos/", filename="video.mp4", filename_prefix="",skip_existing=True, timeout=10000, max_retries=10)
-                sucess = open(fileInfo+".sucess","a",encoding="utf-8")
-                sucess.close()
+#videoQuality = "1080p"
+#try:
+        yt = YouTube(videoLink,use_oauth=True, allow_oauth_cache=True)
+        fileName = download_location+regex.sub(r'[^\w]', ' ',yt.title)+".mp4"
+        audio = fileName+".audio"
+        video = fileName+".video"
+        #create a file that contains the info from the video
+        CreateFileInfo(yt,fileInfo,fileName)
+        #lets be honest is just as easy as adding
+        #an extra p so lets just add it and remove this part
+        """
+        if videoQuality=="":
+                videoQuality = "720"
+        if videoQuality.find("p") == -1:
+                videoQuality = videoQuality+"p"
+        """
+        PrintStatus(download_location,"50","Downloading... "+yt.title+" Attemp: "+str(Attemps)+" Video Quality: "+videoQuality)
+        
+        #filter = yt.streams.filter(resolution=videoQuality)#.first().download(output_path="downloads/videos/", filename=yt.title+".mp4", filename_prefix="",skip_existing=True, timeout=10000, max_retries=10)
+        filter = yt.streams.filter(resolution=videoQuality,adaptive=True).first().download(output_path=download_location, filename=video, filename_prefix="",skip_existing=False, timeout=35, max_retries=10)
+        
+        PrintStatus(download_location,"75","Downloading Audio... "+yt.title)  
+        yt.streams.filter(only_audio=True).first().download(output_path=download_location, filename=audio, filename_prefix="",skip_existing=False, timeout=35, max_retries=10)
+        
+        PrintStatus(download_location,"100","Mixing Video and Audio...")
+        #yt.streams.get_by_itag(22).download(output_path="/home/mel/Music/", filename="test.mp4", filename_prefix="",skip_existing=True, timeout=15, max_retries=5)
+        video_stream = ffmpeg.input(video)
+        audio_stream = ffmpeg.input(audio)
+        
+        ffmpeg.output(audio_stream, video_stream,fileName).run(overwrite_output=True)
+        
+        PrintStatus(download_location,"100","File Location: "+fileName)
+        #.get_lowest_resolution().download(output_path="downloads/videos/", filename="video.mp4", filename_prefix="",skip_existing=True, timeout=10000, max_retries=10)
+        sucess = open(fileInfo+".sucess","a",encoding="utf-8")
+        sucess.close()
+        """
         except Exception as e:
                 print(e)
                 msg = "Attempting again due to an error...: "+str(e)
@@ -124,7 +125,7 @@ def DownloadVideo(videoLink,videoQuality,download_location,tempId):
                 fail.write(str(e))
                 fail.close()
         return
-                
+        """                
         #<Stream: itag="22" mime_type="video/mp4" res="720p" fps="30fps" vcodec="avc1.64001F" acodec="mp4a.40.2" progressive="True" type="video">,
         #().download(output_path="downloads/video/", filename="video", filename_prefix="",skip_existing=True, timeout=10000, max_retries=10)
       

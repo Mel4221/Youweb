@@ -13,33 +13,59 @@
         <p class="command">@Returns[local]</p>
     }
 </div>
-<br />  
-<input class="form-control" type="text" placeholder="type a program" @bind="Program" />
+<br />
+<input class="form-control" type="text" placeholder=">" @onkeydown="Enter" @bind="Cmd" />
 <br />
 
 
-<input class="form-control" type="text" placeholder="type your arguments" @bind="Arguments" />
-<br />
- 
+<!--input class="form-control" type="text" placeholder="type your arguments" @bind="Arguments" />
+<br /-->
+<p>Session id: @SessionId</p>
 <div class="btn btn-primary" @onclick="RunCmd">
     @RunBtnText
 </div>
 @code {
     string RunBtnText { get; set; } = "run";
-    string Arguments{ get; set; } = null;
+    string Program {get;set;}
     string ReturnCommand { get; set; } = null;
-    string Program { get; set; } = null;
+    string Cmd { get; set; } = null;
     string swap_value { get; set; } = "";
-    List<string> Returns = new List<string>(); 
+    string SessionId{get;set;} = IRandom.RandomText(8);
+    List<string> Returns = new List<string>();
     Task Command;
     Task PlayAnimation;
     Process CommandProcess;
+
+    string GetArgsText()
+    {
+        return null;//this.Cmd.SubString(this.Cmd.IndexOf(' '));
+    }
+    string[] GetArgsArray()
+    {
+        string[] words = this.Cmd.Split(' ');
+        this.Program = words[0];
+        List<string> args = new List<string>();
+        for(int arg = 1; arg < words.Length; arg++)
+        {
+            args.Add(words[arg]);
+        }
+        return args.ToArray();
+    }
+    async Task Enter(KeyboardEventArgs e)
+    {
+        //@onkeydown="@Enter"
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            this.RunCmd();
+        }
+    }
     string ParseCommands(string command)
     {
         string parsed = command;
         parsed = parsed.Replace("$(pwd)", YouwebStatic.GetRoot());
         return parsed;
     }
+
     string Swap()
     {
         switch (this.swap_value)
@@ -53,7 +79,7 @@
             case "running.":
                 this.swap_value = "running...";
                 break;
-        }   
+        }
         return this.swap_value;
     }
     private async Task DownloadFile(string fileName)
@@ -87,7 +113,7 @@
                 //this.ReturnCommand += $"<p>{t}</p>";
                 Returns.Add($"{t}");
                 await ScrollToBottom();
-                temp = t; 
+                temp = t;
             }
 
             InvokeAsync(() =>
@@ -106,20 +132,40 @@
     }
     private void RunInternalFunction()
     {
-        if (this.Arguments == "clear")
+        if (this.Cmd == "clear")
         {
-            this.Returns.Clear(); this.Arguments = "";
+            this.Returns.Clear();
+            this.Program = "";
+            this.Cmd = "";
+            //this.Arguments = "";
             return;
         }
 
 
     }
+
     private Task<bool> IsInternalCommand()
     {
         string cmd = this.Program;
-        string args = this.ParseCommands(this.Arguments);
+        string args = null;//this.ParseCommands(GetArgsText);
         switch(cmd)
         {
+            case "send":
+               return Task<bool>.Run(async () =>
+                {
+                    string[] args = GetArgsArray();
+                    UMessage message = new UMessage()
+                    {
+                        RName = this.SessionId,
+                        Action = args[0],
+                        Type = args[1],
+                        Arguments = $""
+                    };
+                    UShare share = new UShare(this.SessionId);
+                    await share.Send(message);
+                    //await this.DownloadFile(args);
+                    return true;
+                });
             case "get":
                 return Task<bool>.Run(async () =>
                 {
@@ -156,28 +202,30 @@
             try
             {
                 if (await this.IsInternalCommand()) return;
+                /*
                 if (File.Exists(Path.Combine(YouwebStatic.GetRoot("download"), "status.text")))
                 {
                     await File.WriteAllTextAsync(Path.Combine(YouwebStatic.GetRoot("download"), "status.text"), "");
                 }
-                if (string.IsNullOrEmpty(this.Program) ||
-                string.IsNullOrEmpty(this.Arguments)) return;
+                */
+                if (string.IsNullOrEmpty(this.Cmd)) return;
                 string path;
                 path = YouwebStatic.GetRoot();
 
                 CommandProcess = Process.Start(new ProcessStartInfo()
                 {
                     FileName =  this.ParseCommands(this.Program),
-                    Arguments = this.ParseCommands(this.Arguments),
+                    Arguments = this.ParseCommands(this.GetArgsText()),
                     RedirectStandardOutput = true,
                     UseShellExecute = false, // Required for redirection
                     CreateNoWindow = true // Optional: do not create a window
 
                 });
                 string output = await CommandProcess.StandardOutput.ReadToEndAsync();
-              
 
-                string logs = Path.Combine(YouwebStatic.GetRoot("out"), "Youweb.out");
+              //  string ujson = Path.Combine(YouwebStatic.GetRoot("in"), $"{this.SongRName}.json");
+
+                string logs = Path.Combine(YouwebStatic.GetRoot("out"), $"{this.SessionId}.out");
 
                 CommandProcess.WaitForExit();
                 //if (!File.Exists(logs)) File.Create(logs);
@@ -216,6 +264,6 @@
 
 
     }
-        
+
 
 }

@@ -12,10 +12,12 @@ from traceback import print_tb
 from unittest import result
 import shutil
 import os 
+import os.path
 from SongDownloader import DownloadSong
 from VideoDownloader import DownloadVideo
 from Searcher import *
 from Tools import * 
+from RunFromFile import RunFile
  
 '''
 MP3
@@ -26,8 +28,12 @@ def CheckArgs(list):
     type = list[0]
     
     print(list) 
-    print("Action: "+list[0])
-
+    print("Action: "+type)
+    #if is provided an input 
+    #file with all the arguments 
+    if os.path.isfile(type):
+        RunFile(type)
+        return
     if type=="help" or type=="--help" or type=="-h":
         print("[MP3] or [720p,480p...] [LINK] [DOWNLOAD_LOCATION] [TEMP_ID]")
         return

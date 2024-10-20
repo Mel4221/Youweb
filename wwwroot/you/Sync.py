@@ -6,7 +6,7 @@ from eyed3.id3.frames import ImageFrame
 from Tools import *
 
 def SyncIcon(file_location,download_location,songName,tempId):
-        if
+        
         mp3File = file_location
         icon = download_location+tempId+".jpg"
         print("Sync in progress..: "+file_location)

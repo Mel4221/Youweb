@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Youweb Player</title>
+    
+    <style>
+        .media-player {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+        .controls {
+            margin-bottom: 10px;
+        }
+        .controls button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .progress-container {
+            margin: 10px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            position: relative;
+        }
+        .progress-bar span {
+            display: block;
+            height: 100%;
+            background: #4caf50;
+            width: 0;
+        }
+        .volume-container {
+            margin-top: 10px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .player-container {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .song-list {
+            flex: 1;
+            padding: 0 20px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 400px; /* Limit the height of the song list */
+            border-left: 1px solid #ccc; /* Add border between song list and player */
+        }
+        .song-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .song-list ul li {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .song-list ul li:hover {
+            color: blue;
+        }
+        .song-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .search-bar {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="player-container">
+        <div>
+            <button id="playBtn">Play</button>
+            <button id="pauseBtn">Pause</button>
+            <button id="stopBtn">Stop</button>
+            <button id="muteBtn">Mute</button>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <span id="progressBar"></span>
+            </div>
+        </div>
+        <div class="volume-container">
+            <label for="volumeControl">Volume:</label>
+            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+        </div>
+    </div>
+    <div class="player-container">
+  
+        <div class="song-list">
+            
+            <input type="text" id="SearchInput" class="search-bar" placeholder="Search songs...">
+            <ul id="songList">
+                
+                <li class="song" id="hello_adele.mp3">adele hello</li>
+                <li class="song" id="wikiwiki.mp3">wikiwiki</li>
+
+                <!--@SongsList-->
+                <!-- Add more songs as needed -->
+
+            </ul>
+        </div>
+        <!--    div class="song-player">
+            <h2 class="song-title"><span id="CurrentSongTitle"></span></h2>
+            <audio id="AudioPlayer" controls>
+                <source id="AudioSource" src="song.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div-->
+    </div>
+
+    <script>
+        const songs = document.querySelectorAll('.song');
+        // Function to handle the click event
+        function PlaySong(event)
+        {
+        // You can perform any action you want here
+            console.log('Song item clicked:', event.target);
+            var song = event.target;
+            var audioPlayer = document.getElementById('audioPlayer');
+            var audioSource = document.getElementById('audioSource');
+            var currentSongTitle = document.getElementById('currentSongTitle');
+            audioSource.src = song.Id;
+            console.log("song_id: "+song.id+" song_text: "+song.textContent);
+            currentSongTitle.textContent = "Playing: "+ song.textContent+"...";
+            audioPlayer.load();
+            audioPlayer.play();
+      
+        }
+        
+
+        // Loop through each element and add the click event listener
+        songs.forEach(item => {
+            item.addEventListener('click', PlaySong);
+        });
+
+        /*
+         const songsArray = ["song.mp3"];
+         var player = document.getElementById("audioSource").src = songsArray[0]; 
+            
+
+         // Function to change the source of the audio player and play the song
+        function changeSong(songSrc) {
+            var audioPlayer = document.getElementById('audioPlayer');
+            var audioSource = document.getElementById('audioSource');
+            var currentSongTitle = document.getElementById('currentSongTitle');
+
+            // Update the audio source and title
+            audioSource.src = songSrc;
+            currentSongTitle.textContent = getSongTitle(songSrc);
+
+            // Load and play the new song
+            audioPlayer.load();
+            audioPlayer.play();
+        }
+        */
+/*
+        // Helper function to extract the title from the song path
+        function getSongTitle(songSrc) {
+            var startIndex = songSrc.lastIndexOf('/') + 1;
+            var endIndex = songSrc.lastIndexOf('.');
+            return songSrc.substring(startIndex, endIndex);
+        }
+        */
+    </script>
+</body>
+</html>
+

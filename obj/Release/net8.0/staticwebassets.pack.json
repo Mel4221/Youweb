@@ -1,0 +1,321 @@
+{
+  "Files": [
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/obj/Release/net8.0/scopedcss/projectbundle/Youweb.bundle.scp.css",
+      "PackagePath": "staticwebassets/Youweb.bundle.scp.css"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/1.svg",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/1.svg"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/10.svg",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/10.svg"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/2.svg",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/2.svg"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/3.svg",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/3.svg"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/4.svg",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/4.svg"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/6.svg",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/6.svg"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/9.svg",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/9.svg"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/Base_you.html",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/Base_you.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/LICENSE",
+      "PackagePath": "staticwebassets/YouwebHTML_Client"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/README.md",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/README.md"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/Tester.html",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/Tester.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/Tester2.html",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/Tester2.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/Tester3.html",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/Tester3.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/Tester4.html",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/Tester4.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/_you.html",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/_you.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/favicon.ico",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/favicon.ico"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/sync.html",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/sync.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/t.txt",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/t.txt"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/ul.html",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/ul.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/YouwebHTML_Client/you.html",
+      "PackagePath": "staticwebassets/YouwebHTML_Client/you.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/open-iconic/FONT-LICENSE",
+      "PackagePath": "staticwebassets/css/open-iconic"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/open-iconic/ICON-LICENSE",
+      "PackagePath": "staticwebassets/css/open-iconic"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/open-iconic/README.md",
+      "PackagePath": "staticwebassets/css/open-iconic/README.md"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets/css/open-iconic/font/css/open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/open-iconic/font/fonts/open-iconic.eot",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.eot"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/open-iconic/font/fonts/open-iconic.otf",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.otf"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/open-iconic/font/fonts/open-iconic.svg",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.svg"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/open-iconic/font/fonts/open-iconic.ttf",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.ttf"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/open-iconic/font/fonts/open-iconic.woff",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.woff"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/img/favicon.png",
+      "PackagePath": "staticwebassets/img/favicon.png"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/js/media.js",
+      "PackagePath": "staticwebassets/js/media.js"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/media_html/sync.html",
+      "PackagePath": "staticwebassets/media_html/sync.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/media_html/you.html",
+      "PackagePath": "staticwebassets/media_html/you.html"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/python/python.config",
+      "PackagePath": "staticwebassets/python/python.config"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/DownloadWithArgs.py",
+      "PackagePath": "staticwebassets/you/you/DownloadWithArgs.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/JMetadata.py",
+      "PackagePath": "staticwebassets/you/you/JMetadata.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/LICENSE",
+      "PackagePath": "staticwebassets/you/you"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/Metadata.py",
+      "PackagePath": "staticwebassets/you/you/Metadata.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/RunFromFile.py",
+      "PackagePath": "staticwebassets/you/you/RunFromFile.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/Searcher.py",
+      "PackagePath": "staticwebassets/you/you/Searcher.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/SongDownloader.py",
+      "PackagePath": "staticwebassets/you/you/SongDownloader.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/Sync.py",
+      "PackagePath": "staticwebassets/you/you/Sync.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/Tools.py",
+      "PackagePath": "staticwebassets/you/you/Tools.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/VideoDownloader.py",
+      "PackagePath": "staticwebassets/you/you/VideoDownloader.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/DownloadWithArgs.cpython-311.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/DownloadWithArgs.cpython-311.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/DownloadWithArgs.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/DownloadWithArgs.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/JMetadata.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/JMetadata.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/Metadata.cpython-311.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/Metadata.cpython-311.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/Metadata.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/Metadata.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/RunFromFile.cpython-311.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/RunFromFile.cpython-311.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/Searcher.cpython-311.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/Searcher.cpython-311.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/Searcher.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/Searcher.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/SongDownloader.cpython-311.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/SongDownloader.cpython-311.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/SongDownloader.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/SongDownloader.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/Sync.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/Sync.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/Tools.cpython-311.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/Tools.cpython-311.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/Tools.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/Tools.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/VideoDownloader.cpython-311.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/VideoDownloader.cpython-311.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/__pycache__/VideoDownloader.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/you/__pycache__/VideoDownloader.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/deps.txt",
+      "PackagePath": "staticwebassets/you/you/deps.txt"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/install-dep",
+      "PackagePath": "staticwebassets/you/you"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/install_linux_deps.sh",
+      "PackagePath": "staticwebassets/you/you/install_linux_deps.sh"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/main.py",
+      "PackagePath": "staticwebassets/you/you/main.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/status.number",
+      "PackagePath": "staticwebassets/you/you/status.number"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/status.text",
+      "PackagePath": "staticwebassets/you/you/status.text"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/t.py",
+      "PackagePath": "staticwebassets/you/you/t.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/temp_video.mp4.info",
+      "PackagePath": "staticwebassets/you/you/temp_video.mp4.info"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/temp_video.mp4.info.description",
+      "PackagePath": "staticwebassets/you/you/temp_video.mp4.info.description"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/temp_video.mp4.info.fail",
+      "PackagePath": "staticwebassets/you/you/temp_video.mp4.info.fail"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/test.txt",
+      "PackagePath": "staticwebassets/you/you/test.txt"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/you/video.json",
+      "PackagePath": "staticwebassets/you/you/video.json"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.Youweb.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.build.Youweb.props",
+      "PackagePath": "build\\Youweb.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.buildMultiTargeting.Youweb.props",
+      "PackagePath": "buildMultiTargeting\\Youweb.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.buildTransitive.Youweb.props",
+      "PackagePath": "buildTransitive\\Youweb.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

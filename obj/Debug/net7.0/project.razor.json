@@ -1,0 +1,106 @@
+{
+  "SerializedFilePath": "/home/mel/Documents/csharp/Youweb/obj/Debug/net7.0/project.razor.json",
+  "FilePath": "/home/mel/Documents/csharp/Youweb/Youweb.csproj",
+  "Configuration": {
+    "ConfigurationName": "MVC-3.0",
+    "LanguageVersion": "7.0",
+    "Extensions": [
+      {
+        "ExtensionName": "MVC-3.0"
+      }
+    ]
+  },
+  "ProjectWorkspaceState": {
+    "TagHelpers": [],
+    "CSharpLanguageVersion": 1100
+  },
+  "RootNamespace": "Youweb",
+  "Documents": [
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Controller/DownloadFile.razor",
+      "TargetPath": "Controller\\DownloadFile.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Shared/NavMenu.razor",
+      "TargetPath": "Shared\\NavMenu.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/App.razor",
+      "TargetPath": "App.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/Settings.razor",
+      "TargetPath": "Pages\\Settings.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/Wait.razor",
+      "TargetPath": "Pages\\Wait.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/Video.razor",
+      "TargetPath": "Pages\\Video.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/Media.razor",
+      "TargetPath": "Pages\\Media.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/_Host.cshtml",
+      "TargetPath": "Pages\\_Host.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Shared/MainLayout.razor",
+      "TargetPath": "Shared\\MainLayout.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/Search.razor",
+      "TargetPath": "Pages\\Search.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/RunCommand.razor",
+      "TargetPath": "Pages\\RunCommand.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/Index.razor",
+      "TargetPath": "Pages\\Index.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/Error.cshtml",
+      "TargetPath": "Pages\\Error.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/Share.razor",
+      "TargetPath": "Pages\\Share.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Pages/Sync.razor",
+      "TargetPath": "Pages\\Sync.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/_Imports.razor",
+      "TargetPath": "_Imports.razor",
+      "FileKind": "componentImport"
+    },
+    {
+      "FilePath": "/home/mel/Documents/csharp/Youweb/Shared/SurveyPrompt.razor",
+      "TargetPath": "Shared\\SurveyPrompt.razor",
+      "FileKind": "component"
+    }
+  ],
+  "SerializationFormat": "0.3"
+}

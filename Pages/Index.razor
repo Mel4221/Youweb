@@ -1,4 +1,4 @@
-﻿@using System.Globalization;
+﻿@using System.Globalization
 @using Youweb.Data
 @page "/"
 @page "/song"
@@ -8,8 +8,8 @@
 <PageTitle>Youweb</PageTitle>
 
 <h3>MP3</h3>
-<p>Test: @_R</p>
-<img @onclick="R"src="@SongIconLink" class="img-fluid" alt="Video Thumbnail" width="360" height="360">
+
+<img src="@SongIconLink" class="img-fluid" alt="Video Thumbnail" width="360" height="360">
 <br />
 <span><i>@ProgressText</i></span>
 
@@ -23,7 +23,7 @@
 <span><strong>Duration: </strong> <i>@songDuration </i></span><br/>
 </div>
 
-<input class="form-control" @onkeydown="@Enter" type="text" @bind="SongDownloadLink" placeholder="http://youtube.com"/><br/>
+<input class="form-control" @onkeydown="Enter" type="text" @bind="SongDownloadLink" placeholder="http://youtube.com"/><br/>
 <span><strong>Download Path:</strong> </span>
 <span><i>@SongDownloadFile</i></span>
 <br/>
@@ -41,20 +41,14 @@
 
 @code
 {
-    string _R { get; set; } = "A";
-    void R()
-    {
-
-        Console.WriteLine("Working...");
-        _R = $"B: {DateTime.Now.ToString()}";
-    }
 
 
-    string SongIconLink{get;set;} = "img/favicon.png";//$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
+
+    string SongIconLink{get;set;} = "img/favicon.png";//$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png";
     string SongDownloadPath{get;set;} = string.Empty;
     string SongRName{get;set;} = string.Empty;
     string SongDownloadLink{get;set;} = string.Empty;//"https://youtu.be/s8hA0QRIwfo?feature=shared"; //string.Empty;
-    string SongName{get;set;} = string.Empty; 
+    string SongName{get;set;} = string.Empty;
     string songDuration {get;set;} = string.Empty;
     string SongDescription{get;set;} = string.Empty;
     string SongTempInfo{get;set;} = string.Empty;
@@ -64,8 +58,8 @@
     string ProgressText {get;set;} =string.Empty;
     string ProgressBarCss{get;set;} = "invisible";
     string SongInfoCss{get;set;} = "invisible";
-    string MessageBoxText{get;set;} = string.Empty;//string.Empty; 
-    string MessageBoxCss{get;set;} = string.Empty; 
+    string MessageBoxText{get;set;} = string.Empty;//string.Empty;
+    string MessageBoxCss{get;set;} = string.Empty;
 
 
 
@@ -74,12 +68,12 @@
     int InternalWaitTime{get;set;} = 3000;
 
     bool AttemptFailed{get;set;} = false;
-    bool AttemptCompleted{get;set;} = false;  
-    bool DownloadInProgress{ get; set;} = false; 
+    bool AttemptCompleted{get;set;} = false;
+    bool DownloadInProgress{ get; set;} = false;
 
     string[] SongInfo;
 
-    Thread IconThread{get;set;} 
+    Thread IconThread{get;set;}
     Thread DownloadThread{get;set;}
     Thread HandlerThread {get;set;}
     Thread AnimationThread{get;set;}
@@ -150,15 +144,15 @@
                 break;
             case 1:
                 this.MessageBoxCss = "btn btn-warning";
-                break; 
+                break;
             case 3:
-                this.MessageBoxCss = "btn btn-danger"; 
+                this.MessageBoxCss = "btn btn-danger";
                 break;
         }
         if(message == "")this.MessageBoxCss = "invisible";
 
 
-        this.MessageBoxText = message; 
+        this.MessageBoxText = message;
         InvokeAsync(() =>
         {
             StateHasChanged();
@@ -193,14 +187,14 @@
             this.Show("Please Provide a valid link",1);
             return;
         }else{
-            this.Show("",0); 
+            this.Show("",0);
             this.AttemptFailed = false;
-            this.AttemptCompleted = false;                
+            this.AttemptCompleted = false;
             this.DownloadBtnText = "Downloading...";
-            this.SongDownloadFile = string.Empty; 
-            this.ProgressBarValue = 5; 
+            this.SongDownloadFile = string.Empty;
+            this.ProgressBarValue = 5;
             this.ProgressText = string.Empty;
-            this.ProgressBarCss = "progress"; 
+            this.ProgressBarCss = "progress";
             this.SongInfoCss = "text-start";
 
         }
@@ -211,36 +205,36 @@
 
         Get.Green($"Random Name: {this.SongRName}\n"+
                   $"Download Path: {this.SongDownloadPath}\n"+
-                  $"Youtube Link: {this.SongDownloadLink}\n");        
+                  $"Youtube Link: {this.SongDownloadLink}\n");
         //this.IconLink = "https://i.ytimg.com/vi/0XElmYomloA/sddefault.jpg?sqp=-oaymwEWCKoDEPABIAQqCghqEJQEGHgg6AJIWg&rs=AOn4CLAs7EJjKvdD4DVyzxrHLka-rrXJvA";
 
         this.IconThread = new Thread(this.WaitForIcon);
-        this.DownloadThread = new Thread(this.WaitForDownload); 
+        //this.DownloadThread = new Thread(this.WaitForDownload);
         //this.HandlerThread = new Thread(this.WaitToFinish);
         this.AnimationThread = new Thread(this.PlayAnimation);
 
         //Wait for the icon to be downloaded and updated in the client
         this.IconThread.Start();
         //Wait for the download process to be completed
-        this.DownloadThread.Start();
+        //this.DownloadThread.Start();
         //Wait to check if it failed or was sucess during the download
         //this.HandlerThread.Start();
-        //play a simple animation 
+        //play a simple animation
         this.AnimationThread.Start();
-
+        Task.Run(WaitForDownload);
         await Task.Run(WaitToFinish);
 
     }
     void ResetState()
     {
-        this.SongIconLink ="img/favicon.png"; //$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png"; 
+        this.SongIconLink ="img/favicon.png"; //$"https://raw.githubusercontent.com/Mel4221/ClownShell/v6/you.png";
         this.SongName = "";
         this.SongRName = "";
         this.SongDescription = "";
-        this.songDuration = ""; 
-        this.SongDownloadLink = ""; 
-        this.ProgressText = ""; 
-        this.DownloadBtnText = "Download"; 
+        this.songDuration = "";
+        this.SongDownloadLink = "";
+        this.ProgressText = "";
+        this.DownloadBtnText = "Download";
         this.ProgressBarCss = "invisible";
         this.SongInfoCss = "invisible";
         this.ProgressBarValue = 0;
@@ -255,13 +249,13 @@
         {
             if(File.Exists(this.SongDownloadPath+"status.number") && File.Exists(this.SongDownloadPath+"status.text"))
             {
-                if(!Get.IsFileBusy(this.SongDownloadPath+"status.number") && 
+                if(!Get.IsFileBusy(this.SongDownloadPath+"status.number") &&
                    !Get.IsFileBusy(this.SongDownloadPath+"status.text"))
                 {
-                    int n = int.Parse(File.ReadAllText(this.SongDownloadPath+"status.number")); 
+                    int n = int.Parse(File.ReadAllText(this.SongDownloadPath+"status.number"));
                     this.ProgressText = File.ReadAllText(this.SongDownloadPath+"status.text");
-                    this.ProgressBarValue =IRandom.RandomInt(n/2, n); 
-                    //Get.Pink(File.ReadAllText(this.SongDownloadPath+"status.info")); 
+                    this.ProgressBarValue =IRandom.RandomInt(n/2, n);
+                    //Get.Pink(File.ReadAllText(this.SongDownloadPath+"status.info"));
                 }
 
             }
@@ -297,10 +291,10 @@
             Get.Pink($"Waitting to finish Download...");
             while(true)
             {
-                if(File.Exists(sucessFile))     
+                if(File.Exists(sucessFile))
                 {
                     this.Show("Download Completed Successfully!!!   Click to play with vlc media player if you have it installed",0);
-                    this.AttemptCompleted = true; 
+                    this.AttemptCompleted = true;
                     Get.Pink("Breaking: because the download was completed sucessfully");
                     Get.Yellow("Link opened to client js");
                     // DownloadBtnText = $"{NavigationManager.Uri}download/song.mp3";
@@ -313,13 +307,13 @@
                 }
                 if(File.Exists(failFile))
                 {
-                    this.Show($"Failed to download!!! Please try again",3); 
-                    this.AttemptFailed = true; 
+                    this.Show($"Failed to download!!! Please try again",3);
+                    this.AttemptFailed = true;
                     Get.Red("Breaking: because the download failed!!!");
                     break;
                 }
                 Get.WaitTime(this.InternalWaitTime);
-            } 
+            }
 
             this.ResetState();
             InvokeAsync(() =>
@@ -330,7 +324,7 @@
             if(File.Exists(this.SongTempInfo))File.Delete(this.SongTempInfo);
             if(File.Exists(this.SongTempMp4))File.Delete(this.SongTempMp4);
             if(File.Exists(sucessFile))File.Delete(sucessFile);
-            if(File.Exists(failFile))File.Delete(failFile); 
+            if(File.Exists(failFile))File.Delete(failFile);
             if(File.Exists(this.SongTempInfo+".description"))File.Delete(this.SongTempInfo+".description");
             if(File.Exists(this.SongDownloadPath+"status.number"))File.Delete(this.SongDownloadPath+"status.number");
             if(File.Exists(this.SongDownloadPath+"status.text"))File.Delete(this.SongDownloadPath+"status.text");
@@ -349,26 +343,25 @@
                         });
                 }
         }
-        void WaitForDownload()
-        { 
+        async Task WaitForDownload()
+        {
                 try{
-                /*     
+                /*
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "python3";
                 info.Arguments = $"you/main.py MP3 {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}";
                 */
-                Process process = Process.Start(YouwebStatic.StartInfo($"MP3 {this.SongDownloadLink} {this.SongDownloadPath} {this.SongRName}"));
-                //wait that the whole process is completed
-                string output = process.StandardOutput.ReadToEnd();
 
-                string logs = Path.Combine(YouwebStatic.GetRoot("out"), "Youweb.out");
-
-                process.WaitForExit();
-                //if (!File.Exists(logs)) File.Create(logs);
-                output += $"\nExit Code: {process.ExitCode}\n";
-                output += $"\nLog Time: {DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")}\n";
-
-                File.AppendAllText(logs, output);
+                string ujson = Path.Combine(YouwebStatic.GetRoot("in"), $"{this.SongRName}.json");
+                UShare share = new UShare(ujson);
+                UMessage message = new UMessage()
+                {
+                    RName = this.SongRName,
+                    Action = "mp3",
+                    Type = this.SongDownloadLink,
+                    Arguments = $"{this.SongDownloadPath},{this.SongRName}"
+                };
+                await share.Send(message);
 
                 }catch(Exception ex)
                 {
@@ -380,18 +373,18 @@
                                 StateHasChanged();
                         });
                 }
-                
+
         }
         void WaitForIcon()
         {
                 try{
                         this.Show($"Waitting to update icon link",1);
                         Get.Red($"Waitting to update icon link");
-                        string metadataFile = $"{this.SongDownloadPath}{this.SongRName}.mp4.info"; 
+                        string metadataFile = $"{this.SongDownloadPath}{this.SongRName}.mp4.info";
                         bool fileExist = false;
                         int seconds,waitTime;
-                        seconds = 0; 
-                        waitTime = this.InternalWaitTime; 
+                        seconds = 0;
+                        waitTime = this.InternalWaitTime;
                         while(!fileExist)
                         {
                                 Get.Yellow($"Waitting for metadata File to be Created: {metadataFile} W: {waitTime} E: {seconds}");
@@ -402,7 +395,7 @@
                                         Get.Yellow("Return: requested due to the download failed!!!");
                                         return;//because there will be nothing to read
                                 }
-                                Get.WaitTime(waitTime); 
+                                Get.WaitTime(waitTime);
                                 seconds++;
                                 //GC.Collect();
 
@@ -410,7 +403,7 @@
                         Get.Green("OK: Metadata");
                         this.SongInfo = File.ReadAllLines(metadataFile);
                         try{
-                        this.SongTempMp4 = this.SongInfo[0]; 
+                        this.SongTempMp4 = this.SongInfo[0];
                         this.SongName = this.SongInfo[1];
                         this.songDuration = Song.ParseTime(this.SongInfo[2]);
                         this.SongDescription = File.ReadAllText(metadataFile+".description");
@@ -418,10 +411,10 @@
                         this.SongTempInfo = metadataFile;
                         this.SongDownloadFile = $"{this.SongDownloadPath}{this.SongName}.mp3";
 
-                        
+
 
                         }catch{throw new Exception("The metadata file from you.py or main.py has the wrong Format");}
-                        Print.List(this.SongInfo); 
+                        Print.List(this.SongInfo);
 
                         Get.Pink($"Icon link Updated: {this.SongIconLink}");
                         this.Show("",0);
@@ -439,5 +432,5 @@
                         });
                 }
         }
-        
+
 }

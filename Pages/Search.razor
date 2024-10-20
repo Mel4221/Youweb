@@ -4,20 +4,28 @@
 <PageTitle>Youweb</PageTitle>
 
 <div class="pull-left">
- <!--audio controls--> <!--audio controls-->
+    <!--audio controls--> <!--audio controls-->
 
-<input class="form-control"  @onkeydown="@Enter" id="SearchItem" type="text" @bind="SearchItem" placeholder="type something"/><br/>
-<div class="@ProgressBarCss">
-  <div class="progress-bar" role="progressbar" style="width: @ProgressBarValue%"aria-valuenow="@ProgressBarValue" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
+    <input class="form-control"  @onkeydown="@Enter" id="SearchItem" type="text" @bind="SearchItem" placeholder="type something"/><br/>
+    <div class="@ProgressBarCss">
+    <div class="progress-bar" role="progressbar" style="width: @ProgressBarValue%"aria-valuenow="@ProgressBarValue" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
 
-<br />
-<div class="@SearchBtnClass" @onclick="SearchSong">
-@SearchBtnText
-</div>
-<div class="btn btn-danger" @onclick="StopAction">
-Stop
-</div>
+    <br />
+    <div class="@SearchBtnClass" @onclick="SearchSong">
+    @SearchBtnText
+    </div>
+
+    <div class="btn btn-danger" @onclick="StopAction">
+    Stop
+    </div>
+    <select name="Results">
+    @for(int item = 21; item > 1; item --)
+    {
+            var local = item;
+            <option value="@local" @onclick="()=>ChangeResultsCount(local)">@local</option>
+    }
+    </select>
 </div>
 <span>@SearchTextStatus</span><br/>
 
@@ -38,9 +46,9 @@ Stop
                 <input class="form-control" type="text" readonly value="@Songs[local].YTLink"/>
                 </div>
                 <div class ="fs-5">
-            <a href="song/?ytlink=@yt&time=@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")&rname=@IRandom.RandomText(16)=@yt" class="oi oi-musical-note" @onclick="()=>P(yt)" aria-hidden="true">Download Song</a>
+                    <a href="@DSongLink(@yt)" class="oi oi-musical-note" @onclick="()=>P(yt)" aria-hidden="true">Download Song</a>
                 <span style="display:inline-block; width:10px;"></span>
-            <a href="video/?ytlink=@yt&time=@DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")&rname=@IRandom.RandomText(16)" class="oi oi-video" @onclick="()=>P(yt)" aria-hidden="true">Download Video</a><br />
+                    <a href="@DVideoLink(@yt)" class="oi oi-video" @onclick="()=>P(yt)" aria-hidden="true">Download Video</a><br />
                 </div>
                 //@page "/home/{username}"
                 //<a href="@Songs[item].YTLink">@Songs[item].YTLink</a> 
@@ -66,6 +74,7 @@ Stop
 
     string ProgressBarCss{get;set;} = "invisible";//progress
     int ProgressBarValue {get;set;} = 0; 
+    int ResultsCount {get;set;} = 20; 
 
     bool AttemptFailed{get;set;} = false; 
     bool AttemptSucess{get;set;} = false;
@@ -74,7 +83,14 @@ Stop
     string[] durations = new string[]{};
     string[] titles = new string[]{}; 
 
-
+    private string DVideoLink(string yt)
+    {
+        return $"video/?ytlink={yt}&time={DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")}&rname={IRandom.RandomText(16)}";
+    }
+    private string DSongLink(string yt)
+    {
+        return $"song/?ytlink={yt}&time={DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")}&rname={IRandom.RandomText(16)}";
+    }
 
     List<Song> Songs{get;set;} = new List<Song>();
     /*
@@ -87,11 +103,16 @@ Stop
     },
     };
     */
-    Thread SearchThread{get;set;}
-    Thread AnimationThread{get;set;}
-
+    //Thread SearchThread{get;set;}
+    //Thread AnimationThread{get;set;}
+    void ChangeResultsCount(object value)
+    {
+        this.ResultsCount = int.Parse(value.ToString()); 
+    }
+     
     void StopAction()
     {
+        /*
         try{      
             try
             {
@@ -116,6 +137,7 @@ Stop
         {
             Get.Red(ex);
         }
+        */
     }
 
     void Enter(KeyboardEventArgs e)
@@ -130,7 +152,7 @@ Stop
         Get.Pink($"Link Clicked: {input}");
     }
 
-    void SearchSong()
+    async Task SearchSong()
     {
         if(this.SearchItem == string.Empty)return; 
         if(YouwebStatic.HasDownloadInProgress)return;
@@ -145,11 +167,13 @@ Stop
         this.SearchBtnClass = $"btn btn-secondary";
         this.ProgressBarCss = "progress";
 
-        this.SearchThread = new Thread(this.WaitForSearch);
-        this.AnimationThread = new Thread(this.PlayAnimation);
+        //this.SearchThread = new Thread(this.WaitForSearch);
+        //this.AnimationThread = new Thread();
         this.Songs = new List<Song>();
-        this.SearchThread.Start(); 
-        this.AnimationThread.Start();
+        //this.SearchThread.Start(); 
+        Task.Run(WaitForSearch);
+        //this.AnimationThread.Start();
+        Task.Run(PlayAnimation);
         /*
         FilesMaper maper = new FilesMaper("/home/mel/Pictures/mydesktop/");
         maper.AllowDebugger = true; 
@@ -166,7 +190,7 @@ Stop
 
     }
 
-    void PlayAnimation()
+    async Task PlayAnimation()
     {
         string status,number;
         status = SongDownloadPath+"status.text";
@@ -214,7 +238,7 @@ Stop
                         this.SearchBtnText = "Searching...";
                         break;
                 }
-                Get.WaitTime(400);
+                Get.WaitTime(500);
                 InvokeAsync(() =>
                 {
                     StateHasChanged();
@@ -239,8 +263,8 @@ Stop
             if(File.Exists(this.SongDownloadPath+"status.text"))File.Delete(this.SongDownloadPath+"status.text");
             if(File.Exists(this.SongDownloadPath+"status.number"))File.Delete(this.SongDownloadPath+"status.number");
         }
-
-        void WaitForSearch()
+        
+        async Task WaitForSearch()
         {
             try{
                 /*   
@@ -249,20 +273,20 @@ Stop
 
                 info.Arguments = $"{this.SongDownloadPath}you/main.py SEARCH_MANY {this.SearchItem.Replace("\n"," ").Replace(" ","_")} {this.SongDownloadPath} {this.SongRName}";
                 */
-
-                Process process = Process.Start(YouwebStatic.StartInfo($"SEARCH_MANY {this.SearchItem.Replace("\n", " ").Replace(" ", "_")} {this.SongDownloadPath} {this.SongRName}"));
-               
-                string output = process.StandardOutput.ReadToEnd();
+                await Task.Run(()=>{
+                    Process process = Process.Start(YouwebStatic.StartInfo($"SEARCH_MANY {this.SearchItem.Replace("\n", " ").Replace(" ", "_")} {this.SongDownloadPath} {this.SongRName}"));
                 
-                string logs = Path.Combine(YouwebStatic.GetRoot("out"), "Youweb.out");
-                
-                process.WaitForExit();
-                //if (!File.Exists(logs)) File.Create(logs);
-                output += $"\nExit Code: {process.ExitCode}\n";
-                output += $"\nLog Time: {DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")}\n";
-                 
-                File.AppendAllText(logs, output);
-
+                    string output = process.StandardOutput.ReadToEnd();
+                    
+                    string logs = Path.Combine(YouwebStatic.GetRoot("out"), "Youweb.out");
+                    
+                    process.WaitForExit();
+                    //if (!File.Exists(logs)) File.Create(logs);
+                    output += $"\nExit Code: {process.ExitCode}\n";
+                    output += $"\nLog Time: {DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")}\n";
+                    
+                    File.AppendAllTextAsync(logs, output);
+                });
 
 
                

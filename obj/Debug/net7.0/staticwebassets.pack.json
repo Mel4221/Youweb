@@ -157,12 +157,20 @@
       "PackagePath": "staticwebassets/you/DownloadWithArgs.py"
     },
     {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/JMetadata.py",
+      "PackagePath": "staticwebassets/you/JMetadata.py"
+    },
+    {
       "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/LICENSE",
       "PackagePath": "staticwebassets/you"
     },
     {
       "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/Metadata.py",
       "PackagePath": "staticwebassets/you/Metadata.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/RunFromFile.py",
+      "PackagePath": "staticwebassets/you/RunFromFile.py"
     },
     {
       "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/Searcher.py",
@@ -185,6 +193,38 @@
       "PackagePath": "staticwebassets/you/VideoDownloader.py"
     },
     {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/__pycache__/DownloadWithArgs.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/__pycache__/DownloadWithArgs.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/__pycache__/JMetadata.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/__pycache__/JMetadata.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/__pycache__/Metadata.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/__pycache__/Metadata.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/__pycache__/Searcher.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/__pycache__/Searcher.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/__pycache__/SongDownloader.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/__pycache__/SongDownloader.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/__pycache__/Sync.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/__pycache__/Sync.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/__pycache__/Tools.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/__pycache__/Tools.cpython-39.pyc"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/__pycache__/VideoDownloader.cpython-39.pyc",
+      "PackagePath": "staticwebassets/you/__pycache__/VideoDownloader.cpython-39.pyc"
+    },
+    {
       "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/deps.txt",
       "PackagePath": "staticwebassets/you/deps.txt"
     },
@@ -199,6 +239,14 @@
     {
       "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/t.py",
       "PackagePath": "staticwebassets/you/t.py"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/test.txt",
+      "PackagePath": "staticwebassets/you/test.txt"
+    },
+    {
+      "Id": "/home/mel/Documents/csharp/Youweb/wwwroot/you/video.json",
+      "PackagePath": "staticwebassets/you/video.json"
     },
     {
       "Id": "obj/Debug/net7.0/staticwebassets/msbuild.Youweb.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youweb Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .media-player {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        .controls button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .progress-container {
+            margin: 10px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            position: relative;
+        }
+        .progress-bar span {
+            display: block;
+            height: 100%;
+            background: #4caf50;
+            width: 0;
+        }
+        .volume-container {
+            margin-top: 10px;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        #SongsList {
+            list-style-type: none;
+            padding: 0;
+        }
+        .Song {
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+        <div class="media-player">
+                <!--audio id="audioPlayer" src="path/to/your/audiofile.mp3"></audio-->
+                <div class="controls">
+                    <button id="PlayBtn">Play</button>
+                    <button id="PauseBtn">Pause</button>
+                    <button id="StopBtn">Stop</button>
+                    <button id="MuteBtn">Mute</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <span id="ProgressBar"></span>
+                    </div>
+                </div>
+                <div class="volume-container">
+                    <label for="volumeControl">Volume:</label>
+                    <input type="range" id="VolumeControl" min="0" max="1" step="0.01" value="1">
+                </div>
+            </div>
+    <input type="text" id="SearchInput" class="search-bar" placeholder="Search songs...">
+    <ul id="SongsList">
+        <li class="Song" id="fun artist">fun artist</li>
+        <li class="Song" id="crazy fool">crazy fool</li>
+
+    </ul>
+
+
+    <script>
+        //Audio Object
+        var player;
+        // Get elements
+        const searchInput = document.getElementById('SearchInput');
+        const playBtn = document.getElementById('PlayBtn');
+        const pauseBtn = document.getElementById('PauseBtn');
+        const stopBtn = document.getElementById('StopBtn');
+        const muteBtn = document.getElementById('MuteBtn');
+        const progressBar = document.getElementById('ProgressBar');
+        const volumeControl = document.getElementById('VolumeControl');
+        const songsList = document.querySelectorAll('#songList .song_item');
+
+        // Function to filter songs
+        function SearchSong() {
+            const searchValue = searchInput.value.toLowerCase();
+
+            songsList.forEach(function(item) {
+                const text = item.textContent.toLowerCase();
+                
+                if (text.includes(searchValue)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to handle play button
+        playBtn.addEventListener('click', () => {
+           // audioPlayer.play();
+        });
+
+        // Function to handle pause button
+        pauseBtn.addEventListener('click', () => {
+            //audioPlayer.pause();
+        });
+
+        // Function to handle stop button
+        stopBtn.addEventListener('click', () => {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+        });
+
+        // Function to handle mute button
+        muteBtn.addEventListener('click', () => {
+            audioPlayer.muted = !audioPlayer.muted;
+            muteBtn.textContent = audioPlayer.muted ? 'Unmute' : 'Mute';
+        });
+
+        // Function to handle volume control
+        volumeControl.addEventListener('input', (event) => {
+            audioPlayer.volume = event.target.value;
+        });
+
+        // Function to update progress bar
+        audioPlayer.addEventListener('timeupdate', () => {
+            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressBar.style.width = progress + '%';
+        });
+
+        // Attach search function to input event
+        searchInput.addEventListener('input', SearchSong);
+    </script>
+</body>
+</html>

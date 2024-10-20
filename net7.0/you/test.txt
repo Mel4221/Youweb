@@ -1,0 +1,17 @@
+Video ID: Unique identifier for the video.
+
+Title: The title of the video.
+
+Description: A description or summary of the video's content.
+
+Tags: Keywords associated with the video to aid in search.
+
+Category: The category to which the video belongs (e.g., Music, Gaming, Education
+
+Thumbnail URL: URL of the thumbnail image associated with the video.
+
+Video URL: Direct URL to view the video on YouTube.
+
+Duration: Length of the video in ISO 8601 format (e.g., PT1H2M3S for 1 hour, 2 minutes, and 3 seconds).
+
+Resolution: Video resolution (e.g., 1080p, 720p).

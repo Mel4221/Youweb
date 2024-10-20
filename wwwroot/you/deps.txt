@@ -1,7 +1,9 @@
 eyed3
 pathlib
 pytube
+pytubefix
 moviepy
 regex
 emoji
 ffmpeg
+pathvalidate

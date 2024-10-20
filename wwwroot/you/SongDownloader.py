@@ -34,7 +34,7 @@ def DownloadSong(link,download_location,tempId):
        try:
 
               print("LINK: "+link)
-              yt = YouTube(link)
+              yt = YouTube(link,use_oauth=True, allow_oauth_cache=True)
               PrintStatus(download_location,"50","Downloading... "+yt.title)
 
               reg_filter = remove_emoji(sanitize_filepath(yt.title)+".mp3") #regex.sub(r'[^\w]', ' ',yt.title+".mp3")

@@ -4,7 +4,13 @@ using System.Net;
 using System.Text.RegularExpressions;
 namespace Youweb.Data
 {
-
+        public enum SongStatus
+        {
+                NotStarted,
+                InProgress,
+                Completed,
+                Failed
+        }
         public class Song 
         {
                 public override string ToString()
@@ -18,11 +24,24 @@ namespace Youweb.Data
                 }
                 public string Title{get;set;} = string.Empty;
                 public string RName {get;set;} = string.Empty; 
-
                 public string YTLink{get;set;} = string.Empty;
                 public string IconLink{get;set;} = string.Empty;
                 public string IconLinkTemp{get;set;} = string.Empty; 
                 public string Duration{get;set;} = string.Empty;
+                public string Description{get;set;} = string.Empty; 
+                public string[] Resolutions{get;set;} = new string[]{};
+                public string TempFile{get;set;} = string.Empty;
+                public string DownloadPath{get;set;} = string.Empty;
+                public int Progress{get;set;} = 0;
+                public string Message{get;set;} = string.Empty;
+                /*
+                        This Field could have 3 states: 0|1|3 
+                        0: Completed sucessfully
+                        1: Failed
+                        3: Not Started or Inprogress
+                */
+                public SongStatus CompletedStatus{get;set;} = SongStatus.NotStarted;
+           
                 
                 public static string SubRoot()
                 {
