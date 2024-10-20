@@ -1,9 +1,0 @@
-~/.venv/bin/python -m pip install eyed3
-~/.venv/bin/python -m pip install pathlib
-~/.venv/bin/python -m pip install pytube
-~/.venv/bin/python -m pip install pytubefix
-~/.venv/bin/python -m pip install moviepy
-~/.venv/bin/python -m pip install regex
-~/.venv/bin/python -m pip install emoji
-~/.venv/bin/python -m pip install ffmpeg
-~/.venv/bin/python -m pip install pathvalidate

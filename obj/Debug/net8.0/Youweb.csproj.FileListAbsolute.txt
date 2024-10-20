@@ -1,6 +1,5 @@
 /home/mel/Documents/csharp/Youweb/bin/Debug/net8.0/appsettings.Development.json
 /home/mel/Documents/csharp/Youweb/bin/Debug/net8.0/appsettings.json
-/home/mel/Documents/csharp/Youweb/bin/Debug/net8.0/net7.0/you/video.json
 /home/mel/Documents/csharp/Youweb/bin/Debug/net8.0/you/video.json
 /home/mel/Documents/csharp/Youweb/bin/Debug/net8.0/Youweb.staticwebassets.runtime.json
 /home/mel/Documents/csharp/Youweb/bin/Debug/net8.0/Youweb
